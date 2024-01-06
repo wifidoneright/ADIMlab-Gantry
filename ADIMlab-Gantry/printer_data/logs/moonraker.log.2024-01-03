@@ -1,0 +1,2325 @@
+-------------------- Log Start | Wed Jan  3 06:06:53 2024 --------------------
+data_path: /home/pi/printer_data
+is_default_data_path: False
+config_file: /home/pi/printer_data/config/moonraker.conf
+startup_warnings: []
+verbose: False
+debug: False
+asyncio_debug: False
+is_backup_config: False
+is_python_package: True
+instance_uuid: e4e1e1bea15c4897a68d8c3681ee1b72
+unix_socket_path: /home/pi/printer_data/comms/moonraker.sock
+software_version: v0.8.0-243-g84a8538
+git_branch: master
+git_remote: origin
+git_repo_url: https://github.com/Arksine/moonraker.git
+modified_files: []
+unofficial_components: []
+log_file: /home/pi/printer_data/logs/moonraker.log
+python_version: 3.9.2 (default, Mar 12 2021, 04:06:34)  [GCC 10.2.1 20210110]
+launch_args: /home/pi/moonraker-env/bin/python /home/pi/moonraker/moonraker/__main__.py -d /home/pi/printer_data
+msgspec_enabled: False
+uvloop_enabled: False
+
+#################### Moonraker Configuration ####################
+
+[server]
+host = 0.0.0.0
+port = 7125
+max_upload_size = 1024
+klippy_uds_address = ~/printer_data/comms/klippy.sock
+
+[file_manager]
+enable_object_processing = False
+
+[authorization]
+cors_domains = 
+	https://my.mainsail.xyz
+	http://my.mainsail.xyz
+	http://*.local
+	http://*.lan
+trusted_clients = 
+	10.0.0.0/8
+	127.0.0.0/8
+	169.254.0.0/16
+	172.16.0.0/12
+	192.168.0.0/16
+	FE80::/10
+	::1/128
+
+[octoprint_compat]
+
+[history]
+
+[announcements]
+subscriptions = 
+	mainsail
+
+[update_manager]
+refresh_interval = 168
+enable_auto_refresh = True
+
+[update_manager mainsail]
+type = web
+channel = stable
+repo = mainsail-crew/mainsail
+path = ~/mainsail
+
+[update_manager mainsail-config]
+type = git_repo
+primary_branch = master
+path = ~/mainsail-config
+origin = https://github.com/mainsail-crew/mainsail-config.git
+managed_services = klipper
+
+[update_manager crowsnest]
+type = git_repo
+path = ~/crowsnest
+origin = https://github.com/mainsail-crew/crowsnest.git
+managed_services = crowsnest
+install_script = tools/pkglist.sh
+
+[update_manager sonar]
+type = git_repo
+path = ~/sonar
+origin = https://github.com/mainsail-crew/sonar.git
+primary_branch = main
+managed_services = sonar
+install_script = tools/install.sh
+
+#################################################################
+All Configuration Files:
+/home/pi/printer_data/config/moonraker.conf
+#################################################################
+
+Database Versions: pylmdb = 1.3.0, lmdb = (0, 9, 29)
+Unsafe Shutdown Count: 0
+
+System Info:
+
+***python***
+  version: (3, 9, 2, 'final', 0)
+  version_string: 3.9.2 (default, Mar 12 2021, 04:06:34)  [GCC 10.2.1 20210110]
+
+***cpu_info***
+  cpu_count: 4
+  bits: 32bit
+  processor: armv7l
+  cpu_desc: ARMv7 Processor rev 4 (v7l)
+  serial_number: 893c37f7
+  hardware_desc: BCM2835
+  model: Raspberry Pi 3 Model B Rev 1.2
+  total_memory: 891312
+  memory_units: kB
+
+***sd_info***
+  manufacturer_id: 03
+  manufacturer: Sandisk
+  oem_id: 5344
+  product_name: SU16G
+  product_revision: 8.0
+  serial_number: 1c97cac8
+  manufacturer_date: 9/2012
+  capacity: 14.8 GiB
+  total_bytes: 15931539456
+
+***distribution***
+  name: Raspbian GNU/Linux 11 (bullseye)
+  id: raspbian
+  version: 11
+  version_parts: {'major': '11', 'minor': '', 'build_number': ''}
+  like: debian
+  codename: bullseye
+  release_info: {'name': 'MainsailOS', 'version_id': '1.2.1', 'codename': 'bullseye', 'id': 'mainsailos'}
+
+***virtualization***
+  virt_type: none
+  virt_identifier: none
+
+***network***
+
+***canbus***
+
+***Allowed Services***
+  klipper_mcu
+  webcamd
+  MoonCord
+  KlipperScreen
+  moonraker-telegram-bot
+  moonraker-obico
+  sonar
+  crowsnest
+  octoeverywhere
+  ratos-configurator
+
+Systemd unit moonraker.service:
+unit_name: moonraker.service
+is_default: True
+manager: systemd
+Properties:
+**Requires=['network-online.target', 'system.slice', 'sysinit.target']
+**After=['network-online.target', 'basic.target', 'klipper.service', 'sysinit.target', 'system.slice', 'systemd-journald.socket']
+**SupplementaryGroups=['moonraker-admin']
+**EnvironmentFiles=/home/pi/printer_data/systemd/moonraker.env
+**ExecStart=/home/pi/moonraker-env/bin/python $MOONRAKER_ARGS
+**WorkingDirectory=
+**FragmentPath=/etc/systemd/system/moonraker.service
+**Description=API Server for Klipper SV1
+**User=pi
+
+Systemd unit klipper.service:
+unit_name: klipper.service
+is_default: True
+manager: systemd
+Properties:
+**Requires=['system.slice', 'sysinit.target', '-.mount']
+**After=['network-online.target', '-.mount', 'basic.target', 'sysinit.target', 'system.slice', 'systemd-journald.socket']
+**SupplementaryGroups=[]
+**EnvironmentFiles=/home/pi/printer_data/systemd/klipper.env
+**ExecStart=/home/pi/klippy-env/bin/python $KLIPPER_ARGS
+**WorkingDirectory=/home/pi/klipper
+**FragmentPath=/etc/systemd/system/klipper.service
+**Description=Klipper 3D Printer Firmware SV1
+**User=pi
+Git Repo moonraker: Warnings detected:
+  Repo has untracked source files: ['moonraker/components/timelapse.py']
+Git Repo klipper: No warnings detected
+Git Repo mainsail-config: No warnings detected
+Git Repo crowsnest: No warnings detected
+Git Repo sonar: No warnings detected
+Klipper Version: v0.12.0-58-g25bc649c
+2024-01-03 00:06:53,397 [app.py:prepare()] - Upload Request Received from 192.168.10.140
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryFB9gKSajVqPAuoTf
+2024-01-03 00:06:53,404 [app.py:post()] - Processing Uploaded File: printer.cfg
+2024-01-03 00:06:53,423 [app.py:log_request()] - 201 POST /server/files/upload (192.168.10.140) [_TRUSTED_USER_] 29.18ms
+2024-01-03 00:06:54,757 [klippy_connection.py:_on_connection_closed()] - Klippy Connection Removed
+2024-01-03 00:06:56,022 [klippy_connection.py:_do_connect()] - Klippy Connection Established
+2024-01-03 00:06:57,843 [klippy_connection.py:_request_initial_subscriptions()] - Webhooks Subscribed
+2024-01-03 00:06:57,847 [klippy_connection.py:_request_initial_subscriptions()] - GCode Output Subscribed
+2024-01-03 00:06:57,851 [klippy_connection.py:_check_ready()] - 
+pin PC0 used multiple times in config
+
+Once the underlying issue is corrected, use the "RESTART"
+command to reload the config and restart the host software.
+Printer is halted
+
+2024-01-03 00:06:58,521 [app.py:log_request()] - 101 GET /websocket (192.168.10.223) [_TRUSTED_USER_] 3.29ms
+2024-01-03 00:06:58,522 [websockets.py:open()] - Websocket Opened: ID: 1729324128, Proxied: True, User Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 17_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/120.0.6099.119 Mobile/15E148 Safari/604.1, Host Name: mainsail.local
+2024-01-03 00:06:58,534 [websockets.py:_handle_identify()] - Websocket 1729324128 Client Identified - Name: mainsail, Version: 2.9.1, Type: web
+2024-01-03 00:08:58,603 [app.py:prepare()] - Upload Request Received from 192.168.10.140
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryvdV7G4tmjk3eS87M
+2024-01-03 00:08:58,614 [app.py:post()] - Processing Uploaded File: printer.cfg
+2024-01-03 00:08:58,631 [app.py:log_request()] - 201 POST /server/files/upload (192.168.10.140) [_TRUSTED_USER_] 29.84ms
+2024-01-03 00:08:58,955 [klippy_connection.py:close()] - Error closing Klippy Unix Socket
+Traceback (most recent call last):
+  File "/home/pi/moonraker/moonraker/klippy_connection.py", line 747, in close
+    await self.writer.wait_closed()
+  File "/usr/lib/python3.9/asyncio/streams.py", line 359, in wait_closed
+    await self._protocol._get_close_waiter(self)
+  File "/home/pi/moonraker/moonraker/klippy_connection.py", line 171, in _read_stream
+    data = await reader.readuntil(b'\x03')
+  File "/usr/lib/python3.9/asyncio/streams.py", line 632, in readuntil
+    await self._wait_for_data('readuntil')
+  File "/usr/lib/python3.9/asyncio/streams.py", line 517, in _wait_for_data
+    await self._waiter
+  File "/usr/lib/python3.9/asyncio/selector_events.py", line 856, in _read_ready__data_received
+    data = self._sock.recv(self.max_size)
+ConnectionResetError: [Errno 104] Connection reset by peer
+2024-01-03 00:08:58,955 [klippy_connection.py:_on_connection_closed()] - Klippy Connection Removed
+2024-01-03 00:08:58,960 [common.py:build_error()] - JSON-RPC Request Error - Requested Method: printer.info, Code: 503, Message: Klippy Disconnected
+2024-01-03 00:08:58,961 [common.py:build_error()] - JSON-RPC Request Error - Requested Method: printer.info, Code: 503, Message: Klippy Disconnected
+2024-01-03 00:09:00,221 [klippy_connection.py:_do_connect()] - Klippy Connection Established
+2024-01-03 00:09:01,940 [klippy_connection.py:_request_initial_subscriptions()] - Webhooks Subscribed
+2024-01-03 00:09:01,952 [klippy_connection.py:_request_initial_subscriptions()] - GCode Output Subscribed
+2024-01-03 00:09:01,956 [klippy_connection.py:_check_ready()] - 
+pin PL4 used multiple times in config
+
+Once the underlying issue is corrected, use the "RESTART"
+command to reload the config and restart the host software.
+Printer is halted
+
+2024-01-03 00:12:06,660 [websockets.py:on_close()] - Websocket Closed: ID: 1729324128 Close Code: None, Close Reason: None, Pong Time Elapsed: 8.08
+2024-01-03 00:12:45,182 [app.py:prepare()] - Upload Request Received from 192.168.10.140
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryv4tqAUQjdYBA9rSX
+2024-01-03 00:12:45,189 [app.py:post()] - Processing Uploaded File: printer.cfg
+2024-01-03 00:12:45,205 [app.py:log_request()] - 201 POST /server/files/upload (192.168.10.140) [_TRUSTED_USER_] 25.59ms
+2024-01-03 00:12:45,530 [klippy_connection.py:_on_connection_closed()] - Klippy Connection Removed
+2024-01-03 00:12:46,793 [klippy_connection.py:_do_connect()] - Klippy Connection Established
+2024-01-03 00:12:48,525 [klippy_connection.py:_request_initial_subscriptions()] - Webhooks Subscribed
+2024-01-03 00:12:48,529 [klippy_connection.py:_request_initial_subscriptions()] - GCode Output Subscribed
+2024-01-03 00:12:48,533 [klippy_connection.py:_check_ready()] - 
+pin PL4 used multiple times in config
+
+Once the underlying issue is corrected, use the "RESTART"
+command to reload the config and restart the host software.
+Printer is halted
+
+2024-01-03 00:24:40,826 [app.py:prepare()] - Upload Request Received from 192.168.10.140
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryhuBARHhgBhRSlAi2
+2024-01-03 00:24:40,833 [app.py:post()] - Processing Uploaded File: printer.cfg
+2024-01-03 00:24:40,851 [app.py:log_request()] - 201 POST /server/files/upload (192.168.10.140) [_TRUSTED_USER_] 26.29ms
+2024-01-03 00:24:41,179 [klippy_connection.py:_on_connection_closed()] - Klippy Connection Removed
+2024-01-03 00:24:42,442 [klippy_connection.py:_do_connect()] - Klippy Connection Established
+2024-01-03 00:24:44,246 [klippy_connection.py:_request_initial_subscriptions()] - Webhooks Subscribed
+2024-01-03 00:24:44,249 [klippy_connection.py:_request_initial_subscriptions()] - GCode Output Subscribed
+2024-01-03 00:24:44,252 [klippy_connection.py:_check_ready()] - 
+pin PG0 used multiple times in config
+
+Once the underlying issue is corrected, use the "RESTART"
+command to reload the config and restart the host software.
+Printer is halted
+
+2024-01-03 00:25:14,758 [app.py:prepare()] - Upload Request Received from 192.168.10.140
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary3JKuIjINL1byEBR4
+2024-01-03 00:25:14,766 [app.py:post()] - Processing Uploaded File: printer.cfg
+2024-01-03 00:25:14,784 [app.py:log_request()] - 201 POST /server/files/upload (192.168.10.140) [_TRUSTED_USER_] 28.84ms
+2024-01-03 00:25:15,138 [klippy_connection.py:_on_connection_closed()] - Klippy Connection Removed
+2024-01-03 00:25:16,401 [klippy_connection.py:_do_connect()] - Klippy Connection Established
+2024-01-03 00:25:18,059 [klippy_connection.py:_request_initial_subscriptions()] - Webhooks Subscribed
+2024-01-03 00:25:18,063 [klippy_connection.py:_request_initial_subscriptions()] - GCode Output Subscribed
+2024-01-03 00:25:18,311 [job_state.py:_handle_started()] - Job state initialized: standby
+2024-01-03 00:25:18,583 [klippy_connection.py:_check_ready()] - Klippy ready
+2024-01-03 00:25:19,074 [data_store.py:_init_sensors()] - Configuring available sensors: ['heater_bed', 'extruder']
+2024-01-03 00:25:29,634 [app.py:log_request()] - 101 GET /websocket (192.168.10.223) [_TRUSTED_USER_] 5.98ms
+2024-01-03 00:25:29,635 [websockets.py:open()] - Websocket Opened: ID: 1708949000, Proxied: True, User Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 17_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/120.0.6099.119 Mobile/15E148 Safari/604.1, Host Name: mainsail.local
+2024-01-03 00:25:29,658 [websockets.py:_handle_identify()] - Websocket 1708949000 Client Identified - Name: mainsail, Version: 2.9.1, Type: web
+2024-01-03 00:25:41,606 [common.py:build_error()] - JSON-RPC Request Error - Requested Method: printer.gcode.script, Code: 400, Message: No trigger on y after full movement
+2024-01-03 00:25:59,687 [klippy_connection.py:_process_status_update()] - Klippy has shutdown
+2024-01-03 00:25:59,700 [proc_stats.py:_handle_shutdown()] - 
+Moonraker System Usage Statistics:
+System Time: 1704263129.817734, Usage: 6.7%, Memory: 29228 kB
+System Time: 1704263130.820125, Usage: 12.01%, Memory: 29228 kB
+System Time: 1704263131.821144, Usage: 3.34%, Memory: 29228 kB
+System Time: 1704263132.822460, Usage: 3.06%, Memory: 29228 kB
+System Time: 1704263133.824036, Usage: 3.08%, Memory: 29228 kB
+System Time: 1704263134.825104, Usage: 3.36%, Memory: 29228 kB
+System Time: 1704263135.826935, Usage: 5.41%, Memory: 29228 kB
+System Time: 1704263136.827911, Usage: 3.29%, Memory: 29228 kB
+System Time: 1704263137.828587, Usage: 3.18%, Memory: 29228 kB
+System Time: 1704263138.830164, Usage: 3.5%, Memory: 29228 kB
+System Time: 1704263139.832594, Usage: 3.6%, Memory: 29228 kB
+System Time: 1704263140.833983, Usage: 3.12%, Memory: 29228 kB
+System Time: 1704263141.834354, Usage: 3.86%, Memory: 29228 kB
+System Time: 1704263142.835773, Usage: 3.24%, Memory: 29228 kB
+System Time: 1704263143.837167, Usage: 3.12%, Memory: 29228 kB
+System Time: 1704263144.838260, Usage: 3.01%, Memory: 29228 kB
+System Time: 1704263145.838652, Usage: 5.43%, Memory: 29228 kB
+System Time: 1704263146.839354, Usage: 2.84%, Memory: 29228 kB
+System Time: 1704263147.841855, Usage: 2.98%, Memory: 29228 kB
+System Time: 1704263148.843714, Usage: 3.56%, Memory: 29228 kB
+System Time: 1704263149.844328, Usage: 4.23%, Memory: 29228 kB
+System Time: 1704263150.843973, Usage: 3.5%, Memory: 29228 kB
+System Time: 1704263151.846514, Usage: 3.31%, Memory: 29228 kB
+System Time: 1704263152.847911, Usage: 3.41%, Memory: 29228 kB
+System Time: 1704263153.848221, Usage: 3.53%, Memory: 29228 kB
+System Time: 1704263154.849377, Usage: 3.28%, Memory: 29228 kB
+System Time: 1704263155.850432, Usage: 6.01%, Memory: 29228 kB
+System Time: 1704263156.850506, Usage: 3.32%, Memory: 29228 kB
+System Time: 1704263157.853212, Usage: 3.25%, Memory: 29228 kB
+System Time: 1704263158.855070, Usage: 3.68%, Memory: 29228 kB
+CPU Temperature: 41.856
+2024-01-03 00:25:59,703 [proc_stats.py:_handle_shutdown()] - Throttled Flags: 
+2024-01-03 00:25:59,910 [common.py:build_error()] - JSON-RPC Request Error - Requested Method: printer.gcode.script, Code: 400, Message: Homing failed due to printer shutdown
+2024-01-03 00:26:08,192 [klippy_connection.py:_on_connection_closed()] - Klippy Connection Removed
+2024-01-03 00:26:09,456 [klippy_connection.py:_do_connect()] - Klippy Connection Established
+2024-01-03 00:26:11,127 [klippy_connection.py:_request_initial_subscriptions()] - Webhooks Subscribed
+2024-01-03 00:26:11,130 [klippy_connection.py:_request_initial_subscriptions()] - GCode Output Subscribed
+2024-01-03 00:26:11,378 [job_state.py:_handle_started()] - Job state initialized: standby
+2024-01-03 00:26:11,650 [klippy_connection.py:_check_ready()] - Klippy ready
+2024-01-03 00:26:12,261 [websockets.py:on_close()] - Websocket Closed: ID: 1708949000 Close Code: None, Close Reason: None, Pong Time Elapsed: 2.52
+2024-01-03 00:26:12,393 [data_store.py:_init_sensors()] - Configuring available sensors: ['heater_bed', 'extruder']
+2024-01-03 00:26:49,911 [websockets.py:on_close()] - Websocket Closed: ID: 1708789208 Close Code: None, Close Reason: None, Pong Time Elapsed: 1.94
+2024-01-03 00:26:51,727 [app.py:log_request()] - 101 GET /websocket (192.168.10.140) [_TRUSTED_USER_] 6.84ms
+2024-01-03 00:26:51,728 [websockets.py:open()] - Websocket Opened: ID: 1708788752, Proxied: True, User Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36, Host Name: mainsail.local
+2024-01-03 00:26:51,738 [websockets.py:_handle_identify()] - Websocket 1708788752 Client Identified - Name: mainsail, Version: 2.9.1, Type: web
+2024-01-03 00:27:41,913 [websockets.py:write_to_socket()] - Websocket closed while writing: 1708788752
+2024-01-03 00:27:46,732 [websockets.py:on_close()] - Websocket Closed: ID: 1708788752 Close Code: None, Close Reason: None, Pong Time Elapsed: 44.93
+2024-01-03 00:30:25,085 [app.py:log_request()] - 101 GET /websocket (192.168.10.140) [_TRUSTED_USER_] 6.66ms
+2024-01-03 00:30:25,086 [websockets.py:open()] - Websocket Opened: ID: 1729323696, Proxied: True, User Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36, Host Name: mainsail.local
+2024-01-03 00:30:25,098 [websockets.py:_handle_identify()] - Websocket 1729323696 Client Identified - Name: mainsail, Version: 2.9.1, Type: web
+2024-01-03 00:31:15,281 [websockets.py:write_to_socket()] - Websocket closed while writing: 1729323696
+2024-01-03 00:31:20,090 [websockets.py:on_close()] - Websocket Closed: ID: 1729323696 Close Code: None, Close Reason: None, Pong Time Elapsed: 44.99
+2024-01-03 01:27:38,396 [authorization.py:_prune_conn_handler()] - Trusted Connection Expired, IP: 192.168.10.223
+2024-01-03 01:32:38,397 [authorization.py:_prune_conn_handler()] - Trusted Connection Expired, IP: 192.168.10.140
+2024-01-03 07:37:19,480 [authorization.py:_check_trusted_connection()] - Trusted Connection Detected, IP: 192.168.10.223
+2024-01-03 07:37:19,483 [app.py:log_request()] - 101 GET /websocket (192.168.10.223) [_TRUSTED_USER_] 7.17ms
+2024-01-03 07:37:19,484 [websockets.py:open()] - Websocket Opened: ID: 1719437704, Proxied: True, User Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 17_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/120.0.6099.119 Mobile/15E148 Safari/604.1, Host Name: mainsail.local
+2024-01-03 07:37:19,627 [websockets.py:_handle_identify()] - Websocket 1719437704 Client Identified - Name: mainsail, Version: 2.9.1, Type: web
+2024-01-03 07:37:19,843 [websockets.py:on_close()] - Websocket Closed: ID: 1719437704 Close Code: None, Close Reason: None, Pong Time Elapsed: 0.36
+2024-01-03 08:37:38,513 [authorization.py:_prune_conn_handler()] - Trusted Connection Expired, IP: 192.168.10.223
+2024-01-03 11:17:45,904 [authorization.py:_check_trusted_connection()] - Trusted Connection Detected, IP: 192.168.10.140
+2024-01-03 11:17:45,908 [app.py:log_request()] - 101 GET /websocket (192.168.10.140) [_TRUSTED_USER_] 8.35ms
+2024-01-03 11:17:45,909 [websockets.py:open()] - Websocket Opened: ID: 1729453360, Proxied: True, User Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36, Host Name: mainsail.local
+2024-01-03 11:17:45,919 [websockets.py:_handle_identify()] - Websocket 1729453360 Client Identified - Name: mainsail, Version: 2.9.1, Type: web
+2024-01-03 11:21:52,015 [app.py:prepare()] - Upload Request Received from 192.168.10.140
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryOwAjznKW4OoZPdgl
+2024-01-03 11:21:52,023 [app.py:post()] - Processing Uploaded File: printer.cfg
+2024-01-03 11:21:52,043 [app.py:log_request()] - 201 POST /server/files/upload (192.168.10.140) [_TRUSTED_USER_] 30.20ms
+2024-01-03 11:21:53,646 [klippy_connection.py:_on_connection_closed()] - Klippy Connection Removed
+2024-01-03 11:21:54,910 [klippy_connection.py:_do_connect()] - Klippy Connection Established
+2024-01-03 11:21:56,564 [klippy_connection.py:_request_initial_subscriptions()] - Webhooks Subscribed
+2024-01-03 11:21:56,568 [klippy_connection.py:_request_initial_subscriptions()] - GCode Output Subscribed
+2024-01-03 11:21:56,816 [job_state.py:_handle_started()] - Job state initialized: standby
+2024-01-03 11:21:57,093 [klippy_connection.py:_check_ready()] - Klippy ready
+2024-01-03 11:21:57,589 [data_store.py:_init_sensors()] - Configuring available sensors: ['heater_bed', 'extruder']
+2024-01-03 11:22:34,624 [authorization.py:_check_trusted_connection()] - Trusted Connection Detected, IP: 192.168.10.223
+2024-01-03 11:22:34,627 [app.py:log_request()] - 101 GET /websocket (192.168.10.223) [_TRUSTED_USER_] 6.71ms
+2024-01-03 11:22:34,628 [websockets.py:open()] - Websocket Opened: ID: 1729453048, Proxied: True, User Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 17_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/120.0.6099.119 Mobile/15E148 Safari/604.1, Host Name: mainsail.local
+2024-01-03 11:22:34,639 [websockets.py:_handle_identify()] - Websocket 1729453048 Client Identified - Name: mainsail, Version: 2.9.1, Type: web
+2024-01-03 11:23:07,996 [common.py:build_error()] - JSON-RPC Request Error - Requested Method: printer.gcode.script, Code: 400, Message: No trigger on y after full movement
+2024-01-03 11:23:30,343 [klippy_connection.py:_process_status_update()] - Klippy has shutdown
+2024-01-03 11:23:30,357 [proc_stats.py:_handle_shutdown()] - 
+Moonraker System Usage Statistics:
+System Time: 1704302580.279163, Usage: 3.26%, Memory: 29228 kB
+System Time: 1704302581.283748, Usage: 3.39%, Memory: 29228 kB
+System Time: 1704302582.285701, Usage: 3.65%, Memory: 29228 kB
+System Time: 1704302583.288214, Usage: 3.69%, Memory: 29228 kB
+System Time: 1704302584.289475, Usage: 3.34%, Memory: 29228 kB
+System Time: 1704302585.293035, Usage: 3.47%, Memory: 29228 kB
+System Time: 1704302586.294418, Usage: 3.45%, Memory: 29228 kB
+System Time: 1704302587.295274, Usage: 5.12%, Memory: 29228 kB
+System Time: 1704302588.298589, Usage: 3.89%, Memory: 29228 kB
+System Time: 1704302589.301418, Usage: 3.28%, Memory: 29228 kB
+System Time: 1704302590.304590, Usage: 3.3%, Memory: 29228 kB
+System Time: 1704302591.305300, Usage: 3.15%, Memory: 29228 kB
+System Time: 1704302592.308591, Usage: 3.2%, Memory: 29228 kB
+System Time: 1704302593.310836, Usage: 3.08%, Memory: 29228 kB
+System Time: 1704302594.314530, Usage: 3.12%, Memory: 29228 kB
+System Time: 1704302595.315910, Usage: 3.47%, Memory: 29228 kB
+System Time: 1704302596.317005, Usage: 3.37%, Memory: 29228 kB
+System Time: 1704302597.322760, Usage: 4.87%, Memory: 29228 kB
+System Time: 1704302598.322821, Usage: 3.27%, Memory: 29228 kB
+System Time: 1704302599.324573, Usage: 2.93%, Memory: 29228 kB
+System Time: 1704302600.327792, Usage: 2.97%, Memory: 29228 kB
+System Time: 1704302601.331164, Usage: 3.06%, Memory: 29228 kB
+System Time: 1704302602.333341, Usage: 3.14%, Memory: 29228 kB
+System Time: 1704302603.336222, Usage: 2.96%, Memory: 29228 kB
+System Time: 1704302604.337908, Usage: 3.06%, Memory: 29228 kB
+System Time: 1704302605.341792, Usage: 3.37%, Memory: 29228 kB
+System Time: 1704302606.344493, Usage: 3.49%, Memory: 29228 kB
+System Time: 1704302607.346079, Usage: 5.16%, Memory: 29228 kB
+System Time: 1704302608.349100, Usage: 3.11%, Memory: 29228 kB
+System Time: 1704302609.349411, Usage: 3.24%, Memory: 29228 kB
+CPU Temperature: 44.008
+2024-01-03 11:23:30,362 [proc_stats.py:_handle_shutdown()] - Throttled Flags: 
+2024-01-03 11:23:30,648 [common.py:build_error()] - JSON-RPC Request Error - Requested Method: printer.gcode.script, Code: 400, Message: Homing failed due to printer shutdown
+2024-01-03 11:23:40,382 [klippy_connection.py:_on_connection_closed()] - Klippy Connection Removed
+2024-01-03 11:23:41,646 [klippy_connection.py:_do_connect()] - Klippy Connection Established
+2024-01-03 11:23:43,294 [klippy_connection.py:_request_initial_subscriptions()] - Webhooks Subscribed
+2024-01-03 11:23:43,299 [klippy_connection.py:_request_initial_subscriptions()] - GCode Output Subscribed
+2024-01-03 11:23:43,545 [job_state.py:_handle_started()] - Job state initialized: standby
+2024-01-03 11:23:43,818 [klippy_connection.py:_check_ready()] - Klippy ready
+2024-01-03 11:23:44,564 [data_store.py:_init_sensors()] - Configuring available sensors: ['heater_bed', 'extruder']
+2024-01-03 11:23:48,350 [common.py:build_error()] - JSON-RPC Request Error - Requested Method: printer.gcode.script, Code: 400, Message: Must home axis first: 0.000 0.000 1.000 [0.000]
+2024-01-03 11:23:52,636 [common.py:build_error()] - JSON-RPC Request Error - Requested Method: printer.gcode.script, Code: 400, Message: Must home axis first: 0.000 0.000 25.000 [0.000]
+2024-01-03 11:24:05,450 [common.py:build_error()] - JSON-RPC Request Error - Requested Method: printer.gcode.script, Code: 400, Message: Must home axis first: 0.000 0.000 0.100 [0.000]
+2024-01-03 11:24:06,258 [common.py:build_error()] - JSON-RPC Request Error - Requested Method: printer.gcode.script, Code: 400, Message: Must home axis first: 0.000 0.000 1.000 [0.000]
+2024-01-03 11:24:08,128 [common.py:build_error()] - JSON-RPC Request Error - Requested Method: printer.gcode.script, Code: 400, Message: Must home axis first: 0.000 0.000 -1.000 [0.000]
+2024-01-03 11:24:09,076 [common.py:build_error()] - JSON-RPC Request Error - Requested Method: printer.gcode.script, Code: 400, Message: Must home axis first: 0.000 0.000 -25.000 [0.000]
+2024-01-03 11:24:10,243 [common.py:build_error()] - JSON-RPC Request Error - Requested Method: printer.gcode.script, Code: 400, Message: Must home axis first: 0.000 0.000 25.000 [0.000]
+2024-01-03 11:24:29,685 [websockets.py:on_close()] - Websocket Closed: ID: 1729453048 Close Code: 1001, Close Reason: None, Pong Time Elapsed: 5.02
+2024-01-03 11:24:29,907 [app.py:log_request()] - 101 GET /websocket (192.168.10.223) [_TRUSTED_USER_] 6.35ms
+2024-01-03 11:24:29,908 [websockets.py:open()] - Websocket Opened: ID: 1708559808, Proxied: True, User Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 17_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/120.0.6099.119 Mobile/15E148 Safari/604.1, Host Name: mainsail.local
+2024-01-03 11:24:29,920 [websockets.py:_handle_identify()] - Websocket 1708559808 Client Identified - Name: mainsail, Version: 2.9.1, Type: web
+2024-01-03 11:24:33,977 [common.py:build_error()] - JSON-RPC Request Error - Requested Method: printer.gcode.script, Code: 400, Message: Must home axis first: 0.000 0.000 1.000 [0.000]
+2024-01-03 11:24:35,030 [common.py:build_error()] - JSON-RPC Request Error - Requested Method: printer.gcode.script, Code: 400, Message: Must home axis first: 0.000 0.000 25.000 [0.000]
+2024-01-03 11:24:38,233 [common.py:build_error()] - JSON-RPC Request Error - Requested Method: printer.gcode.script, Code: 400, Message: Must home axis first: 1.000 0.000 0.000 [0.000]
+2024-01-03 11:24:41,685 [common.py:build_error()] - JSON-RPC Request Error - Requested Method: printer.gcode.script, Code: 400, Message: Must home axis first: -1.000 0.000 0.000 [0.000]
+2024-01-03 11:27:55,797 [app.py:prepare()] - Upload Request Received from 192.168.10.140
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryv0AH2RDBnYJh4PMb
+2024-01-03 11:27:55,804 [app.py:post()] - Processing Uploaded File: printer.cfg
+2024-01-03 11:27:55,823 [app.py:log_request()] - 201 POST /server/files/upload (192.168.10.140) [_TRUSTED_USER_] 28.76ms
+2024-01-03 11:27:57,159 [klippy_connection.py:_on_connection_closed()] - Klippy Connection Removed
+2024-01-03 11:27:58,423 [klippy_connection.py:_do_connect()] - Klippy Connection Established
+2024-01-03 11:28:00,073 [klippy_connection.py:_request_initial_subscriptions()] - Webhooks Subscribed
+2024-01-03 11:28:00,077 [klippy_connection.py:_request_initial_subscriptions()] - GCode Output Subscribed
+2024-01-03 11:28:00,326 [job_state.py:_handle_started()] - Job state initialized: standby
+2024-01-03 11:28:00,595 [klippy_connection.py:_check_ready()] - Klippy ready
+2024-01-03 11:28:01,092 [data_store.py:_init_sensors()] - Configuring available sensors: ['heater_bed', 'extruder']
+2024-01-03 11:28:42,870 [app.py:prepare()] - Upload Request Received from 192.168.10.140
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryy5Ak1AQoLdq4ScLe
+2024-01-03 11:28:42,877 [app.py:post()] - Processing Uploaded File: printer.cfg
+2024-01-03 11:28:42,893 [app.py:log_request()] - 201 POST /server/files/upload (192.168.10.140) [_TRUSTED_USER_] 25.58ms
+2024-01-03 11:28:44,235 [klippy_connection.py:_on_connection_closed()] - Klippy Connection Removed
+2024-01-03 11:28:45,499 [klippy_connection.py:_do_connect()] - Klippy Connection Established
+2024-01-03 11:28:47,151 [klippy_connection.py:_request_initial_subscriptions()] - Webhooks Subscribed
+2024-01-03 11:28:47,155 [klippy_connection.py:_request_initial_subscriptions()] - GCode Output Subscribed
+2024-01-03 11:28:47,403 [job_state.py:_handle_started()] - Job state initialized: standby
+2024-01-03 11:28:47,676 [klippy_connection.py:_check_ready()] - Klippy ready
+2024-01-03 11:28:48,419 [data_store.py:_init_sensors()] - Configuring available sensors: ['heater_bed', 'extruder']
+2024-01-03 11:30:09,084 [websockets.py:on_close()] - Websocket Closed: ID: 1708559808 Close Code: None, Close Reason: None, Pong Time Elapsed: 9.16
+2024-01-03 11:30:15,109 [app.py:prepare()] - Upload Request Received from 192.168.10.140
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryNgijsthgASq8SYaj
+2024-01-03 11:30:15,118 [app.py:post()] - Processing Uploaded File: printer.cfg
+2024-01-03 11:30:15,135 [app.py:log_request()] - 201 POST /server/files/upload (192.168.10.140) [_TRUSTED_USER_] 28.89ms
+2024-01-03 11:30:16,473 [klippy_connection.py:_on_connection_closed()] - Klippy Connection Removed
+2024-01-03 11:30:17,736 [klippy_connection.py:_do_connect()] - Klippy Connection Established
+2024-01-03 11:30:19,389 [klippy_connection.py:_request_initial_subscriptions()] - Webhooks Subscribed
+2024-01-03 11:30:19,392 [klippy_connection.py:_request_initial_subscriptions()] - GCode Output Subscribed
+2024-01-03 11:30:19,641 [job_state.py:_handle_started()] - Job state initialized: standby
+2024-01-03 11:30:19,913 [klippy_connection.py:_check_ready()] - Klippy ready
+2024-01-03 11:30:20,420 [data_store.py:_init_sensors()] - Configuring available sensors: ['heater_bed', 'extruder']
+2024-01-03 11:30:33,447 [app.py:log_request()] - 101 GET /websocket (192.168.10.223) [_TRUSTED_USER_] 6.16ms
+2024-01-03 11:30:33,448 [websockets.py:open()] - Websocket Opened: ID: 1698524728, Proxied: True, User Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 17_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/120.0.6099.119 Mobile/15E148 Safari/604.1, Host Name: mainsail.local
+2024-01-03 11:30:33,463 [websockets.py:_handle_identify()] - Websocket 1698524728 Client Identified - Name: mainsail, Version: 2.9.1, Type: web
+2024-01-03 11:30:36,937 [common.py:build_error()] - JSON-RPC Request Error - Requested Method: printer.gcode.script, Code: 400, Message: Endstop z still triggered after retract
+2024-01-03 11:30:40,746 [common.py:build_error()] - JSON-RPC Request Error - Requested Method: printer.gcode.script, Code: 400, Message: Must home axis first: 0.000 0.000 1.000 [0.000]
+2024-01-03 11:30:43,117 [common.py:build_error()] - JSON-RPC Request Error - Requested Method: printer.gcode.script, Code: 400, Message: Must home axis first: 0.000 0.000 25.000 [0.000]
+2024-01-03 11:30:45,504 [common.py:build_error()] - JSON-RPC Request Error - Requested Method: printer.gcode.script, Code: 400, Message: Endstop z still triggered after retract
+2024-01-03 11:30:48,579 [common.py:build_error()] - JSON-RPC Request Error - Requested Method: printer.gcode.script, Code: 400, Message: Endstop z still triggered after retract
+2024-01-03 11:30:50,131 [common.py:build_error()] - JSON-RPC Request Error - Requested Method: printer.gcode.script, Code: 400, Message: Must home axis first: 0.000 0.000 1.000 [0.000]
+2024-01-03 11:30:51,934 [common.py:build_error()] - JSON-RPC Request Error - Requested Method: printer.gcode.script, Code: 400, Message: Must home axis first: 0.000 0.000 0.100 [0.000]
+2024-01-03 11:30:54,580 [common.py:build_error()] - JSON-RPC Request Error - Requested Method: printer.gcode.script, Code: 400, Message: Endstop z still triggered after retract
+2024-01-03 11:30:57,079 [common.py:build_error()] - JSON-RPC Request Error - Requested Method: printer.gcode.script, Code: 400, Message: Endstop z still triggered after retract
+2024-01-03 11:30:59,663 [common.py:build_error()] - JSON-RPC Request Error - Requested Method: printer.gcode.script, Code: 400, Message: Endstop z still triggered after retract
+2024-01-03 11:31:12,009 [common.py:build_error()] - JSON-RPC Request Error - Requested Method: printer.gcode.script, Code: 400, Message: Move out of range: -6.000 0.000 0.000 [0.000]
+2024-01-03 11:31:24,506 [common.py:build_error()] - JSON-RPC Request Error - Requested Method: printer.gcode.script, Code: 400, Message: Endstop z still triggered after retract
+2024-01-03 11:32:03,753 [app.py:prepare()] - Upload Request Received from 192.168.10.140
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryU52D6cBVvaUX4jzS
+2024-01-03 11:32:03,762 [app.py:post()] - Processing Uploaded File: printer.cfg
+2024-01-03 11:32:03,782 [app.py:log_request()] - 201 POST /server/files/upload (192.168.10.140) [_TRUSTED_USER_] 31.73ms
+2024-01-03 11:32:05,122 [klippy_connection.py:_on_connection_closed()] - Klippy Connection Removed
+2024-01-03 11:32:06,388 [klippy_connection.py:_do_connect()] - Klippy Connection Established
+2024-01-03 11:32:08,048 [klippy_connection.py:_request_initial_subscriptions()] - Webhooks Subscribed
+2024-01-03 11:32:08,051 [klippy_connection.py:_request_initial_subscriptions()] - GCode Output Subscribed
+2024-01-03 11:32:08,299 [job_state.py:_handle_started()] - Job state initialized: standby
+2024-01-03 11:32:08,572 [klippy_connection.py:_check_ready()] - Klippy ready
+2024-01-03 11:32:09,063 [data_store.py:_init_sensors()] - Configuring available sensors: ['heater_bed', 'extruder']
+2024-01-03 11:37:17,371 [app.py:prepare()] - Upload Request Received from 192.168.10.140
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryMFcoh9dW8tQmK2FA
+2024-01-03 11:37:17,380 [app.py:post()] - Processing Uploaded File: printer.cfg
+2024-01-03 11:37:17,395 [app.py:log_request()] - 201 POST /server/files/upload (192.168.10.140) [_TRUSTED_USER_] 27.25ms
+2024-01-03 11:37:19,014 [klippy_connection.py:_on_connection_closed()] - Klippy Connection Removed
+2024-01-03 11:37:20,280 [klippy_connection.py:_do_connect()] - Klippy Connection Established
+2024-01-03 11:37:20,755 [klippy_connection.py:_request_initial_subscriptions()] - Webhooks Subscribed
+2024-01-03 11:37:20,757 [klippy_connection.py:_request_initial_subscriptions()] - GCode Output Subscribed
+2024-01-03 11:37:20,761 [klippy_connection.py:_check_ready()] - 
+pin PC7 used multiple times in config
+
+Once the underlying issue is corrected, use the "RESTART"
+command to reload the config and restart the host software.
+Printer is halted
+
+2024-01-03 11:38:13,875 [app.py:prepare()] - Upload Request Received from 192.168.10.140
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryAifGgvzCBp7TDnNg
+2024-01-03 11:38:13,884 [app.py:post()] - Processing Uploaded File: printer.cfg
+2024-01-03 11:38:13,902 [app.py:log_request()] - 201 POST /server/files/upload (192.168.10.140) [_TRUSTED_USER_] 29.51ms
+2024-01-03 11:38:14,229 [klippy_connection.py:_on_connection_closed()] - Klippy Connection Removed
+2024-01-03 11:38:15,492 [klippy_connection.py:_do_connect()] - Klippy Connection Established
+2024-01-03 11:38:15,871 [klippy_connection.py:_request_initial_subscriptions()] - Webhooks Subscribed
+2024-01-03 11:38:15,875 [klippy_connection.py:_request_initial_subscriptions()] - GCode Output Subscribed
+2024-01-03 11:38:15,879 [klippy_connection.py:_check_ready()] - 
+pin PA4 used multiple times in config
+
+Once the underlying issue is corrected, use the "RESTART"
+command to reload the config and restart the host software.
+Printer is halted
+
+2024-01-03 11:41:26,736 [app.py:log_request()] - 101 GET /websocket (192.168.10.140) [_TRUSTED_USER_] 6.13ms
+2024-01-03 11:41:26,738 [websockets.py:open()] - Websocket Opened: ID: 1698672112, Proxied: True, User Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36, Host Name: mainsail.local
+2024-01-03 11:41:26,750 [websockets.py:_handle_identify()] - Websocket 1698672112 Client Identified - Name: mainsail, Version: 2.9.1, Type: web
+2024-01-03 11:41:30,971 [app.py:prepare()] - Upload Request Received from 192.168.10.140
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryuYo0U5nSI2M6vCYG
+2024-01-03 11:41:30,979 [app.py:post()] - Processing Uploaded File: printer.cfg
+2024-01-03 11:41:30,996 [app.py:log_request()] - 201 POST /server/files/upload (192.168.10.140) [_TRUSTED_USER_] 26.95ms
+2024-01-03 11:41:31,337 [klippy_connection.py:_on_connection_closed()] - Klippy Connection Removed
+2024-01-03 11:41:32,609 [klippy_connection.py:_do_connect()] - Klippy Connection Established
+2024-01-03 11:41:32,986 [klippy_connection.py:_request_initial_subscriptions()] - Webhooks Subscribed
+2024-01-03 11:41:32,988 [klippy_connection.py:_request_initial_subscriptions()] - GCode Output Subscribed
+2024-01-03 11:41:32,992 [klippy_connection.py:_check_ready()] - 
+pin PC7 used multiple times in config
+
+Once the underlying issue is corrected, use the "RESTART"
+command to reload the config and restart the host software.
+Printer is halted
+
+2024-01-03 11:42:33,762 [websockets.py:on_close()] - Websocket Closed: ID: 1698524728 Close Code: None, Close Reason: None, Pong Time Elapsed: 0.30
+2024-01-03 11:50:25,712 [app.py:prepare()] - Upload Request Received from 192.168.10.140
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryboJlO3hYPNos3k5P
+2024-01-03 11:50:25,723 [app.py:post()] - Processing Uploaded File: printer.cfg
+2024-01-03 11:50:25,738 [app.py:log_request()] - 201 POST /server/files/upload (192.168.10.140) [_TRUSTED_USER_] 29.07ms
+2024-01-03 11:50:26,065 [klippy_connection.py:_on_connection_closed()] - Klippy Connection Removed
+2024-01-03 11:50:26,218 [common.py:build_error()] - JSON-RPC Request Error - Requested Method: printer.info, Code: 503, Message: Klippy Host not connected
+2024-01-03 11:50:27,330 [klippy_connection.py:_do_connect()] - Klippy Connection Established
+2024-01-03 11:50:27,711 [klippy_connection.py:_request_initial_subscriptions()] - Webhooks Subscribed
+2024-01-03 11:50:27,713 [klippy_connection.py:_request_initial_subscriptions()] - GCode Output Subscribed
+2024-01-03 11:50:27,716 [klippy_connection.py:_check_ready()] - 
+pin PC7 used multiple times in config
+
+Once the underlying issue is corrected, use the "RESTART"
+command to reload the config and restart the host software.
+Printer is halted
+
+2024-01-03 11:51:23,065 [app.py:prepare()] - Upload Request Received from 192.168.10.140
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryUulAhD3hOWfOCUZ6
+2024-01-03 11:51:23,073 [app.py:post()] - Processing Uploaded File: printer.cfg
+2024-01-03 11:51:23,090 [app.py:log_request()] - 201 POST /server/files/upload (192.168.10.140) [_TRUSTED_USER_] 26.68ms
+2024-01-03 11:51:23,695 [klippy_connection.py:_on_connection_closed()] - Klippy Connection Removed
+2024-01-03 11:51:24,960 [klippy_connection.py:_do_connect()] - Klippy Connection Established
+2024-01-03 11:51:25,340 [klippy_connection.py:_request_initial_subscriptions()] - Webhooks Subscribed
+2024-01-03 11:51:25,343 [klippy_connection.py:_request_initial_subscriptions()] - GCode Output Subscribed
+2024-01-03 11:51:25,346 [klippy_connection.py:_check_ready()] - 
+pin PA4 used multiple times in config
+
+Once the underlying issue is corrected, use the "RESTART"
+command to reload the config and restart the host software.
+Printer is halted
+
+2024-01-03 11:52:09,127 [app.py:prepare()] - Upload Request Received from 192.168.10.140
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryGOhJfetf7BWwN3DV
+2024-01-03 11:52:09,135 [app.py:post()] - Processing Uploaded File: printer.cfg
+2024-01-03 11:52:09,151 [app.py:log_request()] - 201 POST /server/files/upload (192.168.10.140) [_TRUSTED_USER_] 26.17ms
+2024-01-03 11:52:09,483 [klippy_connection.py:_on_connection_closed()] - Klippy Connection Removed
+2024-01-03 11:52:10,749 [klippy_connection.py:_do_connect()] - Klippy Connection Established
+2024-01-03 11:52:12,403 [klippy_connection.py:_request_initial_subscriptions()] - Webhooks Subscribed
+2024-01-03 11:52:12,411 [klippy_connection.py:_request_initial_subscriptions()] - GCode Output Subscribed
+2024-01-03 11:52:12,654 [job_state.py:_handle_started()] - Job state initialized: standby
+2024-01-03 11:52:12,929 [klippy_connection.py:_check_ready()] - Klippy ready
+2024-01-03 11:52:13,407 [data_store.py:_init_sensors()] - Configuring available sensors: ['heater_bed', 'extruder']
+2024-01-03 11:52:20,781 [app.py:log_request()] - 101 GET /websocket (192.168.10.223) [_TRUSTED_USER_] 6.54ms
+2024-01-03 11:52:20,782 [websockets.py:open()] - Websocket Opened: ID: 1729323816, Proxied: True, User Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 17_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/120.0.6099.119 Mobile/15E148 Safari/604.1, Host Name: mainsail.local
+2024-01-03 11:52:20,800 [websockets.py:_handle_identify()] - Websocket 1729323816 Client Identified - Name: mainsail, Version: 2.9.1, Type: web
+2024-01-03 11:53:10,830 [klippy_connection.py:_process_status_update()] - Klippy has shutdown
+2024-01-03 11:53:10,844 [proc_stats.py:_handle_shutdown()] - 
+Moonraker System Usage Statistics:
+System Time: 1704304361.303939, Usage: 4.08%, Memory: 29496 kB
+System Time: 1704304362.300730, Usage: 3.62%, Memory: 29496 kB
+System Time: 1704304363.305812, Usage: 2.91%, Memory: 29496 kB
+System Time: 1704304364.306480, Usage: 4.03%, Memory: 29496 kB
+System Time: 1704304365.307180, Usage: 3.57%, Memory: 29496 kB
+System Time: 1704304366.307673, Usage: 3.86%, Memory: 29496 kB
+System Time: 1704304367.309425, Usage: 3.89%, Memory: 29496 kB
+System Time: 1704304368.310356, Usage: 3.8%, Memory: 29496 kB
+System Time: 1704304369.310874, Usage: 3.55%, Memory: 29496 kB
+System Time: 1704304370.312389, Usage: 5.87%, Memory: 29496 kB
+System Time: 1704304371.313326, Usage: 4.08%, Memory: 29496 kB
+System Time: 1704304372.314210, Usage: 3.98%, Memory: 29496 kB
+System Time: 1704304373.314431, Usage: 3.95%, Memory: 29496 kB
+System Time: 1704304374.315241, Usage: 3.57%, Memory: 29496 kB
+System Time: 1704304375.318056, Usage: 3.47%, Memory: 29496 kB
+System Time: 1704304376.319324, Usage: 4.67%, Memory: 29496 kB
+System Time: 1704304377.319069, Usage: 4.49%, Memory: 29496 kB
+System Time: 1704304378.321091, Usage: 3.42%, Memory: 29496 kB
+System Time: 1704304379.321876, Usage: 3.45%, Memory: 29496 kB
+System Time: 1704304380.324159, Usage: 5.41%, Memory: 29496 kB
+System Time: 1704304381.326229, Usage: 4.54%, Memory: 29496 kB
+System Time: 1704304382.327022, Usage: 3.72%, Memory: 29496 kB
+System Time: 1704304383.327278, Usage: 3.5%, Memory: 29496 kB
+System Time: 1704304384.328347, Usage: 4.26%, Memory: 29496 kB
+System Time: 1704304385.329743, Usage: 3.65%, Memory: 29496 kB
+System Time: 1704304386.330445, Usage: 4.1%, Memory: 29496 kB
+System Time: 1704304387.335978, Usage: 4.27%, Memory: 29496 kB
+System Time: 1704304388.336999, Usage: 4.02%, Memory: 29496 kB
+System Time: 1704304389.339367, Usage: 3.89%, Memory: 29496 kB
+System Time: 1704304390.345787, Usage: 5.91%, Memory: 29496 kB
+CPU Temperature: 44.546
+2024-01-03 11:53:10,848 [proc_stats.py:_handle_shutdown()] - Throttled Flags: 
+2024-01-03 11:53:11,157 [common.py:build_error()] - JSON-RPC Request Error - Requested Method: printer.gcode.script, Code: 400, Message: Homing failed due to printer shutdown
+2024-01-03 11:53:17,263 [klippy_connection.py:close()] - Error closing Klippy Unix Socket
+Traceback (most recent call last):
+  File "/home/pi/moonraker/moonraker/klippy_connection.py", line 747, in close
+    await self.writer.wait_closed()
+  File "/usr/lib/python3.9/asyncio/streams.py", line 359, in wait_closed
+    await self._protocol._get_close_waiter(self)
+  File "/home/pi/moonraker/moonraker/klippy_connection.py", line 171, in _read_stream
+    data = await reader.readuntil(b'\x03')
+  File "/usr/lib/python3.9/asyncio/streams.py", line 632, in readuntil
+    await self._wait_for_data('readuntil')
+  File "/usr/lib/python3.9/asyncio/streams.py", line 517, in _wait_for_data
+    await self._waiter
+  File "/usr/lib/python3.9/asyncio/selector_events.py", line 856, in _read_ready__data_received
+    data = self._sock.recv(self.max_size)
+ConnectionResetError: [Errno 104] Connection reset by peer
+2024-01-03 11:53:17,264 [klippy_connection.py:_on_connection_closed()] - Klippy Connection Removed
+2024-01-03 11:53:17,273 [common.py:build_error()] - JSON-RPC Request Error - Requested Method: printer.info, Code: 503, Message: Klippy Disconnected
+2024-01-03 11:53:17,274 [common.py:build_error()] - JSON-RPC Request Error - Requested Method: printer.info, Code: 503, Message: Klippy Disconnected
+2024-01-03 11:53:18,538 [klippy_connection.py:_do_connect()] - Klippy Connection Established
+2024-01-03 11:53:20,193 [klippy_connection.py:_request_initial_subscriptions()] - Webhooks Subscribed
+2024-01-03 11:53:20,199 [klippy_connection.py:_request_initial_subscriptions()] - GCode Output Subscribed
+2024-01-03 11:53:20,445 [job_state.py:_handle_started()] - Job state initialized: standby
+2024-01-03 11:53:20,717 [klippy_connection.py:_check_ready()] - Klippy ready
+2024-01-03 11:53:21,710 [data_store.py:_init_sensors()] - Configuring available sensors: ['heater_bed', 'extruder']
+2024-01-03 11:53:37,241 [app.py:prepare()] - Upload Request Received from 192.168.10.140
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryxVtnJUhB5bSRuVZ5
+2024-01-03 11:53:37,248 [app.py:post()] - Processing Uploaded File: printer.cfg
+2024-01-03 11:53:37,267 [app.py:log_request()] - 201 POST /server/files/upload (192.168.10.140) [_TRUSTED_USER_] 29.59ms
+2024-01-03 11:53:38,608 [klippy_connection.py:_on_connection_closed()] - Klippy Connection Removed
+2024-01-03 11:53:39,874 [klippy_connection.py:_do_connect()] - Klippy Connection Established
+2024-01-03 11:53:41,531 [klippy_connection.py:_request_initial_subscriptions()] - Webhooks Subscribed
+2024-01-03 11:53:41,537 [klippy_connection.py:_request_initial_subscriptions()] - GCode Output Subscribed
+2024-01-03 11:53:41,783 [job_state.py:_handle_started()] - Job state initialized: standby
+2024-01-03 11:53:42,057 [klippy_connection.py:_check_ready()] - Klippy ready
+2024-01-03 11:53:42,542 [data_store.py:_init_sensors()] - Configuring available sensors: ['heater_bed', 'extruder']
+2024-01-03 11:55:16,576 [klippy_connection.py:_process_status_update()] - Klippy has shutdown
+2024-01-03 11:55:16,589 [proc_stats.py:_handle_shutdown()] - 
+Moonraker System Usage Statistics:
+System Time: 1704304487.496439, Usage: 5.08%, Memory: 29496 kB
+System Time: 1704304488.500632, Usage: 4.07%, Memory: 29496 kB
+System Time: 1704304489.502939, Usage: 4.83%, Memory: 29496 kB
+System Time: 1704304490.506867, Usage: 6.57%, Memory: 29496 kB
+System Time: 1704304491.510149, Usage: 4.53%, Memory: 29496 kB
+System Time: 1704304492.510315, Usage: 4.1%, Memory: 29496 kB
+System Time: 1704304493.515500, Usage: 3.43%, Memory: 29496 kB
+System Time: 1704304494.519712, Usage: 4.62%, Memory: 29496 kB
+System Time: 1704304495.519607, Usage: 3.96%, Memory: 29496 kB
+System Time: 1704304496.524838, Usage: 4.55%, Memory: 29496 kB
+System Time: 1704304497.525775, Usage: 4.63%, Memory: 29496 kB
+System Time: 1704304498.527363, Usage: 3.75%, Memory: 29496 kB
+System Time: 1704304499.532723, Usage: 3.52%, Memory: 29496 kB
+System Time: 1704304500.532507, Usage: 6.8%, Memory: 29496 kB
+System Time: 1704304501.528671, Usage: 4.53%, Memory: 29496 kB
+System Time: 1704304502.530138, Usage: 3.79%, Memory: 29496 kB
+System Time: 1704304503.529647, Usage: 4.29%, Memory: 29496 kB
+System Time: 1704304504.531641, Usage: 4.3%, Memory: 29496 kB
+System Time: 1704304505.533459, Usage: 4.97%, Memory: 29496 kB
+System Time: 1704304506.535091, Usage: 4.84%, Memory: 29496 kB
+System Time: 1704304507.540582, Usage: 4.71%, Memory: 29496 kB
+System Time: 1704304508.540407, Usage: 5.3%, Memory: 29496 kB
+System Time: 1704304509.542138, Usage: 4.45%, Memory: 29496 kB
+System Time: 1704304510.543848, Usage: 6.83%, Memory: 29496 kB
+System Time: 1704304511.544708, Usage: 4.98%, Memory: 29496 kB
+System Time: 1704304512.547467, Usage: 4.46%, Memory: 29496 kB
+System Time: 1704304513.546551, Usage: 4.48%, Memory: 29496 kB
+System Time: 1704304514.547152, Usage: 3.5%, Memory: 29496 kB
+System Time: 1704304515.548433, Usage: 3.41%, Memory: 29496 kB
+System Time: 1704304516.549680, Usage: 4.4%, Memory: 29496 kB
+CPU Temperature: 44.008
+2024-01-03 11:55:16,592 [proc_stats.py:_handle_shutdown()] - Throttled Flags: 
+2024-01-03 11:55:16,825 [common.py:build_error()] - JSON-RPC Request Error - Requested Method: printer.gcode.script, Code: 400, Message: Homing failed due to printer shutdown
+2024-01-03 11:56:24,972 [klippy_connection.py:close()] - Error closing Klippy Unix Socket
+Traceback (most recent call last):
+  File "/home/pi/moonraker/moonraker/klippy_connection.py", line 747, in close
+    await self.writer.wait_closed()
+  File "/usr/lib/python3.9/asyncio/streams.py", line 359, in wait_closed
+    await self._protocol._get_close_waiter(self)
+  File "/home/pi/moonraker/moonraker/klippy_connection.py", line 171, in _read_stream
+    data = await reader.readuntil(b'\x03')
+  File "/usr/lib/python3.9/asyncio/streams.py", line 632, in readuntil
+    await self._wait_for_data('readuntil')
+  File "/usr/lib/python3.9/asyncio/streams.py", line 517, in _wait_for_data
+    await self._waiter
+  File "/usr/lib/python3.9/asyncio/selector_events.py", line 856, in _read_ready__data_received
+    data = self._sock.recv(self.max_size)
+ConnectionResetError: [Errno 104] Connection reset by peer
+2024-01-03 11:56:24,973 [klippy_connection.py:_on_connection_closed()] - Klippy Connection Removed
+2024-01-03 11:56:24,983 [common.py:build_error()] - JSON-RPC Request Error - Requested Method: printer.info, Code: 503, Message: Klippy Disconnected
+2024-01-03 11:56:24,984 [common.py:build_error()] - JSON-RPC Request Error - Requested Method: printer.info, Code: 503, Message: Klippy Disconnected
+2024-01-03 11:56:26,245 [klippy_connection.py:_do_connect()] - Klippy Connection Established
+2024-01-03 11:56:27,902 [klippy_connection.py:_request_initial_subscriptions()] - Webhooks Subscribed
+2024-01-03 11:56:27,909 [klippy_connection.py:_request_initial_subscriptions()] - GCode Output Subscribed
+2024-01-03 11:56:28,153 [job_state.py:_handle_started()] - Job state initialized: standby
+2024-01-03 11:56:28,425 [klippy_connection.py:_check_ready()] - Klippy ready
+2024-01-03 11:56:29,419 [data_store.py:_init_sensors()] - Configuring available sensors: ['heater_bed', 'extruder']
+2024-01-03 11:58:00,622 [websockets.py:on_close()] - Websocket Closed: ID: 1729323816 Close Code: None, Close Reason: None, Pong Time Elapsed: 9.83
+2024-01-03 12:07:11,354 [app.py:prepare()] - Upload Request Received from 192.168.10.140
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryHdU8sWsjcJ2aOemD
+2024-01-03 12:07:11,361 [app.py:post()] - Processing Uploaded File: printer.cfg
+2024-01-03 12:07:11,379 [app.py:log_request()] - 201 POST /server/files/upload (192.168.10.140) [_TRUSTED_USER_] 28.24ms
+2024-01-03 12:07:12,719 [klippy_connection.py:_on_connection_closed()] - Klippy Connection Removed
+2024-01-03 12:07:13,985 [klippy_connection.py:_do_connect()] - Klippy Connection Established
+2024-01-03 12:07:15,723 [klippy_connection.py:_request_initial_subscriptions()] - Webhooks Subscribed
+2024-01-03 12:07:15,728 [klippy_connection.py:_request_initial_subscriptions()] - GCode Output Subscribed
+2024-01-03 12:07:15,732 [klippy_connection.py:_check_ready()] - 
+pin PL4 used multiple times in config
+
+Once the underlying issue is corrected, use the "RESTART"
+command to reload the config and restart the host software.
+Printer is halted
+
+2024-01-03 12:11:34,139 [app.py:prepare()] - Upload Request Received from 192.168.10.140
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary2PGuUvUKjhBNAuB7
+2024-01-03 12:11:34,146 [app.py:post()] - Processing Uploaded File: printer.cfg
+2024-01-03 12:11:34,161 [app.py:log_request()] - 201 POST /server/files/upload (192.168.10.140) [_TRUSTED_USER_] 24.26ms
+2024-01-03 12:11:34,482 [klippy_connection.py:_on_connection_closed()] - Klippy Connection Removed
+2024-01-03 12:11:35,746 [klippy_connection.py:_do_connect()] - Klippy Connection Established
+2024-01-03 12:11:37,545 [klippy_connection.py:_request_initial_subscriptions()] - Webhooks Subscribed
+2024-01-03 12:11:37,547 [klippy_connection.py:_request_initial_subscriptions()] - GCode Output Subscribed
+2024-01-03 12:11:37,551 [klippy_connection.py:_check_ready()] - 
+pin PG0 used multiple times in config
+
+Once the underlying issue is corrected, use the "RESTART"
+command to reload the config and restart the host software.
+Printer is halted
+
+2024-01-03 12:13:54,305 [app.py:prepare()] - Upload Request Received from 192.168.10.140
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryFXZlxF7EnOf19i1j
+2024-01-03 12:13:54,314 [app.py:post()] - Processing Uploaded File: printer.cfg
+2024-01-03 12:13:54,335 [app.py:log_request()] - 201 POST /server/files/upload (192.168.10.140) [_TRUSTED_USER_] 31.89ms
+2024-01-03 12:13:54,798 [klippy_connection.py:close()] - Error closing Klippy Unix Socket
+Traceback (most recent call last):
+  File "/home/pi/moonraker/moonraker/klippy_connection.py", line 747, in close
+    await self.writer.wait_closed()
+  File "/usr/lib/python3.9/asyncio/streams.py", line 359, in wait_closed
+    await self._protocol._get_close_waiter(self)
+  File "/home/pi/moonraker/moonraker/klippy_connection.py", line 171, in _read_stream
+    data = await reader.readuntil(b'\x03')
+  File "/usr/lib/python3.9/asyncio/streams.py", line 632, in readuntil
+    await self._wait_for_data('readuntil')
+  File "/usr/lib/python3.9/asyncio/streams.py", line 517, in _wait_for_data
+    await self._waiter
+  File "/usr/lib/python3.9/asyncio/selector_events.py", line 856, in _read_ready__data_received
+    data = self._sock.recv(self.max_size)
+ConnectionResetError: [Errno 104] Connection reset by peer
+2024-01-03 12:13:54,798 [klippy_connection.py:_on_connection_closed()] - Klippy Connection Removed
+2024-01-03 12:13:54,804 [common.py:build_error()] - JSON-RPC Request Error - Requested Method: printer.info, Code: 503, Message: Klippy Disconnected
+2024-01-03 12:13:54,805 [common.py:build_error()] - JSON-RPC Request Error - Requested Method: printer.info, Code: 503, Message: Klippy Disconnected
+2024-01-03 12:13:56,065 [klippy_connection.py:_do_connect()] - Klippy Connection Established
+2024-01-03 12:13:57,722 [klippy_connection.py:_request_initial_subscriptions()] - Webhooks Subscribed
+2024-01-03 12:13:57,726 [klippy_connection.py:_request_initial_subscriptions()] - GCode Output Subscribed
+2024-01-03 12:13:57,974 [job_state.py:_handle_started()] - Job state initialized: standby
+2024-01-03 12:13:58,246 [klippy_connection.py:_check_ready()] - Klippy ready
+2024-01-03 12:13:58,983 [data_store.py:_init_sensors()] - Configuring available sensors: ['heater_bed', 'extruder']
+2024-01-03 12:17:14,967 [app.py:log_request()] - 101 GET /websocket (192.168.10.223) [_TRUSTED_USER_] 6.38ms
+2024-01-03 12:17:14,968 [websockets.py:open()] - Websocket Opened: ID: 1719584416, Proxied: True, User Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 17_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/120.0.6099.119 Mobile/15E148 Safari/604.1, Host Name: mainsail.local
+2024-01-03 12:17:14,984 [websockets.py:_handle_identify()] - Websocket 1719584416 Client Identified - Name: mainsail, Version: 2.9.1, Type: web
+2024-01-03 12:17:46,501 [klippy_connection.py:_process_status_update()] - Klippy has shutdown
+2024-01-03 12:17:46,518 [proc_stats.py:_handle_shutdown()] - 
+Moonraker System Usage Statistics:
+System Time: 1704305836.568768, Usage: 3.98%, Memory: 29496 kB
+System Time: 1704305837.569467, Usage: 3.81%, Memory: 29496 kB
+System Time: 1704305838.571411, Usage: 3.56%, Memory: 29496 kB
+System Time: 1704305839.571627, Usage: 3.72%, Memory: 29496 kB
+System Time: 1704305840.573772, Usage: 3.39%, Memory: 29496 kB
+System Time: 1704305841.574437, Usage: 3.93%, Memory: 29496 kB
+System Time: 1704305842.575929, Usage: 7.03%, Memory: 29496 kB
+System Time: 1704305843.576789, Usage: 3.78%, Memory: 29496 kB
+System Time: 1704305844.577571, Usage: 3.89%, Memory: 29496 kB
+System Time: 1704305845.578232, Usage: 4.45%, Memory: 29496 kB
+System Time: 1704305846.579539, Usage: 3.92%, Memory: 29496 kB
+System Time: 1704305847.581443, Usage: 4.28%, Memory: 29496 kB
+System Time: 1704305848.582837, Usage: 3.48%, Memory: 29496 kB
+System Time: 1704305849.584784, Usage: 3.87%, Memory: 29496 kB
+System Time: 1704305850.587226, Usage: 3.88%, Memory: 29496 kB
+System Time: 1704305851.587914, Usage: 3.78%, Memory: 29496 kB
+System Time: 1704305852.591625, Usage: 5.82%, Memory: 29496 kB
+System Time: 1704305853.591515, Usage: 4.41%, Memory: 29496 kB
+System Time: 1704305854.591777, Usage: 3.49%, Memory: 29496 kB
+System Time: 1704305855.592652, Usage: 4.23%, Memory: 29496 kB
+System Time: 1704305856.596026, Usage: 3.85%, Memory: 29496 kB
+System Time: 1704305857.596323, Usage: 4.05%, Memory: 29496 kB
+System Time: 1704305858.596497, Usage: 3.62%, Memory: 29496 kB
+System Time: 1704305859.597352, Usage: 4.01%, Memory: 29496 kB
+System Time: 1704305860.598604, Usage: 3.66%, Memory: 29496 kB
+System Time: 1704305861.600225, Usage: 3.75%, Memory: 29496 kB
+System Time: 1704305862.602928, Usage: 5.96%, Memory: 29496 kB
+System Time: 1704305863.604330, Usage: 3.78%, Memory: 29496 kB
+System Time: 1704305864.606970, Usage: 3.73%, Memory: 29496 kB
+System Time: 1704305865.608001, Usage: 4.03%, Memory: 29496 kB
+CPU Temperature: 42.932
+2024-01-03 12:17:46,524 [proc_stats.py:_handle_shutdown()] - Throttled Flags: 
+2024-01-03 12:17:56,432 [klippy_connection.py:_on_connection_closed()] - Klippy Connection Removed
+2024-01-03 12:17:57,698 [klippy_connection.py:_do_connect()] - Klippy Connection Established
+2024-01-03 12:17:59,350 [klippy_connection.py:_request_initial_subscriptions()] - Webhooks Subscribed
+2024-01-03 12:17:59,353 [klippy_connection.py:_request_initial_subscriptions()] - GCode Output Subscribed
+2024-01-03 12:17:59,601 [job_state.py:_handle_started()] - Job state initialized: standby
+2024-01-03 12:17:59,872 [klippy_connection.py:_check_ready()] - Klippy ready
+2024-01-03 12:18:00,868 [data_store.py:_init_sensors()] - Configuring available sensors: ['heater_bed', 'extruder']
+2024-01-03 12:20:47,412 [klippy_connection.py:_process_status_update()] - Klippy has shutdown
+2024-01-03 12:20:47,426 [proc_stats.py:_handle_shutdown()] - 
+Moonraker System Usage Statistics:
+System Time: 1704306017.827061, Usage: 3.62%, Memory: 29496 kB
+System Time: 1704306018.828635, Usage: 3.6%, Memory: 29496 kB
+System Time: 1704306019.832791, Usage: 4.78%, Memory: 29496 kB
+System Time: 1704306020.836434, Usage: 3.69%, Memory: 29496 kB
+System Time: 1704306021.838528, Usage: 3.78%, Memory: 29496 kB
+System Time: 1704306022.844683, Usage: 5.99%, Memory: 29496 kB
+System Time: 1704306023.845990, Usage: 4.61%, Memory: 29496 kB
+System Time: 1704306024.847688, Usage: 3.65%, Memory: 29496 kB
+System Time: 1704306025.851366, Usage: 4.11%, Memory: 29496 kB
+System Time: 1704306026.858519, Usage: 4.02%, Memory: 29496 kB
+System Time: 1704306027.858932, Usage: 4.43%, Memory: 29496 kB
+System Time: 1704306028.859171, Usage: 3.84%, Memory: 29496 kB
+System Time: 1704306029.862277, Usage: 3.6%, Memory: 29496 kB
+System Time: 1704306030.866312, Usage: 3.98%, Memory: 29496 kB
+System Time: 1704306031.867918, Usage: 4.15%, Memory: 29496 kB
+System Time: 1704306032.870367, Usage: 5.98%, Memory: 29496 kB
+System Time: 1704306033.873793, Usage: 4.01%, Memory: 29496 kB
+System Time: 1704306034.866606, Usage: 3.99%, Memory: 29496 kB
+System Time: 1704306035.868580, Usage: 3.9%, Memory: 29496 kB
+System Time: 1704306036.867698, Usage: 4.61%, Memory: 29496 kB
+System Time: 1704306037.871993, Usage: 3.97%, Memory: 29496 kB
+System Time: 1704306038.873168, Usage: 3.85%, Memory: 29496 kB
+System Time: 1704306039.873229, Usage: 3.59%, Memory: 29496 kB
+System Time: 1704306040.873554, Usage: 3.38%, Memory: 29496 kB
+System Time: 1704306041.876232, Usage: 3.41%, Memory: 29496 kB
+System Time: 1704306042.879393, Usage: 5.81%, Memory: 29496 kB
+System Time: 1704306043.878564, Usage: 4.22%, Memory: 29496 kB
+System Time: 1704306044.880139, Usage: 3.52%, Memory: 29496 kB
+System Time: 1704306045.881472, Usage: 3.96%, Memory: 29496 kB
+System Time: 1704306046.880826, Usage: 4.88%, Memory: 29496 kB
+CPU Temperature: 42.932
+2024-01-03 12:20:47,431 [proc_stats.py:_handle_shutdown()] - Throttled Flags: 
+2024-01-03 12:20:54,240 [klippy_connection.py:_on_connection_closed()] - Klippy Connection Removed
+2024-01-03 12:20:55,505 [klippy_connection.py:_do_connect()] - Klippy Connection Established
+2024-01-03 12:20:57,158 [klippy_connection.py:_request_initial_subscriptions()] - Webhooks Subscribed
+2024-01-03 12:20:57,161 [klippy_connection.py:_request_initial_subscriptions()] - GCode Output Subscribed
+2024-01-03 12:20:57,409 [job_state.py:_handle_started()] - Job state initialized: standby
+2024-01-03 12:20:57,681 [klippy_connection.py:_check_ready()] - Klippy ready
+2024-01-03 12:20:58,674 [data_store.py:_init_sensors()] - Configuring available sensors: ['heater_bed', 'extruder']
+2024-01-03 12:21:59,753 [websockets.py:on_close()] - Websocket Closed: ID: 1719584416 Close Code: None, Close Reason: None, Pong Time Elapsed: 4.77
+2024-01-03 12:34:30,040 [app.py:prepare()] - Upload Request Received from 192.168.10.140
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundarya7biHJ1RIGScCAzA
+2024-01-03 12:34:30,054 [app.py:post()] - Processing Uploaded File: printer.cfg
+2024-01-03 12:34:30,075 [app.py:log_request()] - 201 POST /server/files/upload (192.168.10.140) [_TRUSTED_USER_] 37.39ms
+2024-01-03 12:34:31,420 [klippy_connection.py:_on_connection_closed()] - Klippy Connection Removed
+2024-01-03 12:34:32,684 [klippy_connection.py:_do_connect()] - Klippy Connection Established
+2024-01-03 12:34:34,335 [klippy_connection.py:_request_initial_subscriptions()] - Webhooks Subscribed
+2024-01-03 12:34:34,339 [klippy_connection.py:_request_initial_subscriptions()] - GCode Output Subscribed
+2024-01-03 12:34:34,586 [job_state.py:_handle_started()] - Job state initialized: standby
+2024-01-03 12:34:34,858 [klippy_connection.py:_check_ready()] - Klippy ready
+2024-01-03 12:34:35,595 [data_store.py:_init_sensors()] - Configuring available sensors: ['heater_bed', 'extruder']
+2024-01-03 12:34:39,056 [app.py:log_request()] - 101 GET /websocket (192.168.10.223) [_TRUSTED_USER_] 4.94ms
+2024-01-03 12:34:39,057 [websockets.py:open()] - Websocket Opened: ID: 1709162424, Proxied: True, User Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 17_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/120.0.6099.119 Mobile/15E148 Safari/604.1, Host Name: mainsail.local
+2024-01-03 12:34:39,072 [websockets.py:_handle_identify()] - Websocket 1709162424 Client Identified - Name: mainsail, Version: 2.9.1, Type: web
+2024-01-03 12:37:39,373 [app.py:prepare()] - Upload Request Received from 192.168.10.140
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundarymfnQwiIZmsSdfTLJ
+2024-01-03 12:37:39,383 [app.py:post()] - Processing Uploaded File: printer.cfg
+2024-01-03 12:37:39,405 [app.py:log_request()] - 201 POST /server/files/upload (192.168.10.140) [_TRUSTED_USER_] 33.90ms
+2024-01-03 12:37:40,751 [klippy_connection.py:_on_connection_closed()] - Klippy Connection Removed
+2024-01-03 12:37:42,016 [klippy_connection.py:_do_connect()] - Klippy Connection Established
+2024-01-03 12:37:43,673 [klippy_connection.py:_request_initial_subscriptions()] - Webhooks Subscribed
+2024-01-03 12:37:43,677 [klippy_connection.py:_request_initial_subscriptions()] - GCode Output Subscribed
+2024-01-03 12:37:43,924 [job_state.py:_handle_started()] - Job state initialized: standby
+2024-01-03 12:37:44,197 [klippy_connection.py:_check_ready()] - Klippy ready
+2024-01-03 12:37:45,188 [data_store.py:_init_sensors()] - Configuring available sensors: ['heater_bed', 'extruder']
+2024-01-03 12:48:05,676 [websockets.py:on_close()] - Websocket Closed: ID: 1709162424 Close Code: None, Close Reason: None, Pong Time Elapsed: 6.56
+2024-01-03 12:49:45,289 [klippy_connection.py:_process_status_update()] - Klippy has shutdown
+2024-01-03 12:49:45,301 [proc_stats.py:_handle_shutdown()] - 
+Moonraker System Usage Statistics:
+System Time: 1704307755.647643, Usage: 5.44%, Memory: 29500 kB
+System Time: 1704307756.648812, Usage: 3.76%, Memory: 29500 kB
+System Time: 1704307757.651181, Usage: 3.54%, Memory: 29500 kB
+System Time: 1704307758.651636, Usage: 3.2%, Memory: 29500 kB
+System Time: 1704307759.652005, Usage: 3.17%, Memory: 29500 kB
+System Time: 1704307760.654258, Usage: 3.14%, Memory: 29500 kB
+System Time: 1704307761.656518, Usage: 3.18%, Memory: 29500 kB
+System Time: 1704307762.656163, Usage: 3.2%, Memory: 29500 kB
+System Time: 1704307763.658039, Usage: 2.94%, Memory: 29500 kB
+System Time: 1704307764.658831, Usage: 3.13%, Memory: 29500 kB
+System Time: 1704307765.661456, Usage: 5.47%, Memory: 29500 kB
+System Time: 1704307766.662345, Usage: 3.68%, Memory: 29500 kB
+System Time: 1704307767.662774, Usage: 3.46%, Memory: 29500 kB
+System Time: 1704307768.665270, Usage: 3.1%, Memory: 29500 kB
+System Time: 1704307769.666434, Usage: 3.21%, Memory: 29500 kB
+System Time: 1704307770.666793, Usage: 3.19%, Memory: 29500 kB
+System Time: 1704307771.667766, Usage: 3.13%, Memory: 29500 kB
+System Time: 1704307772.670488, Usage: 3.14%, Memory: 29500 kB
+System Time: 1704307773.671704, Usage: 3.22%, Memory: 29500 kB
+System Time: 1704307774.672455, Usage: 3.08%, Memory: 29500 kB
+System Time: 1704307775.674380, Usage: 5.28%, Memory: 29500 kB
+System Time: 1704307776.674737, Usage: 3.63%, Memory: 29500 kB
+System Time: 1704307777.674263, Usage: 3.61%, Memory: 29500 kB
+System Time: 1704307778.675967, Usage: 3.01%, Memory: 29500 kB
+System Time: 1704307779.677949, Usage: 3.21%, Memory: 29500 kB
+System Time: 1704307780.679039, Usage: 3.14%, Memory: 29500 kB
+System Time: 1704307781.679495, Usage: 3.23%, Memory: 29500 kB
+System Time: 1704307782.681237, Usage: 3.01%, Memory: 29500 kB
+System Time: 1704307783.683149, Usage: 3.2%, Memory: 29500 kB
+System Time: 1704307784.683356, Usage: 3.19%, Memory: 29500 kB
+CPU Temperature: 45.084
+2024-01-03 12:49:45,306 [proc_stats.py:_handle_shutdown()] - Throttled Flags: 
+2024-01-03 12:56:30,376 [websockets.py:on_close()] - Websocket Closed: ID: 1698672112 Close Code: None, Close Reason: None, Pong Time Elapsed: 3.63
+2024-01-03 12:56:30,381 [websockets.py:on_close()] - Websocket Closed: ID: 1729453360 Close Code: None, Close Reason: None, Pong Time Elapsed: 4.46
+2024-01-03 12:56:31,602 [app.py:log_request()] - 101 GET /websocket (192.168.10.140) [_TRUSTED_USER_] 6.86ms
+2024-01-03 12:56:31,603 [websockets.py:open()] - Websocket Opened: ID: 1698514040, Proxied: True, User Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36, Host Name: mainsail.local
+2024-01-03 12:56:31,614 [websockets.py:_handle_identify()] - Websocket 1698514040 Client Identified - Name: mainsail, Version: 2.9.1, Type: web
+2024-01-03 12:56:31,640 [app.py:log_request()] - 101 GET /websocket (192.168.10.140) [_TRUSTED_USER_] 7.63ms
+2024-01-03 12:56:31,642 [websockets.py:open()] - Websocket Opened: ID: 1748353808, Proxied: True, User Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36, Host Name: mainsail.local
+2024-01-03 12:56:31,659 [websockets.py:_handle_identify()] - Websocket 1748353808 Client Identified - Name: mainsail, Version: 2.9.1, Type: web
+2024-01-03 12:57:42,333 [websockets.py:write_to_socket()] - Websocket closed while writing: 1698514040
+2024-01-03 12:57:42,334 [websockets.py:write_to_socket()] - Websocket closed while writing: 1748353808
+2024-01-03 12:57:46,609 [websockets.py:on_close()] - Websocket Closed: ID: 1698514040 Close Code: None, Close Reason: None, Pong Time Elapsed: 45.00
+2024-01-03 12:57:46,646 [websockets.py:on_close()] - Websocket Closed: ID: 1748353808 Close Code: None, Close Reason: None, Pong Time Elapsed: 44.99
+2024-01-03 12:59:55,156 [app.py:log_request()] - 101 GET /websocket (192.168.10.140) [_TRUSTED_USER_] 6.34ms
+2024-01-03 12:59:55,158 [websockets.py:open()] - Websocket Opened: ID: 1709160648, Proxied: True, User Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36, Host Name: mainsail.local
+2024-01-03 12:59:55,174 [websockets.py:_handle_identify()] - Websocket 1709160648 Client Identified - Name: mainsail, Version: 2.9.1, Type: web
+2024-01-03 12:59:55,200 [app.py:log_request()] - 101 GET /websocket (192.168.10.140) [_TRUSTED_USER_] 8.25ms
+2024-01-03 12:59:55,202 [websockets.py:open()] - Websocket Opened: ID: 1748353928, Proxied: True, User Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36, Host Name: mainsail.local
+2024-01-03 12:59:55,244 [websockets.py:_handle_identify()] - Websocket 1748353928 Client Identified - Name: mainsail, Version: 2.9.1, Type: web
+2024-01-03 13:00:32,695 [app.py:log_request()] - 101 GET /websocket (192.168.10.223) [_TRUSTED_USER_] 5.83ms
+2024-01-03 13:00:32,696 [websockets.py:open()] - Websocket Opened: ID: 1748353880, Proxied: True, User Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 17_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/120.0.6099.119 Mobile/15E148 Safari/604.1, Host Name: mainsail.local
+2024-01-03 13:00:32,714 [websockets.py:_handle_identify()] - Websocket 1748353880 Client Identified - Name: mainsail, Version: 2.9.1, Type: web
+2024-01-03 13:00:34,671 [websockets.py:on_close()] - Websocket Closed: ID: 1748353880 Close Code: None, Close Reason: None, Pong Time Elapsed: 1.98
+2024-01-03 13:01:15,610 [websockets.py:write_to_socket()] - Websocket closed while writing: 1709160648
+2024-01-03 13:01:15,610 [websockets.py:write_to_socket()] - Websocket closed while writing: 1748353928
+2024-01-03 13:01:20,162 [websockets.py:on_close()] - Websocket Closed: ID: 1709160648 Close Code: None, Close Reason: None, Pong Time Elapsed: 44.99
+2024-01-03 13:01:20,204 [websockets.py:on_close()] - Websocket Closed: ID: 1748353928 Close Code: None, Close Reason: None, Pong Time Elapsed: 44.99
+2024-01-03 13:21:09,324 [app.py:log_request()] - 101 GET /websocket (192.168.10.140) [_TRUSTED_USER_] 6.96ms
+2024-01-03 13:21:09,325 [websockets.py:open()] - Websocket Opened: ID: 1698537064, Proxied: True, User Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36, Host Name: mainsail.local
+2024-01-03 13:21:09,343 [websockets.py:_handle_identify()] - Websocket 1698537064 Client Identified - Name: mainsail, Version: 2.9.1, Type: web
+2024-01-03 13:21:09,369 [app.py:log_request()] - 101 GET /websocket (192.168.10.140) [_TRUSTED_USER_] 8.13ms
+2024-01-03 13:21:09,370 [websockets.py:open()] - Websocket Opened: ID: 1748356088, Proxied: True, User Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36, Host Name: mainsail.local
+2024-01-03 13:21:09,414 [websockets.py:_handle_identify()] - Websocket 1748356088 Client Identified - Name: mainsail, Version: 2.9.1, Type: web
+2024-01-03 13:33:10,305 [websockets.py:on_close()] - Websocket Closed: ID: 1748356088 Close Code: None, Close Reason: None, Pong Time Elapsed: 0.91
+2024-01-03 13:33:10,311 [websockets.py:on_close()] - Websocket Closed: ID: 1698537064 Close Code: None, Close Reason: None, Pong Time Elapsed: 0.92
+2024-01-03 13:33:13,353 [app.py:log_request()] - 101 GET /websocket (192.168.10.140) [_TRUSTED_USER_] 6.28ms
+2024-01-03 13:33:13,354 [websockets.py:open()] - Websocket Opened: ID: 1748232080, Proxied: True, User Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36, Host Name: mainsail.local
+2024-01-03 13:33:13,365 [websockets.py:_handle_identify()] - Websocket 1748232080 Client Identified - Name: mainsail, Version: 2.9.1, Type: web
+2024-01-03 13:33:13,388 [app.py:log_request()] - 101 GET /websocket (192.168.10.140) [_TRUSTED_USER_] 5.68ms
+2024-01-03 13:33:13,389 [websockets.py:open()] - Websocket Opened: ID: 1748233664, Proxied: True, User Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36, Host Name: mainsail.local
+2024-01-03 13:33:13,410 [websockets.py:_handle_identify()] - Websocket 1748233664 Client Identified - Name: mainsail, Version: 2.9.1, Type: web
+2024-01-03 13:35:04,273 [websockets.py:write_to_socket()] - Websocket closed while writing: 1748232080
+2024-01-03 13:35:04,274 [websockets.py:write_to_socket()] - Websocket closed while writing: 1748233664
+2024-01-03 13:35:08,358 [websockets.py:on_close()] - Websocket Closed: ID: 1748232080 Close Code: None, Close Reason: None, Pong Time Elapsed: 44.99
+2024-01-03 13:35:08,393 [websockets.py:on_close()] - Websocket Closed: ID: 1748233664 Close Code: None, Close Reason: None, Pong Time Elapsed: 45.00
+2024-01-03 14:02:38,599 [authorization.py:_prune_conn_handler()] - Trusted Connection Expired, IP: 192.168.10.223
+2024-01-03 14:05:07,524 [app.py:log_request()] - 101 GET /websocket (192.168.10.140) [_TRUSTED_USER_] 6.65ms
+2024-01-03 14:05:07,525 [websockets.py:open()] - Websocket Opened: ID: 1748231432, Proxied: True, User Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36, Host Name: mainsail.local
+2024-01-03 14:05:07,537 [websockets.py:_handle_identify()] - Websocket 1748231432 Client Identified - Name: mainsail, Version: 2.9.1, Type: web
+2024-01-03 14:05:07,564 [app.py:log_request()] - 101 GET /websocket (192.168.10.140) [_TRUSTED_USER_] 8.75ms
+2024-01-03 14:05:07,565 [websockets.py:open()] - Websocket Opened: ID: 1708418648, Proxied: True, User Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36, Host Name: mainsail.local
+2024-01-03 14:05:07,587 [websockets.py:_handle_identify()] - Websocket 1708418648 Client Identified - Name: mainsail, Version: 2.9.1, Type: web
+2024-01-03 14:05:37,673 [websockets.py:write_to_socket()] - Websocket closed while writing: 1748231432
+2024-01-03 14:05:37,674 [websockets.py:write_to_socket()] - Websocket closed while writing: 1708418648
+2024-01-03 14:05:42,529 [websockets.py:on_close()] - Websocket Closed: ID: 1748231432 Close Code: None, Close Reason: None, Pong Time Elapsed: 35.01
+2024-01-03 14:05:42,568 [websockets.py:on_close()] - Websocket Closed: ID: 1708418648 Close Code: None, Close Reason: None, Pong Time Elapsed: 35.01
+2024-01-03 14:22:53,330 [app.py:log_request()] - 101 GET /websocket (192.168.10.140) [_TRUSTED_USER_] 7.47ms
+2024-01-03 14:22:53,331 [websockets.py:open()] - Websocket Opened: ID: 1748234000, Proxied: True, User Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36, Host Name: mainsail.local
+2024-01-03 14:22:53,352 [websockets.py:_handle_identify()] - Websocket 1748234000 Client Identified - Name: mainsail, Version: 2.9.1, Type: web
+2024-01-03 14:22:53,381 [app.py:log_request()] - 101 GET /websocket (192.168.10.140) [_TRUSTED_USER_] 7.30ms
+2024-01-03 14:22:53,381 [websockets.py:open()] - Websocket Opened: ID: 1748231600, Proxied: True, User Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36, Host Name: mainsail.local
+2024-01-03 14:22:53,401 [websockets.py:_handle_identify()] - Websocket 1748231600 Client Identified - Name: mainsail, Version: 2.9.1, Type: web
+2024-01-03 14:26:24,232 [websockets.py:write_to_socket()] - Websocket closed while writing: 1748234000
+2024-01-03 14:26:24,233 [websockets.py:write_to_socket()] - Websocket closed while writing: 1748231600
+2024-01-03 14:26:28,335 [websockets.py:on_close()] - Websocket Closed: ID: 1748234000 Close Code: None, Close Reason: None, Pong Time Elapsed: 44.99
+2024-01-03 14:26:28,385 [websockets.py:on_close()] - Websocket Closed: ID: 1748231600 Close Code: None, Close Reason: None, Pong Time Elapsed: 45.00
+2024-01-03 14:43:25,110 [app.py:log_request()] - 101 GET /websocket (192.168.10.140) [_TRUSTED_USER_] 6.61ms
+2024-01-03 14:43:25,112 [websockets.py:open()] - Websocket Opened: ID: 1748231840, Proxied: True, User Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36, Host Name: mainsail.local
+2024-01-03 14:43:25,119 [websockets.py:_handle_identify()] - Websocket 1748231840 Client Identified - Name: mainsail, Version: 2.9.1, Type: web
+2024-01-03 14:43:25,157 [app.py:log_request()] - 101 GET /websocket (192.168.10.140) [_TRUSTED_USER_] 11.56ms
+2024-01-03 14:43:25,159 [websockets.py:open()] - Websocket Opened: ID: 1748233976, Proxied: True, User Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36, Host Name: mainsail.local
+2024-01-03 14:43:25,183 [websockets.py:_handle_identify()] - Websocket 1748233976 Client Identified - Name: mainsail, Version: 2.9.1, Type: web
+2024-01-03 14:49:36,013 [websockets.py:write_to_socket()] - Websocket closed while writing: 1748231840
+2024-01-03 14:49:36,013 [websockets.py:write_to_socket()] - Websocket closed while writing: 1748233976
+2024-01-03 14:49:40,116 [websockets.py:on_close()] - Websocket Closed: ID: 1748231840 Close Code: None, Close Reason: None, Pong Time Elapsed: 44.99
+2024-01-03 14:49:40,162 [websockets.py:on_close()] - Websocket Closed: ID: 1748233976 Close Code: None, Close Reason: None, Pong Time Elapsed: 45.00
+2024-01-03 14:50:06,574 [app.py:log_request()] - 101 GET /websocket (192.168.10.140) [_TRUSTED_USER_] 6.48ms
+2024-01-03 14:50:06,575 [websockets.py:open()] - Websocket Opened: ID: 1748230736, Proxied: True, User Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36, Host Name: mainsail.local
+2024-01-03 14:50:06,587 [websockets.py:_handle_identify()] - Websocket 1748230736 Client Identified - Name: mainsail, Version: 2.9.1, Type: web
+2024-01-03 14:50:06,615 [app.py:log_request()] - 101 GET /websocket (192.168.10.140) [_TRUSTED_USER_] 7.82ms
+2024-01-03 14:50:06,616 [websockets.py:open()] - Websocket Opened: ID: 1748231504, Proxied: True, User Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36, Host Name: mainsail.local
+2024-01-03 14:50:06,643 [websockets.py:_handle_identify()] - Websocket 1748231504 Client Identified - Name: mainsail, Version: 2.9.1, Type: web
+2024-01-03 14:51:17,142 [websockets.py:write_to_socket()] - Websocket closed while writing: 1748230736
+2024-01-03 14:51:17,143 [websockets.py:write_to_socket()] - Websocket closed while writing: 1748231504
+2024-01-03 14:51:21,581 [websockets.py:on_close()] - Websocket Closed: ID: 1748230736 Close Code: None, Close Reason: None, Pong Time Elapsed: 44.92
+2024-01-03 14:51:21,620 [websockets.py:on_close()] - Websocket Closed: ID: 1748231504 Close Code: None, Close Reason: None, Pong Time Elapsed: 44.96
+2024-01-03 15:06:33,159 [app.py:log_request()] - 101 GET /websocket (192.168.10.140) [_TRUSTED_USER_] 6.33ms
+2024-01-03 15:06:33,160 [websockets.py:open()] - Websocket Opened: ID: 1748230472, Proxied: True, User Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36, Host Name: mainsail.local
+2024-01-03 15:06:33,171 [websockets.py:_handle_identify()] - Websocket 1748230472 Client Identified - Name: mainsail, Version: 2.9.1, Type: web
+2024-01-03 15:06:33,201 [app.py:log_request()] - 101 GET /websocket (192.168.10.140) [_TRUSTED_USER_] 8.30ms
+2024-01-03 15:06:33,203 [websockets.py:open()] - Websocket Opened: ID: 1748232848, Proxied: True, User Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36, Host Name: mainsail.local
+2024-01-03 15:06:33,226 [websockets.py:_handle_identify()] - Websocket 1748232848 Client Identified - Name: mainsail, Version: 2.9.1, Type: web
+2024-01-03 15:14:43,945 [websockets.py:write_to_socket()] - Websocket closed while writing: 1748230472
+2024-01-03 15:14:43,946 [websockets.py:write_to_socket()] - Websocket closed while writing: 1748232848
+2024-01-03 15:14:48,165 [websockets.py:on_close()] - Websocket Closed: ID: 1748230472 Close Code: None, Close Reason: None, Pong Time Elapsed: 44.99
+2024-01-03 15:14:48,206 [websockets.py:on_close()] - Websocket Closed: ID: 1748232848 Close Code: None, Close Reason: None, Pong Time Elapsed: 45.00
+2024-01-03 15:23:21,607 [app.py:log_request()] - 101 GET /websocket (192.168.10.140) [_TRUSTED_USER_] 6.32ms
+2024-01-03 15:23:21,609 [websockets.py:open()] - Websocket Opened: ID: 1748232776, Proxied: True, User Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36, Host Name: mainsail.local
+2024-01-03 15:23:21,621 [websockets.py:_handle_identify()] - Websocket 1748232776 Client Identified - Name: mainsail, Version: 2.9.1, Type: web
+2024-01-03 15:23:21,654 [app.py:log_request()] - 101 GET /websocket (192.168.10.140) [_TRUSTED_USER_] 7.96ms
+2024-01-03 15:23:21,656 [websockets.py:open()] - Websocket Opened: ID: 1708418696, Proxied: True, User Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36, Host Name: mainsail.local
+2024-01-03 15:23:21,685 [websockets.py:_handle_identify()] - Websocket 1708418696 Client Identified - Name: mainsail, Version: 2.9.1, Type: web
+2024-01-03 15:24:05,423 [websockets.py:on_close()] - Websocket Closed: ID: 1748232776 Close Code: 1001, Close Reason: None, Pong Time Elapsed: 3.80
+2024-01-03 15:24:06,746 [app.py:log_request()] - 101 GET /websocket (192.168.10.140) [_TRUSTED_USER_] 6.11ms
+2024-01-03 15:24:06,747 [websockets.py:open()] - Websocket Opened: ID: 1748231216, Proxied: True, User Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36, Host Name: mainsail.local
+2024-01-03 15:24:06,855 [websockets.py:_handle_identify()] - Websocket 1748231216 Client Identified - Name: mainsail, Version: 2.9.1, Type: web
+2024-01-03 16:04:58,294 [app.py:prepare()] - Upload Request Received from 192.168.10.140
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryDR0Vh9q9i2e1zJqA
+2024-01-03 16:04:58,302 [app.py:post()] - Processing Uploaded File: printer.cfg
+2024-01-03 16:04:58,319 [app.py:log_request()] - 201 POST /server/files/upload (192.168.10.140) [_TRUSTED_USER_] 26.98ms
+2024-01-03 16:04:58,648 [klippy_connection.py:_on_connection_closed()] - Klippy Connection Removed
+2024-01-03 16:04:59,912 [klippy_connection.py:_do_connect()] - Klippy Connection Established
+2024-01-03 16:05:01,568 [klippy_connection.py:_request_initial_subscriptions()] - Webhooks Subscribed
+2024-01-03 16:05:01,571 [klippy_connection.py:_request_initial_subscriptions()] - GCode Output Subscribed
+2024-01-03 16:05:01,820 [job_state.py:_handle_started()] - Job state initialized: standby
+2024-01-03 16:05:02,090 [klippy_connection.py:_check_ready()] - Klippy ready
+2024-01-03 16:05:02,573 [data_store.py:_init_sensors()] - Configuring available sensors: ['heater_bed', 'extruder']
+2024-01-03 16:44:16,762 [websockets.py:write_to_socket()] - Websocket closed while writing: 1748231216
+2024-01-03 16:44:21,750 [websockets.py:on_close()] - Websocket Closed: ID: 1748231216 Close Code: None, Close Reason: None, Pong Time Elapsed: 44.75
+2024-01-03 16:44:24,273 [app.py:log_request()] - 101 GET /websocket (192.168.10.140) [_TRUSTED_USER_] 6.95ms
+2024-01-03 16:44:24,274 [websockets.py:open()] - Websocket Opened: ID: 1748230352, Proxied: True, User Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36, Host Name: mainsail.local
+2024-01-03 16:44:24,290 [websockets.py:_handle_identify()] - Websocket 1748230352 Client Identified - Name: mainsail, Version: 2.9.1, Type: web
+2024-01-03 17:03:20,578 [authorization.py:_check_trusted_connection()] - Trusted Connection Detected, IP: 192.168.10.223
+2024-01-03 17:03:20,582 [app.py:log_request()] - 101 GET /websocket (192.168.10.223) [_TRUSTED_USER_] 7.41ms
+2024-01-03 17:03:20,583 [websockets.py:open()] - Websocket Opened: ID: 1719269888, Proxied: True, User Agent: Dart/3.1 (dart:io), Host Name: mainsail.local
+2024-01-03 17:03:20,599 [websockets.py:_handle_identify()] - Websocket 1719269888 Client Identified - Name: Mobileraker-ios, Version: 2.6.8-357, Type: mobile
+2024-01-03 17:04:29,422 [app.py:log_request()] - 101 GET /websocket?token=IID52YJNDQSWCJOZDGSX7BQKN6GETKNX (192.168.10.223) [_API_KEY_USER_] 5.76ms
+2024-01-03 17:04:29,423 [websockets.py:open()] - Websocket Opened: ID: 1748234072, Proxied: True, User Agent: , Host Name: mainsail.local
+2024-01-03 17:04:29,690 [file_manager.py:get_file_list()] - Updating File List <gcodes>...
+2024-01-03 17:04:29,759 [app.py:log_request()] - 404 GET /server/database/item?namespace=mainsail&key=remote_printers (192.168.10.223) [_API_KEY_USER_] 32.75ms
+2024-01-03 17:04:39,087 [websockets.py:on_close()] - Websocket Closed: ID: 1748234072 Close Code: 1000, Close Reason: None, Pong Time Elapsed: 9.67
+2024-01-03 17:05:20,830 [websockets.py:write_to_socket()] - Websocket closed while writing: 1719269888
+2024-01-03 17:05:25,588 [websockets.py:on_close()] - Websocket Closed: ID: 1719269888 Close Code: None, Close Reason: None, Pong Time Elapsed: 39.62
+2024-01-03 17:05:45,004 [app.py:log_request()] - 101 GET /websocket (192.168.10.223) [_TRUSTED_USER_] 5.38ms
+2024-01-03 17:05:45,005 [websockets.py:open()] - Websocket Opened: ID: 1748231696, Proxied: True, User Agent: Dart/3.1 (dart:io), Host Name: mainsail.local
+2024-01-03 17:06:16,578 [websockets.py:on_close()] - Websocket Closed: ID: 1748231696 Close Code: None, Close Reason: None, Pong Time Elapsed: 1.56
+2024-01-03 17:06:46,552 [app.py:log_request()] - 101 GET /websocket (192.168.10.223) [_TRUSTED_USER_] 6.85ms
+2024-01-03 17:06:46,553 [websockets.py:open()] - Websocket Opened: ID: 1748233976, Proxied: True, User Agent: Dart/3.1 (dart:io), Host Name: mainsail.local
+2024-01-03 17:06:46,569 [websockets.py:_handle_identify()] - Websocket 1748233976 Client Identified - Name: Mobileraker-ios, Version: 2.6.8-357, Type: mobile
+2024-01-03 17:06:48,570 [app.py:log_request()] - 101 GET /websocket (192.168.10.223) [_TRUSTED_USER_] 5.82ms
+2024-01-03 17:06:48,571 [websockets.py:open()] - Websocket Opened: ID: 1719269360, Proxied: True, User Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 17_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/120.0.6099.119 Mobile/15E148 Safari/604.1, Host Name: mainsail.local
+2024-01-03 17:06:48,596 [websockets.py:_handle_identify()] - Websocket 1719269360 Client Identified - Name: mainsail, Version: 2.9.1, Type: web
+2024-01-03 17:07:16,689 [websockets.py:write_to_socket()] - Websocket closed while writing: 1748233976
+2024-01-03 17:07:21,557 [websockets.py:on_close()] - Websocket Closed: ID: 1748233976 Close Code: None, Close Reason: None, Pong Time Elapsed: 35.01
+2024-01-03 17:09:14,746 [websockets.py:on_close()] - Websocket Closed: ID: 1719269360 Close Code: 1001, Close Reason: None, Pong Time Elapsed: 6.17
+2024-01-03 17:09:14,979 [app.py:log_request()] - 101 GET /websocket (192.168.10.223) [_TRUSTED_USER_] 6.42ms
+2024-01-03 17:09:14,980 [websockets.py:open()] - Websocket Opened: ID: 1708418072, Proxied: True, User Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 17_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/120.0.6099.119 Mobile/15E148 Safari/604.1, Host Name: mainsail.local
+2024-01-03 17:09:14,995 [websockets.py:_handle_identify()] - Websocket 1708418072 Client Identified - Name: mainsail, Version: 2.9.1, Type: web
+2024-01-03 17:10:08,880 [websockets.py:on_close()] - Websocket Closed: ID: 1708418072 Close Code: None, Close Reason: None, Pong Time Elapsed: 2.86
+2024-01-03 17:10:10,111 [app.py:log_request()] - 101 GET /websocket (192.168.10.223) [_TRUSTED_USER_] 5.99ms
+2024-01-03 17:10:10,112 [websockets.py:open()] - Websocket Opened: ID: 1719584608, Proxied: True, User Agent: Dart/3.1 (dart:io), Host Name: mainsail.local
+2024-01-03 17:10:10,128 [websockets.py:_handle_identify()] - Websocket 1719584608 Client Identified - Name: Mobileraker-ios, Version: 2.6.8-357, Type: mobile
+2024-01-03 17:10:10,211 [app.py:log_request()] - 101 GET /websocket (192.168.10.223) [_TRUSTED_USER_] 5.46ms
+2024-01-03 17:10:10,212 [websockets.py:open()] - Websocket Opened: ID: 1719583264, Proxied: True, User Agent: Dart/3.1 (dart:io), Host Name: mainsail.local
+2024-01-03 17:10:10,219 [websockets.py:on_close()] - Websocket Closed: ID: 1719583264 Close Code: 1001, Close Reason: None, Pong Time Elapsed: 0.01
+2024-01-03 17:11:00,140 [websockets.py:write_to_socket()] - Websocket closed while writing: 1719584608
+2024-01-03 17:11:05,118 [websockets.py:on_close()] - Websocket Closed: ID: 1719584608 Close Code: None, Close Reason: None, Pong Time Elapsed: 45.00
+2024-01-03 17:24:41,050 [websockets.py:on_close()] - Websocket Closed: ID: 1748230352 Close Code: None, Close Reason: None, Pong Time Elapsed: 6.75
+2024-01-03 17:24:41,054 [websockets.py:on_close()] - Websocket Closed: ID: 1708418696 Close Code: None, Close Reason: None, Pong Time Elapsed: 9.37
+2024-01-03 17:24:42,327 [app.py:log_request()] - 101 GET /websocket (192.168.10.140) [_TRUSTED_USER_] 6.43ms
+2024-01-03 17:24:42,328 [websockets.py:open()] - Websocket Opened: ID: 1719583456, Proxied: True, User Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36, Host Name: mainsail.local
+2024-01-03 17:24:42,461 [websockets.py:_handle_identify()] - Websocket 1719583456 Client Identified - Name: mainsail, Version: 2.9.1, Type: web
+2024-01-03 17:24:42,493 [app.py:log_request()] - 101 GET /websocket (192.168.10.140) [_TRUSTED_USER_] 8.43ms
+2024-01-03 17:24:42,494 [websockets.py:open()] - Websocket Opened: ID: 1719584560, Proxied: True, User Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36, Host Name: mainsail.local
+2024-01-03 17:24:42,655 [websockets.py:_handle_identify()] - Websocket 1719584560 Client Identified - Name: mainsail, Version: 2.9.1, Type: web
+2024-01-03 17:25:15,111 [websockets.py:on_close()] - Websocket Closed: ID: 1719584560 Close Code: None, Close Reason: None, Pong Time Elapsed: 2.53
+2024-01-03 17:25:15,115 [websockets.py:on_close()] - Websocket Closed: ID: 1719583456 Close Code: None, Close Reason: None, Pong Time Elapsed: 2.78
+2024-01-03 17:25:20,338 [app.py:log_request()] - 101 GET /websocket (192.168.10.140) [_TRUSTED_USER_] 6.52ms
+2024-01-03 17:25:20,339 [websockets.py:open()] - Websocket Opened: ID: 1719585352, Proxied: True, User Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36, Host Name: mainsail.local
+2024-01-03 17:25:20,371 [websockets.py:_handle_identify()] - Websocket 1719585352 Client Identified - Name: mainsail, Version: 2.9.1, Type: web
+2024-01-03 17:25:20,392 [app.py:log_request()] - 101 GET /websocket (192.168.10.140) [_TRUSTED_USER_] 7.27ms
+2024-01-03 17:25:20,393 [websockets.py:open()] - Websocket Opened: ID: 1719584824, Proxied: True, User Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36, Host Name: mainsail.local
+2024-01-03 17:25:20,442 [websockets.py:_handle_identify()] - Websocket 1719584824 Client Identified - Name: mainsail, Version: 2.9.1, Type: web
+2024-01-03 17:27:06,587 [app.py:log_request()] - 101 GET /websocket (192.168.10.140) [_TRUSTED_USER_] 5.45ms
+2024-01-03 17:27:06,588 [websockets.py:open()] - Websocket Opened: ID: 1719583144, Proxied: True, User Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36, Host Name: mainsail.local
+2024-01-03 17:27:06,697 [websockets.py:_handle_identify()] - Websocket 1719583144 Client Identified - Name: mainsail, Version: 2.9.1, Type: web
+-------------------- Log Start | Wed Jan  3 23:22:00 2024 --------------------
+data_path: /home/pi/printer_data
+is_default_data_path: False
+config_file: /home/pi/printer_data/config/moonraker.conf
+startup_warnings: []
+verbose: False
+debug: False
+asyncio_debug: False
+is_backup_config: False
+is_python_package: True
+instance_uuid: e4e1e1bea15c4897a68d8c3681ee1b72
+unix_socket_path: /home/pi/printer_data/comms/moonraker.sock
+software_version: v0.8.0-243-g84a8538
+git_branch: master
+git_remote: origin
+git_repo_url: https://github.com/Arksine/moonraker.git
+modified_files: []
+unofficial_components: []
+log_file: /home/pi/printer_data/logs/moonraker.log
+python_version: 3.9.2 (default, Mar 12 2021, 04:06:34)  [GCC 10.2.1 20210110]
+launch_args: /home/pi/moonraker-env/bin/python /home/pi/moonraker/moonraker/__main__.py -d /home/pi/printer_data
+msgspec_enabled: False
+uvloop_enabled: False
+2024-01-03 17:22:00,917 [confighelper.py:read_file()] - Configuration File '/home/pi/printer_data/config/moonraker.conf' parsed, total size: 2169 B
+2024-01-03 17:22:00,918 [server.py:add_log_rollover_item()] - 
+#################### Moonraker Configuration ####################
+
+[server]
+host = 0.0.0.0
+port = 7125
+max_upload_size = 1024
+klippy_uds_address = ~/printer_data/comms/klippy.sock
+
+[file_manager]
+enable_object_processing = False
+
+[authorization]
+cors_domains = 
+	https://my.mainsail.xyz
+	http://my.mainsail.xyz
+	http://*.local
+	http://*.lan
+trusted_clients = 
+	10.0.0.0/8
+	127.0.0.0/8
+	169.254.0.0/16
+	172.16.0.0/12
+	192.168.0.0/16
+	FE80::/10
+	::1/128
+
+[octoprint_compat]
+
+[history]
+
+[announcements]
+subscriptions = 
+	mainsail
+
+[update_manager]
+refresh_interval = 168
+enable_auto_refresh = True
+
+[update_manager mainsail]
+type = web
+channel = stable
+repo = mainsail-crew/mainsail
+path = ~/mainsail
+
+[update_manager mainsail-config]
+type = git_repo
+primary_branch = master
+path = ~/mainsail-config
+origin = https://github.com/mainsail-crew/mainsail-config.git
+managed_services = klipper
+
+[update_manager crowsnest]
+type = git_repo
+path = ~/crowsnest
+origin = https://github.com/mainsail-crew/crowsnest.git
+managed_services = crowsnest
+install_script = tools/pkglist.sh
+
+[update_manager sonar]
+type = git_repo
+path = ~/sonar
+origin = https://github.com/mainsail-crew/sonar.git
+primary_branch = main
+managed_services = sonar
+install_script = tools/install.sh
+
+#################################################################
+All Configuration Files:
+/home/pi/printer_data/config/moonraker.conf
+#################################################################
+2024-01-03 17:22:01,228 [server.py:load_component()] - Component (dbus_manager) loaded
+2024-01-03 17:22:01,367 [server.py:add_log_rollover_item()] - 
+Database Versions: pylmdb = 1.3.0, lmdb = (0, 9, 29)
+Unsafe Shutdown Count: 1
+2024-01-03 17:22:01,392 [server.py:load_component()] - Component (database) loaded
+2024-01-03 17:22:01,486 [file_manager.py:__init__()] - Using File System Observer: inotify
+2024-01-03 17:22:01,591 [server.py:load_component()] - Component (file_manager) loaded
+2024-01-03 17:22:01,605 [server.py:load_component()] - Component (klippy_apis) loaded
+2024-01-03 17:22:01,933 [server.py:load_component()] - Component (secrets) loaded
+2024-01-03 17:22:01,951 [server.py:load_component()] - Component (template) loaded
+2024-01-03 17:22:02,062 [server.py:add_log_rollover_item()] - 
+System Info:
+
+***python***
+  version: (3, 9, 2, 'final', 0)
+  version_string: 3.9.2 (default, Mar 12 2021, 04:06:34)  [GCC 10.2.1 20210110]
+
+***cpu_info***
+  cpu_count: 4
+  bits: 32bit
+  processor: armv7l
+  cpu_desc: ARMv7 Processor rev 4 (v7l)
+  serial_number: 893c37f7
+  hardware_desc: BCM2835
+  model: Raspberry Pi 3 Model B Rev 1.2
+  total_memory: 891312
+  memory_units: kB
+
+***sd_info***
+  manufacturer_id: 03
+  manufacturer: Sandisk
+  oem_id: 5344
+  product_name: SU16G
+  product_revision: 8.0
+  serial_number: 1c97cac8
+  manufacturer_date: 9/2012
+  capacity: 14.8 GiB
+  total_bytes: 15931539456
+
+***distribution***
+  name: Raspbian GNU/Linux 11 (bullseye)
+  id: raspbian
+  version: 11
+  version_parts: {'major': '11', 'minor': '', 'build_number': ''}
+  like: debian
+  codename: bullseye
+  release_info: {'name': 'MainsailOS', 'version_id': '1.2.1', 'codename': 'bullseye', 'id': 'mainsailos'}
+
+***virtualization***
+  virt_type: none
+  virt_identifier: none
+
+***network***
+
+***canbus***
+
+***Allowed Services***
+  klipper_mcu
+  webcamd
+  MoonCord
+  KlipperScreen
+  moonraker-telegram-bot
+  moonraker-obico
+  sonar
+  crowsnest
+  octoeverywhere
+  ratos-configurator
+2024-01-03 17:22:02,068 [server.py:load_component()] - Component (shell_command) loaded
+2024-01-03 17:22:02,069 [machine.py:__init__()] - Using System Provider: systemd_dbus
+2024-01-03 17:22:02,083 [server.py:load_component()] - Component (machine) loaded
+2024-01-03 17:22:02,089 [server.py:load_component()] - Component (data_store) loaded
+2024-01-03 17:22:02,096 [proc_stats.py:__init__()] - Detected 'vcgencmd', throttle checking enabled
+2024-01-03 17:22:02,098 [server.py:load_component()] - Component (proc_stats) loaded
+2024-01-03 17:22:02,102 [server.py:load_component()] - Component (job_state) loaded
+2024-01-03 17:22:02,111 [server.py:load_component()] - Component (job_queue) loaded
+2024-01-03 17:22:02,126 [server.py:load_component()] - Component (http_client) loaded
+2024-01-03 17:22:02,141 [server.py:load_component()] - Component (announcements) loaded
+2024-01-03 17:22:02,154 [server.py:load_component()] - Component (webcam) loaded
+2024-01-03 17:22:02,162 [server.py:load_component()] - Component (extensions) loaded
+2024-01-03 17:22:02,181 [server.py:load_component()] - Component (octoprint_compat) loaded
+2024-01-03 17:22:02,344 [base_deploy.py:log_info()] - Git Repo moonraker: Detected virtualenv: /home/pi/moonraker-env
+2024-01-03 17:22:02,352 [base_deploy.py:log_info()] - Git Repo klipper: Detected virtualenv: /home/pi/klippy-env
+2024-01-03 17:22:02,383 [server.py:load_component()] - Component (update_manager) loaded
+2024-01-03 17:22:02,393 [server.py:load_component()] - Component (history) loaded
+2024-01-03 17:22:02,435 [authorization.py:__init__()] - Authorization Configuration Loaded
+Trusted Clients:
+10.0.0.0/8
+127.0.0.0/8
+169.254.0.0/16
+172.16.0.0/12
+192.168.0.0/16
+fe80::/10
+::1/128
+CORS Domains:
+https://my\.mainsail\.xyz
+http://my\.mainsail\.xyz
+http://.*\.local
+http://.*\.lan
+2024-01-03 17:22:02,445 [server.py:load_component()] - Component (authorization) loaded
+2024-01-03 17:22:02,464 [server.py:_initialize_component()] - Performing Component Post Init: [dbus_manager]
+2024-01-03 17:22:02,488 [server.py:_initialize_component()] - Performing Component Post Init: [file_manager]
+2024-01-03 17:22:02,491 [server.py:_initialize_component()] - Performing Component Post Init: [machine]
+2024-01-03 17:22:02,492 [machine.py:validation_init()] - Installation version in database up to date
+2024-01-03 17:22:03,052 [machine.py:check_virt_status()] - No Virtualization Detected
+2024-01-03 17:22:03,072 [machine.py:_find_public_ip()] - Detected Local IP: 192.168.10.37
+2024-01-03 17:22:03,076 [webcam.py:_set_default_host_ip()] - Default public webcam address set: http://192.168.10.37
+2024-01-03 17:22:03,254 [server.py:add_log_rollover_item()] - 
+Systemd unit moonraker.service:
+unit_name: moonraker.service
+is_default: True
+manager: systemd
+Properties:
+**Requires=['sysinit.target', 'system.slice', 'network-online.target']
+**After=['sysinit.target', 'system.slice', 'basic.target', 'klipper.service', 'systemd-journald.socket', 'network-online.target']
+**SupplementaryGroups=['moonraker-admin']
+**EnvironmentFiles=/home/pi/printer_data/systemd/moonraker.env
+**ExecStart=/home/pi/moonraker-env/bin/python $MOONRAKER_ARGS
+**WorkingDirectory=
+**FragmentPath=/etc/systemd/system/moonraker.service
+**Description=API Server for Klipper SV1
+**User=pi
+2024-01-03 17:22:03,254 [server.py:_initialize_component()] - Performing Component Post Init: [proc_stats]
+2024-01-03 17:22:03,255 [server.py:_initialize_component()] - Performing Component Post Init: [announcements]
+2024-01-03 17:22:03,258 [server.py:_initialize_component()] - Performing Component Post Init: [webcam]
+2024-01-03 17:22:03,258 [webcam.py:_set_default_host_ip()] - Default public webcam address set: http://192.168.10.37
+2024-01-03 17:22:03,260 [server.py:_initialize_component()] - Performing Component Post Init: [klippy_connection]
+2024-01-03 17:22:03,261 [server.py:add_log_rollover_item()] - 
+Systemd unit klipper.service:
+unit_name: klipper.service
+is_default: True
+manager: systemd
+Properties:
+**Requires=['system.slice', 'sysinit.target', '-.mount']
+**After=['network-online.target', '-.mount', 'basic.target', 'sysinit.target', 'system.slice', 'systemd-journald.socket']
+**SupplementaryGroups=[]
+**EnvironmentFiles=/home/pi/printer_data/systemd/klipper.env
+**ExecStart=/home/pi/klippy-env/bin/python $KLIPPER_ARGS
+**WorkingDirectory=/home/pi/klipper
+**FragmentPath=/etc/systemd/system/klipper.service
+**Description=Klipper 3D Printer Firmware SV1
+**User=pi
+2024-01-03 17:22:03,261 [server.py:_initialize_component()] - Performing Component Post Init: [update_manager]
+2024-01-03 17:22:03,265 [server.py:_initialize_component()] - Performing Component Post Init: [history]
+2024-01-03 17:22:03,266 [server.py:_initialize_component()] - Performing Component Post Init: [authorization]
+2024-01-03 17:22:03,862 [base_deploy.py:log_info()] - PackageDeploy: PackageKit Provider Configured
+2024-01-03 17:22:03,863 [base_deploy.py:log_info()] - Git Repo moonraker: Stored pip version: 20.3.4
+2024-01-03 17:22:03,883 [git_deploy.py:log_repo_info()] - Git Repo moonraker Detected:
+Owner: Arksine
+Repository Name: moonraker
+Path: /home/pi/moonraker
+Remote: origin
+Branch: master
+Remote URL: https://github.com/Arksine/moonraker.git
+Recovery URL: https://github.com/Arksine/moonraker.git
+Current Commit SHA: 84a8538597fe3f052f00808a0f174c71bc096566
+Upstream Commit SHA: 84a8538597fe3f052f00808a0f174c71bc096566
+Current Version: v0.8.0-243-g84a85385
+Upstream Version: v0.8.0-243-g84a85385
+Rollback Commit: 84a8538597fe3f052f00808a0f174c71bc096566
+Rollback Branch: master
+Rollback Version: v0.8.0-243-g84a8538
+Is Dirty: False
+Is Detached: False
+Is Shallow: False
+Commits Behind Count: 0
+Diverged: False
+Repo Warnings:
+  Repo has untracked source files: ['moonraker/components/timelapse.py']
+2024-01-03 17:22:03,906 [git_deploy.py:log_repo_info()] - Git Repo klipper Detected:
+Owner: Klipper3d
+Repository Name: klipper
+Path: /home/pi/klipper
+Remote: origin
+Branch: master
+Remote URL: https://github.com/Klipper3d/klipper.git
+Recovery URL: https://github.com/Klipper3d/klipper.git
+Current Commit SHA: 25bc649cd263683855e892433ef3f615903d99c7
+Upstream Commit SHA: 25bc649cd263683855e892433ef3f615903d99c7
+Current Version: v0.12.0-58-g25bc649c
+Upstream Version: v0.12.0-58-g25bc649c
+Rollback Commit: 25bc649cd263683855e892433ef3f615903d99c7
+Rollback Branch: master
+Rollback Version: v0.12.0-58-g25bc649c
+Is Dirty: False
+Is Detached: False
+Is Shallow: False
+Commits Behind Count: 0
+Diverged: False
+2024-01-03 17:22:03,918 [web_deploy.py:_log_client_info()] - Web Client mainsail Detected:
+Repo: mainsail-crew/mainsail
+Channel: stable
+Path: /home/pi/mainsail
+Local Version: v2.9.1
+Remote Version: v2.9.1
+Valid: True
+Fallback Client Detected: False
+Pre-release: False
+Download Url: https://github.com/mainsail-crew/mainsail/releases/download/v2.9.1/mainsail.zip
+Download Size: 2071443
+Content Type: application/zip
+Rollback Version: v2.5.1
+Rollback Repo: mainsail-crew/mainsail
+2024-01-03 17:22:03,943 [git_deploy.py:log_repo_info()] - Git Repo mainsail-config Detected:
+Owner: mainsail-crew
+Repository Name: mainsail-config
+Path: /home/pi/mainsail-config
+Remote: origin
+Branch: master
+Remote URL: https://github.com/mainsail-crew/mainsail-config.git
+Recovery URL: https://github.com/mainsail-crew/mainsail-config.git
+Current Commit SHA: e57810d51b5c634aadaca4db923bfcba269ae4b3
+Upstream Commit SHA: e57810d51b5c634aadaca4db923bfcba269ae4b3
+Current Version: V1.2.0-0-ge57810d
+Upstream Version: ?
+Rollback Commit: e57810d51b5c634aadaca4db923bfcba269ae4b3
+Rollback Branch: master
+Rollback Version: V1.2.0-0-ge57810d
+Is Dirty: False
+Is Detached: False
+Is Shallow: False
+Commits Behind Count: 0
+Diverged: False
+2024-01-03 17:22:03,965 [git_deploy.py:log_repo_info()] - Git Repo crowsnest Detected:
+Owner: mainsail-crew
+Repository Name: crowsnest
+Path: /home/pi/crowsnest
+Remote: origin
+Branch: master
+Remote URL: https://github.com/mainsail-crew/crowsnest.git
+Recovery URL: https://github.com/mainsail-crew/crowsnest.git
+Current Commit SHA: f7ac6aa298143f0019eae9b2b2be8039196ebeda
+Upstream Commit SHA: f7ac6aa298143f0019eae9b2b2be8039196ebeda
+Current Version: v4.1.1-1-gf7ac6aa
+Upstream Version: v4.1.1-1
+Rollback Commit: f7ac6aa298143f0019eae9b2b2be8039196ebeda
+Rollback Branch: master
+Rollback Version: v4.1.1-1-gf7ac6aa
+Is Dirty: False
+Is Detached: False
+Is Shallow: False
+Commits Behind Count: 0
+Diverged: False
+2024-01-03 17:22:03,987 [git_deploy.py:log_repo_info()] - Git Repo sonar Detected:
+Owner: mainsail-crew
+Repository Name: sonar
+Path: /home/pi/sonar
+Remote: origin
+Branch: main
+Remote URL: https://github.com/mainsail-crew/sonar.git
+Recovery URL: https://github.com/mainsail-crew/sonar.git
+Current Commit SHA: eacc498a52f79292063b6f9b0e0c191c34c5dc09
+Upstream Commit SHA: eacc498a52f79292063b6f9b0e0c191c34c5dc09
+Current Version: v0.1.3-1-geacc498a
+Upstream Version: v0.1.3-1-geacc498a
+Rollback Commit: 7962a1225ad88fa2a642ae2b378637491b4b2710
+Rollback Branch: main
+Rollback Version: v0.1.2-0-g7962a12
+Is Dirty: False
+Is Detached: False
+Is Shallow: False
+Commits Behind Count: 0
+Diverged: False
+2024-01-03 17:22:03,989 [base_deploy.py:log_info()] - PackageKit: Next refresh in: 5 Days, 4 Hours, 5 Minutes, 57 Seconds
+2024-01-03 17:22:03,989 [base_deploy.py:log_info()] - Git Repo moonraker: Next refresh in: 5 Days, 4 Hours, 9 Minutes, 31 Seconds
+2024-01-03 17:22:03,989 [base_deploy.py:log_info()] - Git Repo klipper: Next refresh in: 5 Days, 4 Hours, 9 Minutes, 34 Seconds
+2024-01-03 17:22:03,989 [base_deploy.py:log_info()] - Web Client mainsail: Next refresh in: 5 Days, 4 Hours, 20 Minutes, 26 Seconds
+2024-01-03 17:22:03,990 [base_deploy.py:log_info()] - Git Repo mainsail-config: Next refresh in: 5 Days, 4 Hours, 7 Minutes, 10 Seconds
+2024-01-03 17:22:03,990 [base_deploy.py:log_info()] - Git Repo crowsnest: Next refresh in: 5 Days, 3 Hours, 52 Minutes, 26 Seconds
+2024-01-03 17:22:03,990 [base_deploy.py:log_info()] - Git Repo sonar: Next refresh in: 5 Days, 4 Hours, 14 Minutes, 58 Seconds
+2024-01-03 17:22:04,000 [extensions.py:start_unix_server()] - Creating Unix Domain Socket at '/home/pi/printer_data/comms/moonraker.sock'
+2024-01-03 17:22:04,004 [server.py:start_server()] - Starting Moonraker on (0.0.0.0, 7125), Hostname: mainsail
+2024-01-03 17:22:04,006 [app.py:listen()] - SSL Certificate/Key not configured, aborting HTTPS Server startup
+2024-01-03 17:22:04,260 [klippy_connection.py:_do_connect()] - Klippy Connection Established
+2024-01-03 17:22:04,408 [server.py:add_log_rollover_item()] - 
+Systemd unit klipper.service:
+unit_name: klipper.service
+is_default: True
+manager: systemd
+Properties:
+**Requires=['system.slice', '-.mount', 'sysinit.target']
+**After=['sysinit.target', '-.mount', 'system.slice', 'basic.target', 'systemd-journald.socket', 'network-online.target']
+**SupplementaryGroups=[]
+**EnvironmentFiles=/home/pi/printer_data/systemd/klipper.env
+**ExecStart=/home/pi/klippy-env/bin/python $KLIPPER_ARGS
+**WorkingDirectory=/home/pi/klipper
+**FragmentPath=/etc/systemd/system/klipper.service
+**Description=Klipper 3D Printer Firmware SV1
+**User=pi
+2024-01-03 17:22:04,664 [server.py:add_log_rollover_item()] - Klipper Version: v0.12.0-58-g25bc649c
+2024-01-03 17:22:04,697 [klippy_connection.py:_request_initial_subscriptions()] - Webhooks Subscribed
+2024-01-03 17:22:04,700 [klippy_connection.py:_request_initial_subscriptions()] - GCode Output Subscribed
+2024-01-03 17:22:04,948 [job_state.py:_handle_started()] - Job state initialized: standby
+2024-01-03 17:22:05,215 [klippy_connection.py:_check_ready()] - Klippy ready
+2024-01-03 17:22:05,702 [data_store.py:_init_sensors()] - Configuring available sensors: ['heater_bed', 'extruder']
+2024-01-03 17:54:25,892 [authorization.py:_check_trusted_connection()] - Trusted Connection Detected, IP: 192.168.10.223
+2024-01-03 17:54:25,896 [app.py:log_request()] - 101 GET /websocket (192.168.10.223) [_TRUSTED_USER_] 8.60ms
+2024-01-03 17:54:25,897 [websockets.py:open()] - Websocket Opened: ID: 1729922456, Proxied: True, User Agent: Dart/3.1 (dart:io), Host Name: mainsail.local
+2024-01-03 17:54:25,925 [websockets.py:_handle_identify()] - Websocket 1729922456 Client Identified - Name: Mobileraker-ios, Version: 2.6.8-357, Type: mobile
+2024-01-03 17:54:36,983 [app.py:log_request()] - 101 GET /websocket (192.168.10.223) [_TRUSTED_USER_] 6.07ms
+2024-01-03 17:54:36,984 [websockets.py:open()] - Websocket Opened: ID: 1729924088, Proxied: True, User Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 17_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/120.0.6099.119 Mobile/15E148 Safari/604.1, Host Name: mainsail.local
+2024-01-03 17:54:37,011 [websockets.py:_handle_identify()] - Websocket 1729924088 Client Identified - Name: mainsail, Version: 2.9.1, Type: web
+2024-01-03 17:54:56,062 [websockets.py:write_to_socket()] - Websocket closed while writing: 1729922456
+2024-01-03 17:55:00,902 [websockets.py:on_close()] - Websocket Closed: ID: 1729922456 Close Code: None, Close Reason: None, Pong Time Elapsed: 35.01
+2024-01-03 17:55:13,056 [websockets.py:on_close()] - Websocket Closed: ID: 1729924088 Close Code: None, Close Reason: None, Pong Time Elapsed: 6.06
+2024-01-03 17:55:14,518 [app.py:log_request()] - 101 GET /websocket (192.168.10.223) [_TRUSTED_USER_] 6.19ms
+2024-01-03 17:55:14,519 [websockets.py:open()] - Websocket Opened: ID: 1748569944, Proxied: True, User Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 17_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/120.0.6099.119 Mobile/15E148 Safari/604.1, Host Name: mainsail.local
+2024-01-03 17:55:14,537 [websockets.py:_handle_identify()] - Websocket 1748569944 Client Identified - Name: mainsail, Version: 2.9.1, Type: web
+2024-01-03 17:58:28,762 [klippy_connection.py:_process_status_update()] - Klippy has shutdown
+2024-01-03 17:58:28,772 [proc_stats.py:_handle_shutdown()] - 
+Moonraker System Usage Statistics:
+System Time: 1704326279.288943, Usage: 2.53%, Memory: 26276 kB
+System Time: 1704326280.289582, Usage: 2.68%, Memory: 26276 kB
+System Time: 1704326281.291135, Usage: 2.56%, Memory: 26276 kB
+System Time: 1704326282.293397, Usage: 2.51%, Memory: 26276 kB
+System Time: 1704326283.295676, Usage: 2.51%, Memory: 26276 kB
+System Time: 1704326284.296817, Usage: 2.39%, Memory: 26276 kB
+System Time: 1704326285.298116, Usage: 2.93%, Memory: 26276 kB
+System Time: 1704326286.299006, Usage: 4.48%, Memory: 26276 kB
+System Time: 1704326287.299570, Usage: 2.6%, Memory: 26276 kB
+System Time: 1704326288.300850, Usage: 2.47%, Memory: 26276 kB
+System Time: 1704326289.302163, Usage: 2.44%, Memory: 26276 kB
+System Time: 1704326290.303137, Usage: 2.38%, Memory: 26276 kB
+System Time: 1704326291.304389, Usage: 2.32%, Memory: 26276 kB
+System Time: 1704326292.306869, Usage: 2.28%, Memory: 26276 kB
+System Time: 1704326293.307908, Usage: 2.61%, Memory: 26276 kB
+System Time: 1704326294.308735, Usage: 2.4%, Memory: 26276 kB
+System Time: 1704326295.310663, Usage: 2.95%, Memory: 26276 kB
+System Time: 1704326296.312109, Usage: 4.8%, Memory: 26276 kB
+System Time: 1704326297.312392, Usage: 2.63%, Memory: 26276 kB
+System Time: 1704326298.313228, Usage: 2.58%, Memory: 26276 kB
+System Time: 1704326299.316023, Usage: 2.54%, Memory: 26276 kB
+System Time: 1704326300.316290, Usage: 2.51%, Memory: 26276 kB
+System Time: 1704326301.317714, Usage: 2.55%, Memory: 26276 kB
+System Time: 1704326302.320844, Usage: 2.45%, Memory: 26276 kB
+System Time: 1704326303.321712, Usage: 2.55%, Memory: 26276 kB
+System Time: 1704326304.322784, Usage: 2.52%, Memory: 26280 kB
+System Time: 1704326305.323442, Usage: 2.9%, Memory: 26280 kB
+System Time: 1704326306.326224, Usage: 4.58%, Memory: 26280 kB
+System Time: 1704326307.325490, Usage: 2.75%, Memory: 26280 kB
+System Time: 1704326308.326749, Usage: 2.49%, Memory: 26280 kB
+CPU Temperature: 44.546
+2024-01-03 17:58:28,777 [proc_stats.py:_handle_shutdown()] - Throttled Flags: 
+2024-01-03 17:59:54,696 [websockets.py:on_close()] - Websocket Closed: ID: 1748569944 Close Code: None, Close Reason: None, Pong Time Elapsed: 0.16
+2024-01-03 18:07:10,874 [authorization.py:_check_trusted_connection()] - Trusted Connection Detected, IP: 192.168.10.140
+2024-01-03 18:07:10,878 [app.py:log_request()] - 101 GET /websocket (192.168.10.140) [_TRUSTED_USER_] 8.30ms
+2024-01-03 18:07:10,879 [websockets.py:open()] - Websocket Opened: ID: 1729922048, Proxied: True, User Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36, Host Name: mainsail.local
+2024-01-03 18:07:10,890 [websockets.py:_handle_identify()] - Websocket 1729922048 Client Identified - Name: mainsail, Version: 2.9.1, Type: web
+2024-01-03 18:07:15,351 [klippy_connection.py:_on_connection_closed()] - Klippy Connection Removed
+2024-01-03 18:07:16,614 [klippy_connection.py:_do_connect()] - Klippy Connection Established
+2024-01-03 18:07:18,326 [klippy_connection.py:_request_initial_subscriptions()] - Webhooks Subscribed
+2024-01-03 18:07:18,331 [klippy_connection.py:_request_initial_subscriptions()] - GCode Output Subscribed
+2024-01-03 18:07:18,579 [job_state.py:_handle_started()] - Job state initialized: standby
+2024-01-03 18:07:18,852 [klippy_connection.py:_check_ready()] - Klippy ready
+2024-01-03 18:07:19,344 [data_store.py:_init_sensors()] - Configuring available sensors: ['heater_bed', 'extruder']
+2024-01-03 18:10:25,117 [app.py:log_request()] - 101 GET /websocket (192.168.10.223) [_TRUSTED_USER_] 5.70ms
+2024-01-03 18:10:25,119 [websockets.py:open()] - Websocket Opened: ID: 1748545152, Proxied: True, User Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 17_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/120.0.6099.119 Mobile/15E148 Safari/604.1, Host Name: mainsail.local
+2024-01-03 18:10:25,140 [websockets.py:_handle_identify()] - Websocket 1748545152 Client Identified - Name: mainsail, Version: 2.9.1, Type: web
+2024-01-03 18:16:10,394 [app.py:log_request()] - 101 GET /websocket (192.168.10.140) [_TRUSTED_USER_] 5.58ms
+2024-01-03 18:16:10,395 [websockets.py:open()] - Websocket Opened: ID: 1748545008, Proxied: True, User Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36, Host Name: mainsail.local
+2024-01-03 18:16:10,408 [websockets.py:_handle_identify()] - Websocket 1748545008 Client Identified - Name: mainsail, Version: 2.9.1, Type: web
+2024-01-03 18:19:09,005 [app.py:prepare()] - Upload Request Received from 192.168.10.140
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryoyuuoLLnLDdzULtV
+2024-01-03 18:19:09,017 [app.py:post()] - Processing Uploaded File: printer.cfg
+2024-01-03 18:19:09,036 [app.py:log_request()] - 201 POST /server/files/upload (192.168.10.140) [_TRUSTED_USER_] 35.79ms
+2024-01-03 18:19:10,377 [klippy_connection.py:_on_connection_closed()] - Klippy Connection Removed
+2024-01-03 18:19:11,641 [klippy_connection.py:_do_connect()] - Klippy Connection Established
+2024-01-03 18:19:13,325 [klippy_connection.py:_request_initial_subscriptions()] - Webhooks Subscribed
+2024-01-03 18:19:13,330 [klippy_connection.py:_request_initial_subscriptions()] - GCode Output Subscribed
+2024-01-03 18:19:13,576 [job_state.py:_handle_started()] - Job state initialized: standby
+2024-01-03 18:19:13,847 [klippy_connection.py:_check_ready()] - Klippy ready
+2024-01-03 18:19:14,846 [data_store.py:_init_sensors()] - Configuring available sensors: ['heater_bed', 'extruder']
+2024-01-03 18:20:35,316 [app.py:prepare()] - Upload Request Received from 192.168.10.140
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryufqKs28wlWuRZlAN
+2024-01-03 18:20:35,323 [app.py:post()] - Processing Uploaded File: printer.cfg
+2024-01-03 18:20:35,340 [app.py:log_request()] - 201 POST /server/files/upload (192.168.10.140) [_TRUSTED_USER_] 26.56ms
+2024-01-03 18:20:36,682 [klippy_connection.py:_on_connection_closed()] - Klippy Connection Removed
+2024-01-03 18:20:37,947 [klippy_connection.py:_do_connect()] - Klippy Connection Established
+2024-01-03 18:20:39,619 [klippy_connection.py:_request_initial_subscriptions()] - Webhooks Subscribed
+2024-01-03 18:20:39,625 [klippy_connection.py:_request_initial_subscriptions()] - GCode Output Subscribed
+2024-01-03 18:20:39,871 [job_state.py:_handle_started()] - Job state initialized: standby
+2024-01-03 18:20:40,152 [klippy_connection.py:_check_ready()] - Klippy ready
+2024-01-03 18:20:41,143 [data_store.py:_init_sensors()] - Configuring available sensors: ['heater_bed', 'extruder']
+2024-01-03 18:22:01,329 [app.py:prepare()] - Upload Request Received from 192.168.10.140
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryQcmzjE4SGe9QSOSH
+2024-01-03 18:22:01,336 [app.py:post()] - Processing Uploaded File: printer.cfg
+2024-01-03 18:22:01,355 [app.py:log_request()] - 201 POST /server/files/upload (192.168.10.140) [_TRUSTED_USER_] 28.97ms
+2024-01-03 18:22:02,695 [klippy_connection.py:_on_connection_closed()] - Klippy Connection Removed
+2024-01-03 18:22:03,963 [klippy_connection.py:_do_connect()] - Klippy Connection Established
+2024-01-03 18:22:05,611 [klippy_connection.py:_request_initial_subscriptions()] - Webhooks Subscribed
+2024-01-03 18:22:05,618 [klippy_connection.py:_request_initial_subscriptions()] - GCode Output Subscribed
+2024-01-03 18:22:05,862 [job_state.py:_handle_started()] - Job state initialized: standby
+2024-01-03 18:22:06,136 [klippy_connection.py:_check_ready()] - Klippy ready
+2024-01-03 18:22:07,124 [data_store.py:_init_sensors()] - Configuring available sensors: ['heater_bed', 'extruder']
+2024-01-03 18:24:54,654 [app.py:prepare()] - Upload Request Received from 192.168.10.140
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundarycErNFZgaJlAQgiaR
+2024-01-03 18:24:54,661 [app.py:post()] - Processing Uploaded File: printer.cfg
+2024-01-03 18:24:54,681 [app.py:log_request()] - 201 POST /server/files/upload (192.168.10.140) [_TRUSTED_USER_] 29.50ms
+2024-01-03 18:24:56,026 [klippy_connection.py:_on_connection_closed()] - Klippy Connection Removed
+2024-01-03 18:24:57,291 [klippy_connection.py:_do_connect()] - Klippy Connection Established
+2024-01-03 18:24:57,670 [klippy_connection.py:_request_initial_subscriptions()] - Webhooks Subscribed
+2024-01-03 18:24:57,672 [klippy_connection.py:_request_initial_subscriptions()] - GCode Output Subscribed
+2024-01-03 18:24:57,676 [klippy_connection.py:_check_ready()] - 
+Source contains parsing errors: '/home/pi/printer_data/config/printer.cfg'
+	[line 103]: 'I am not sure what the pins need to be for these putput pins\n'
+
+Once the underlying issue is corrected, use the "RESTART"
+command to reload the config and restart the host software.
+Printer is halted
+
+2024-01-03 18:25:22,662 [app.py:prepare()] - Upload Request Received from 192.168.10.140
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryMgjrYxk8AC93rfBT
+2024-01-03 18:25:22,669 [app.py:post()] - Processing Uploaded File: printer.cfg
+2024-01-03 18:25:22,687 [app.py:log_request()] - 201 POST /server/files/upload (192.168.10.140) [_TRUSTED_USER_] 28.18ms
+2024-01-03 18:25:22,714 [klippy_connection.py:_on_connection_closed()] - Klippy Connection Removed
+2024-01-03 18:25:23,981 [klippy_connection.py:_do_connect()] - Klippy Connection Established
+2024-01-03 18:25:25,635 [klippy_connection.py:_request_initial_subscriptions()] - Webhooks Subscribed
+2024-01-03 18:25:25,638 [klippy_connection.py:_request_initial_subscriptions()] - GCode Output Subscribed
+2024-01-03 18:25:25,645 [klippy_connection.py:_check_ready()] - 
+MCU 'mcu' shutdown: Not a valid PWM pin
+Once the underlying issue is corrected, use the
+"FIRMWARE_RESTART" command to reset the firmware, reload the
+config, and restart the host software.
+Printer is shutdown
+
+2024-01-03 18:25:51,157 [app.py:prepare()] - Upload Request Received from 192.168.10.140
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary1teFT52yRo43Vcml
+2024-01-03 18:25:51,164 [app.py:post()] - Processing Uploaded File: printer.cfg
+2024-01-03 18:25:51,181 [app.py:log_request()] - 201 POST /server/files/upload (192.168.10.140) [_TRUSTED_USER_] 26.46ms
+2024-01-03 18:25:51,508 [klippy_connection.py:_on_connection_closed()] - Klippy Connection Removed
+2024-01-03 18:25:52,774 [klippy_connection.py:_do_connect()] - Klippy Connection Established
+2024-01-03 18:25:54,446 [klippy_connection.py:_request_initial_subscriptions()] - Webhooks Subscribed
+2024-01-03 18:25:54,449 [klippy_connection.py:_request_initial_subscriptions()] - GCode Output Subscribed
+2024-01-03 18:25:54,697 [job_state.py:_handle_started()] - Job state initialized: standby
+2024-01-03 18:25:54,969 [klippy_connection.py:_check_ready()] - Klippy ready
+2024-01-03 18:25:55,963 [data_store.py:_init_sensors()] - Configuring available sensors: ['heater_bed', 'extruder']
+2024-01-03 18:26:03,232 [websockets.py:on_close()] - Websocket Closed: ID: 1748545152 Close Code: None, Close Reason: None, Pong Time Elapsed: 8.10
+2024-01-03 18:26:15,769 [klippy_connection.py:_process_status_update()] - Klippy has shutdown
+2024-01-03 18:26:15,781 [proc_stats.py:_handle_shutdown()] - 
+Moonraker System Usage Statistics:
+System Time: 1704327946.536650, Usage: 1.5%, Memory: 27092 kB
+System Time: 1704327947.537302, Usage: 2.72%, Memory: 27092 kB
+System Time: 1704327948.538365, Usage: 3.52%, Memory: 27092 kB
+System Time: 1704327949.540474, Usage: 2.83%, Memory: 27092 kB
+System Time: 1704327950.540809, Usage: 1.92%, Memory: 27092 kB
+System Time: 1704327951.540539, Usage: 9.32%, Memory: 27096 kB
+System Time: 1704327952.544641, Usage: 1.93%, Memory: 27096 kB
+System Time: 1704327953.542237, Usage: 13.66%, Memory: 27192 kB
+System Time: 1704327954.545073, Usage: 3.99%, Memory: 27192 kB
+System Time: 1704327955.542955, Usage: 15.59%, Memory: 27300 kB
+System Time: 1704327956.547969, Usage: 9.24%, Memory: 27300 kB
+System Time: 1704327957.549649, Usage: 3.51%, Memory: 27300 kB
+System Time: 1704327958.551342, Usage: 5.56%, Memory: 27300 kB
+System Time: 1704327959.551057, Usage: 3.53%, Memory: 27300 kB
+System Time: 1704327960.552696, Usage: 3.85%, Memory: 27300 kB
+System Time: 1704327961.554566, Usage: 3.78%, Memory: 27300 kB
+System Time: 1704327962.555549, Usage: 3.52%, Memory: 27300 kB
+System Time: 1704327963.557895, Usage: 3.81%, Memory: 27300 kB
+System Time: 1704327964.558802, Usage: 3.12%, Memory: 27300 kB
+System Time: 1704327965.560361, Usage: 2.93%, Memory: 27300 kB
+System Time: 1704327966.559896, Usage: 3.06%, Memory: 27300 kB
+System Time: 1704327967.562611, Usage: 2.91%, Memory: 27300 kB
+System Time: 1704327968.564070, Usage: 5.18%, Memory: 27300 kB
+System Time: 1704327969.564195, Usage: 3.13%, Memory: 27300 kB
+System Time: 1704327970.564816, Usage: 3.58%, Memory: 27300 kB
+System Time: 1704327971.565095, Usage: 3.4%, Memory: 27300 kB
+System Time: 1704327972.566396, Usage: 3.1%, Memory: 27300 kB
+System Time: 1704327973.566317, Usage: 3.22%, Memory: 27300 kB
+System Time: 1704327974.568949, Usage: 3.13%, Memory: 27300 kB
+System Time: 1704327975.570126, Usage: 3.4%, Memory: 27300 kB
+CPU Temperature: 45.084
+2024-01-03 18:26:15,785 [proc_stats.py:_handle_shutdown()] - Throttled Flags: 
+2024-01-03 18:33:22,996 [app.py:log_request()] - 101 GET /websocket (192.168.10.223) [_TRUSTED_USER_] 5.31ms
+2024-01-03 18:33:22,997 [websockets.py:open()] - Websocket Opened: ID: 1729924688, Proxied: True, User Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 17_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/120.0.6099.119 Mobile/15E148 Safari/604.1, Host Name: mainsail.local
+2024-01-03 18:33:23,012 [websockets.py:_handle_identify()] - Websocket 1729924688 Client Identified - Name: mainsail, Version: 2.9.1, Type: web
+2024-01-03 18:33:27,994 [klippy_connection.py:close()] - Error closing Klippy Unix Socket
+Traceback (most recent call last):
+  File "/home/pi/moonraker/moonraker/klippy_connection.py", line 747, in close
+    await self.writer.wait_closed()
+  File "/usr/lib/python3.9/asyncio/streams.py", line 359, in wait_closed
+    await self._protocol._get_close_waiter(self)
+  File "/home/pi/moonraker/moonraker/klippy_connection.py", line 171, in _read_stream
+    data = await reader.readuntil(b'\x03')
+  File "/usr/lib/python3.9/asyncio/streams.py", line 632, in readuntil
+    await self._wait_for_data('readuntil')
+  File "/usr/lib/python3.9/asyncio/streams.py", line 517, in _wait_for_data
+    await self._waiter
+  File "/usr/lib/python3.9/asyncio/selector_events.py", line 856, in _read_ready__data_received
+    data = self._sock.recv(self.max_size)
+ConnectionResetError: [Errno 104] Connection reset by peer
+2024-01-03 18:33:27,995 [klippy_connection.py:_on_connection_closed()] - Klippy Connection Removed
+2024-01-03 18:33:28,001 [common.py:build_error()] - JSON-RPC Request Error - Requested Method: printer.info, Code: 503, Message: Klippy Disconnected
+2024-01-03 18:33:29,262 [klippy_connection.py:_do_connect()] - Klippy Connection Established
+2024-01-03 18:33:30,928 [klippy_connection.py:_request_initial_subscriptions()] - Webhooks Subscribed
+2024-01-03 18:33:30,932 [klippy_connection.py:_request_initial_subscriptions()] - GCode Output Subscribed
+2024-01-03 18:33:31,180 [job_state.py:_handle_started()] - Job state initialized: standby
+2024-01-03 18:33:31,454 [klippy_connection.py:_check_ready()] - Klippy ready
+2024-01-03 18:33:32,444 [data_store.py:_init_sensors()] - Configuring available sensors: ['heater_bed', 'extruder']
+2024-01-03 18:33:44,233 [websockets.py:on_close()] - Websocket Closed: ID: 1729924688 Close Code: None, Close Reason: None, Pong Time Elapsed: 1.22
+2024-01-03 18:37:13,436 [app.py:log_request()] - 404 GET /api/v1/system (192.168.10.140) [No User] 23.64ms
+2024-01-03 18:53:05,303 [websockets.py:on_close()] - Websocket Closed: ID: 1729922048 Close Code: 1001, Close Reason: None, Pong Time Elapsed: 4.41
+2024-01-03 18:53:06,963 [websockets.py:on_close()] - Websocket Closed: ID: 1748545008 Close Code: 1001, Close Reason: None, Pong Time Elapsed: 6.56
+2024-01-03 19:10:29,650 [app.py:log_request()] - 101 GET /websocket (192.168.10.140) [_TRUSTED_USER_] 3.71ms
+2024-01-03 19:10:29,651 [websockets.py:open()] - Websocket Opened: ID: 1729925096, Proxied: True, User Agent: BBL-Slicer/v01.08.02.56 (dark) Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko), Host Name: mainsail.local
+2024-01-03 19:10:29,703 [websockets.py:_handle_identify()] - Websocket 1729925096 Client Identified - Name: mainsail, Version: 2.9.1, Type: web
+2024-01-03 19:12:58,891 [websockets.py:on_close()] - Websocket Closed: ID: 1729925096 Close Code: 1001, Close Reason: None, Pong Time Elapsed: 9.22
+2024-01-03 19:12:59,358 [app.py:log_request()] - 101 GET /websocket (192.168.10.140) [_TRUSTED_USER_] 5.38ms
+2024-01-03 19:12:59,359 [websockets.py:open()] - Websocket Opened: ID: 1729291552, Proxied: True, User Agent: BBL-Slicer/v01.08.02.56 (dark) Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko), Host Name: mainsail.local
+2024-01-03 19:12:59,368 [websockets.py:_handle_identify()] - Websocket 1729291552 Client Identified - Name: mainsail, Version: 2.9.1, Type: web
+2024-01-03 19:37:44,920 [authorization.py:_prune_conn_handler()] - Trusted Connection Expired, IP: 192.168.10.223
+2024-01-03 19:46:15,488 [app.py:log_request()] - 101 GET /websocket (192.168.10.140) [_TRUSTED_USER_] 3.33ms
+2024-01-03 19:46:15,488 [websockets.py:open()] - Websocket Opened: ID: 1729292560, Proxied: True, User Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36, Host Name: mainsail.local
+2024-01-03 19:46:15,593 [websockets.py:_handle_identify()] - Websocket 1729292560 Client Identified - Name: mainsail, Version: 2.9.1, Type: web
+2024-01-03 19:47:01,420 [app.py:prepare()] - Upload Request Received from 192.168.10.140
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundarySLiTUQld8QMGW8B3
+2024-01-03 19:47:02,128 [app.py:post()] - Processing Uploaded File: Benchy.gcode
+2024-01-03 19:47:02,566 [shell_command.py:pipe_data_received()] - INFO:metadata:Object Processing is disabled
+
+2024-01-03 19:47:02,851 [shell_command.py:_check_proc_success()] - Command (/home/pi/moonraker-env/bin/python /home/pi/moonraker/moonraker/components/file_manager/metadata.py -p /home/pi/printer_data/gcodes -f "Benchy.gcode") successfully finished
+2024-01-03 19:47:02,858 [app.py:log_request()] - 201 POST /server/files/upload (192.168.10.140) [_TRUSTED_USER_] 1440.44ms
+2024-01-03 19:47:16,892 [websockets.py:write_to_socket()] - Websocket closed while writing: 1729291552
+2024-01-03 19:47:16,895 [websockets.py:on_close()] - Websocket Closed: ID: 1729291552 Close Code: None, Close Reason: None, Pong Time Elapsed: 17.53
+2024-01-03 19:47:44,898 [authorization.py:_check_trusted_connection()] - Trusted Connection Detected, IP: 192.168.10.223
+2024-01-03 19:47:44,901 [app.py:log_request()] - 101 GET /websocket (192.168.10.223) [_TRUSTED_USER_] 7.05ms
+2024-01-03 19:47:44,902 [websockets.py:open()] - Websocket Opened: ID: 1719555576, Proxied: True, User Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 17_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/120.0.6099.119 Mobile/15E148 Safari/604.1, Host Name: mainsail.local
+2024-01-03 19:47:44,922 [websockets.py:_handle_identify()] - Websocket 1719555576 Client Identified - Name: mainsail, Version: 2.9.1, Type: web
+2024-01-03 19:47:49,042 [websockets.py:on_close()] - Websocket Closed: ID: 1719555576 Close Code: 1001, Close Reason: None, Pong Time Elapsed: 4.15
+2024-01-03 19:47:49,284 [app.py:log_request()] - 101 GET /websocket (192.168.10.223) [_TRUSTED_USER_] 5.04ms
+2024-01-03 19:47:49,285 [websockets.py:open()] - Websocket Opened: ID: 1719557760, Proxied: True, User Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 17_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/120.0.6099.119 Mobile/15E148 Safari/604.1, Host Name: mainsail.local
+2024-01-03 19:47:49,299 [websockets.py:_handle_identify()] - Websocket 1719557760 Client Identified - Name: mainsail, Version: 2.9.1, Type: web
+2024-01-03 19:48:37,864 [job_state.py:_status_update()] - Job Started: Benchy.gcode
+2024-01-03 19:56:34,850 [klippy_connection.py:_process_status_update()] - Klippy has shutdown
+2024-01-03 19:56:34,861 [proc_stats.py:_handle_shutdown()] - 
+Moonraker System Usage Statistics:
+System Time: 1704333365.573494, Usage: 4.82%, Memory: 27988 kB
+System Time: 1704333366.573424, Usage: 5.91%, Memory: 27988 kB
+System Time: 1704333367.576338, Usage: 3.03%, Memory: 27988 kB
+System Time: 1704333368.577306, Usage: 4.46%, Memory: 27988 kB
+System Time: 1704333369.579988, Usage: 5.42%, Memory: 27988 kB
+System Time: 1704333370.580437, Usage: 3.97%, Memory: 27988 kB
+System Time: 1704333371.581179, Usage: 4.2%, Memory: 27988 kB
+System Time: 1704333372.582236, Usage: 3.13%, Memory: 27988 kB
+System Time: 1704333373.583665, Usage: 3.72%, Memory: 27988 kB
+System Time: 1704333374.584305, Usage: 3.91%, Memory: 27988 kB
+System Time: 1704333375.587003, Usage: 3.51%, Memory: 27988 kB
+System Time: 1704333376.591047, Usage: 6.63%, Memory: 27988 kB
+System Time: 1704333377.590547, Usage: 3.32%, Memory: 27988 kB
+System Time: 1704333378.595263, Usage: 5.41%, Memory: 27988 kB
+System Time: 1704333379.592821, Usage: 4.44%, Memory: 27988 kB
+System Time: 1704333380.594264, Usage: 4.42%, Memory: 27988 kB
+System Time: 1704333381.595450, Usage: 2.97%, Memory: 27988 kB
+System Time: 1704333382.596985, Usage: 4.37%, Memory: 27988 kB
+System Time: 1704333383.598008, Usage: 3.51%, Memory: 27988 kB
+System Time: 1704333384.599719, Usage: 3.01%, Memory: 27988 kB
+System Time: 1704333385.599647, Usage: 4.43%, Memory: 27988 kB
+System Time: 1704333386.601945, Usage: 5.34%, Memory: 27988 kB
+System Time: 1704333387.601902, Usage: 3.16%, Memory: 27988 kB
+System Time: 1704333388.602943, Usage: 2.99%, Memory: 27988 kB
+System Time: 1704333389.603559, Usage: 3.3%, Memory: 27988 kB
+System Time: 1704333390.608131, Usage: 3.4%, Memory: 27988 kB
+System Time: 1704333391.606074, Usage: 3.32%, Memory: 27988 kB
+System Time: 1704333392.607208, Usage: 2.89%, Memory: 27988 kB
+System Time: 1704333393.609369, Usage: 4.96%, Memory: 27996 kB
+System Time: 1704333394.617267, Usage: 3.19%, Memory: 28004 kB
+CPU Temperature: 45.622
+2024-01-03 19:56:34,864 [proc_stats.py:_handle_shutdown()] - Throttled Flags: 
+2024-01-03 19:56:42,089 [klippy_connection.py:_on_connection_closed()] - Klippy Connection Removed
+2024-01-03 19:56:43,356 [klippy_connection.py:_do_connect()] - Klippy Connection Established
+2024-01-03 19:56:45,053 [klippy_connection.py:_request_initial_subscriptions()] - Webhooks Subscribed
+2024-01-03 19:56:45,056 [klippy_connection.py:_request_initial_subscriptions()] - GCode Output Subscribed
+2024-01-03 19:56:45,304 [job_state.py:_handle_started()] - Job state initialized: standby
+2024-01-03 19:56:45,576 [klippy_connection.py:_check_ready()] - Klippy ready
+2024-01-03 19:56:46,313 [data_store.py:_init_sensors()] - Configuring available sensors: ['heater_bed', 'extruder']
+2024-01-03 19:56:52,484 [common.py:build_error()] - JSON-RPC Request Error - Requested Method: printer.gcode.script, Code: 400, Message: Must home axis first: 0.000 0.000 25.000 [0.000]
+2024-01-03 19:56:59,094 [klippy_connection.py:_process_status_update()] - Klippy has shutdown
+2024-01-03 19:56:59,107 [proc_stats.py:_handle_shutdown()] - 
+Moonraker System Usage Statistics:
+System Time: 1704333389.603559, Usage: 3.3%, Memory: 27988 kB
+System Time: 1704333390.608131, Usage: 3.4%, Memory: 27988 kB
+System Time: 1704333391.606074, Usage: 3.32%, Memory: 27988 kB
+System Time: 1704333392.607208, Usage: 2.89%, Memory: 27988 kB
+System Time: 1704333393.609369, Usage: 4.96%, Memory: 27996 kB
+System Time: 1704333394.617267, Usage: 3.19%, Memory: 28004 kB
+System Time: 1704333395.613002, Usage: 5.4%, Memory: 28004 kB
+System Time: 1704333396.617849, Usage: 5.09%, Memory: 28016 kB
+System Time: 1704333397.619019, Usage: 3.91%, Memory: 28016 kB
+System Time: 1704333398.623289, Usage: 3.07%, Memory: 28016 kB
+System Time: 1704333399.625409, Usage: 4.29%, Memory: 28016 kB
+System Time: 1704333400.627820, Usage: 2.69%, Memory: 28016 kB
+System Time: 1704333401.630989, Usage: 4.01%, Memory: 28016 kB
+System Time: 1704333402.632529, Usage: 3.25%, Memory: 28016 kB
+System Time: 1704333403.630641, Usage: 12.41%, Memory: 28192 kB
+System Time: 1704333404.635260, Usage: 2.67%, Memory: 28200 kB
+System Time: 1704333405.634042, Usage: 10.2%, Memory: 28356 kB
+System Time: 1704333406.637978, Usage: 13.36%, Memory: 28436 kB
+System Time: 1704333407.638820, Usage: 3.02%, Memory: 28436 kB
+System Time: 1704333408.640268, Usage: 2.99%, Memory: 28436 kB
+System Time: 1704333409.641483, Usage: 3.54%, Memory: 28436 kB
+System Time: 1704333410.642828, Usage: 2.88%, Memory: 28436 kB
+System Time: 1704333411.644952, Usage: 2.88%, Memory: 28436 kB
+System Time: 1704333412.646233, Usage: 3.79%, Memory: 28436 kB
+System Time: 1704333413.647540, Usage: 2.89%, Memory: 28436 kB
+System Time: 1704333414.648659, Usage: 3.16%, Memory: 28436 kB
+System Time: 1704333415.651934, Usage: 3.18%, Memory: 28436 kB
+System Time: 1704333416.651381, Usage: 4.93%, Memory: 28436 kB
+System Time: 1704333417.652081, Usage: 3.0%, Memory: 28436 kB
+System Time: 1704333418.651953, Usage: 2.94%, Memory: 28436 kB
+CPU Temperature: 46.698
+2024-01-03 19:56:59,114 [proc_stats.py:_handle_shutdown()] - Throttled Flags: 
+2024-01-03 19:56:59,381 [common.py:build_error()] - JSON-RPC Request Error - Requested Method: printer.gcode.script, Code: 400, Message: Homing failed due to printer shutdown
+2024-01-03 19:57:17,480 [klippy_connection.py:close()] - Error closing Klippy Unix Socket
+Traceback (most recent call last):
+  File "/home/pi/moonraker/moonraker/klippy_connection.py", line 747, in close
+    await self.writer.wait_closed()
+  File "/usr/lib/python3.9/asyncio/streams.py", line 359, in wait_closed
+    await self._protocol._get_close_waiter(self)
+  File "/home/pi/moonraker/moonraker/klippy_connection.py", line 171, in _read_stream
+    data = await reader.readuntil(b'\x03')
+  File "/usr/lib/python3.9/asyncio/streams.py", line 632, in readuntil
+    await self._wait_for_data('readuntil')
+  File "/usr/lib/python3.9/asyncio/streams.py", line 517, in _wait_for_data
+    await self._waiter
+  File "/usr/lib/python3.9/asyncio/selector_events.py", line 856, in _read_ready__data_received
+    data = self._sock.recv(self.max_size)
+ConnectionResetError: [Errno 104] Connection reset by peer
+2024-01-03 19:57:17,481 [klippy_connection.py:_on_connection_closed()] - Klippy Connection Removed
+2024-01-03 19:57:17,486 [common.py:build_error()] - JSON-RPC Request Error - Requested Method: printer.info, Code: 503, Message: Klippy Disconnected
+2024-01-03 19:57:18,745 [klippy_connection.py:_do_connect()] - Klippy Connection Established
+2024-01-03 19:57:20,439 [klippy_connection.py:_request_initial_subscriptions()] - Webhooks Subscribed
+2024-01-03 19:57:20,443 [klippy_connection.py:_request_initial_subscriptions()] - GCode Output Subscribed
+2024-01-03 19:57:20,691 [job_state.py:_handle_started()] - Job state initialized: standby
+2024-01-03 19:57:20,961 [klippy_connection.py:_check_ready()] - Klippy ready
+2024-01-03 19:57:21,701 [data_store.py:_init_sensors()] - Configuring available sensors: ['heater_bed', 'extruder']
+2024-01-03 19:57:43,270 [websockets.py:on_close()] - Websocket Closed: ID: 1729292560 Close Code: None, Close Reason: None, Pong Time Elapsed: 7.77
+2024-01-03 19:57:45,069 [app.py:log_request()] - 101 GET /websocket (192.168.10.140) [_TRUSTED_USER_] 6.03ms
+2024-01-03 19:57:45,070 [websockets.py:open()] - Websocket Opened: ID: 1729293712, Proxied: True, User Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36, Host Name: mainsail.local
+2024-01-03 19:57:45,083 [websockets.py:_handle_identify()] - Websocket 1729293712 Client Identified - Name: mainsail, Version: 2.9.1, Type: web
+2024-01-03 20:05:29,326 [websockets.py:on_close()] - Websocket Closed: ID: 1719557760 Close Code: None, Close Reason: None, Pong Time Elapsed: 9.99
+2024-01-03 20:07:11,181 [app.py:log_request()] - 101 GET /websocket (192.168.10.223) [_TRUSTED_USER_] 7.09ms
+2024-01-03 20:07:11,183 [websockets.py:open()] - Websocket Opened: ID: 1729294168, Proxied: True, User Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 17_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/120.0.6099.119 Mobile/15E148 Safari/604.1, Host Name: mainsail.local
+2024-01-03 20:07:11,203 [websockets.py:_handle_identify()] - Websocket 1729294168 Client Identified - Name: mainsail, Version: 2.9.1, Type: web
+2024-01-03 20:12:12,028 [websockets.py:on_close()] - Websocket Closed: ID: 1729294168 Close Code: None, Close Reason: None, Pong Time Elapsed: 0.83
+2024-01-03 20:13:55,110 [websockets.py:write_to_socket()] - Websocket closed while writing: 1729293712
+2024-01-03 20:14:00,074 [websockets.py:on_close()] - Websocket Closed: ID: 1729293712 Close Code: None, Close Reason: None, Pong Time Elapsed: 44.53
+2024-01-03 20:18:41,603 [app.py:log_request()] - 101 GET /websocket (192.168.10.140) [_TRUSTED_USER_] 7.28ms
+2024-01-03 20:18:41,604 [websockets.py:open()] - Websocket Opened: ID: 1729290856, Proxied: True, User Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36, Host Name: mainsail.local
+2024-01-03 20:18:42,042 [websockets.py:_handle_identify()] - Websocket 1729290856 Client Identified - Name: mainsail, Version: 2.9.1, Type: web
+2024-01-03 20:21:41,615 [websockets.py:write_to_socket()] - Websocket closed while writing: 1729290856
+2024-01-03 20:21:43,002 [websockets.py:on_close()] - Websocket Closed: ID: 1729290856 Close Code: None, Close Reason: None, Pong Time Elapsed: 0.08
+2024-01-03 20:27:39,751 [app.py:log_request()] - 101 GET /websocket (192.168.10.140) [_TRUSTED_USER_] 6.73ms
+2024-01-03 20:27:39,752 [websockets.py:open()] - Websocket Opened: ID: 1729291384, Proxied: True, User Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36, Host Name: mainsail.local
+2024-01-03 20:27:39,825 [websockets.py:_handle_identify()] - Websocket 1729291384 Client Identified - Name: mainsail, Version: 2.9.1, Type: web
+2024-01-03 20:30:39,829 [websockets.py:write_to_socket()] - Websocket closed while writing: 1729291384
+2024-01-03 20:30:44,757 [websockets.py:on_close()] - Websocket Closed: ID: 1729291384 Close Code: None, Close Reason: None, Pong Time Elapsed: 41.34
+2024-01-03 20:32:54,291 [app.py:log_request()] - 101 GET /websocket (192.168.10.140) [_TRUSTED_USER_] 6.33ms
+2024-01-03 20:32:54,293 [websockets.py:open()] - Websocket Opened: ID: 1729291936, Proxied: True, User Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36, Host Name: mainsail.local
+2024-01-03 20:32:54,370 [websockets.py:_handle_identify()] - Websocket 1729291936 Client Identified - Name: mainsail, Version: 2.9.1, Type: web
+2024-01-03 20:35:34,301 [websockets.py:write_to_socket()] - Websocket closed while writing: 1729291936
+2024-01-03 20:35:39,298 [websockets.py:on_close()] - Websocket Closed: ID: 1729291936 Close Code: None, Close Reason: None, Pong Time Elapsed: 44.86
+2024-01-03 20:36:15,597 [app.py:log_request()] - 101 GET /websocket (192.168.10.140) [_TRUSTED_USER_] 6.48ms
+2024-01-03 20:36:15,599 [websockets.py:open()] - Websocket Opened: ID: 1729291600, Proxied: True, User Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36, Host Name: mainsail.local
+2024-01-03 20:36:15,716 [websockets.py:_handle_identify()] - Websocket 1729291600 Client Identified - Name: mainsail, Version: 2.9.1, Type: web
+2024-01-03 20:36:45,787 [websockets.py:write_to_socket()] - Websocket closed while writing: 1729291600
+2024-01-03 20:36:50,604 [websockets.py:on_close()] - Websocket Closed: ID: 1729291600 Close Code: None, Close Reason: None, Pong Time Elapsed: 35.01
+2024-01-03 20:36:53,896 [app.py:log_request()] - 101 GET /websocket (192.168.10.140) [_TRUSTED_USER_] 5.79ms
+2024-01-03 20:36:53,898 [websockets.py:open()] - Websocket Opened: ID: 1729292680, Proxied: True, User Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36, Host Name: mainsail.local
+2024-01-03 20:36:54,620 [websockets.py:_handle_identify()] - Websocket 1729292680 Client Identified - Name: mainsail, Version: 2.9.1, Type: web
+2024-01-03 20:37:53,991 [websockets.py:write_to_socket()] - Websocket closed while writing: 1729292680
+2024-01-03 20:37:58,909 [websockets.py:on_close()] - Websocket Closed: ID: 1729292680 Close Code: None, Close Reason: None, Pong Time Elapsed: 43.16
+2024-01-03 20:42:34,172 [app.py:log_request()] - 101 GET /websocket (192.168.10.140) [_TRUSTED_USER_] 5.70ms
+2024-01-03 20:42:34,173 [websockets.py:open()] - Websocket Opened: ID: 1729290904, Proxied: True, User Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36, Host Name: mainsail.local
+2024-01-03 20:42:34,267 [websockets.py:_handle_identify()] - Websocket 1729290904 Client Identified - Name: mainsail, Version: 2.9.1, Type: web
+2024-01-03 20:42:36,226 [app.py:prepare()] - Upload Request Received from 192.168.10.140
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryWJPcUPBjJFYJ4ZvY
+2024-01-03 20:42:36,233 [app.py:post()] - Processing Uploaded File: printer.cfg
+2024-01-03 20:42:36,251 [app.py:log_request()] - 201 POST /server/files/upload (192.168.10.140) [_TRUSTED_USER_] 26.33ms
+2024-01-03 20:42:37,613 [klippy_connection.py:_on_connection_closed()] - Klippy Connection Removed
+2024-01-03 20:42:38,875 [klippy_connection.py:_do_connect()] - Klippy Connection Established
+2024-01-03 20:42:39,369 [klippy_connection.py:_request_initial_subscriptions()] - Webhooks Subscribed
+2024-01-03 20:42:39,371 [klippy_connection.py:_request_initial_subscriptions()] - GCode Output Subscribed
+2024-01-03 20:42:39,374 [klippy_connection.py:_check_ready()] - 
+Unable to parse option 'mesh_min' in section 'bed_mesh'
+
+Once the underlying issue is corrected, use the "RESTART"
+command to reload the config and restart the host software.
+Printer is halted
+
+2024-01-03 20:42:55,796 [app.py:log_request()] - 101 GET /websocket (192.168.10.223) [_TRUSTED_USER_] 6.72ms
+2024-01-03 20:42:55,797 [websockets.py:open()] - Websocket Opened: ID: 1708853928, Proxied: True, User Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 17_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/120.0.6099.119 Mobile/15E148 Safari/604.1, Host Name: mainsail.local
+2024-01-03 20:42:55,886 [websockets.py:_handle_identify()] - Websocket 1708853928 Client Identified - Name: mainsail, Version: 2.9.1, Type: web
+2024-01-03 20:42:57,544 [websockets.py:on_close()] - Websocket Closed: ID: 1708853928 Close Code: None, Close Reason: None, Pong Time Elapsed: 1.75
+2024-01-03 20:43:54,184 [websockets.py:write_to_socket()] - Websocket closed while writing: 1729290904
+2024-01-03 20:43:59,179 [websockets.py:on_close()] - Websocket Closed: ID: 1729290904 Close Code: None, Close Reason: None, Pong Time Elapsed: 44.41
+2024-01-03 20:44:02,134 [app.py:log_request()] - 101 GET /websocket (192.168.10.140) [_TRUSTED_USER_] 6.40ms
+2024-01-03 20:44:02,135 [websockets.py:open()] - Websocket Opened: ID: 1708854216, Proxied: True, User Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36, Host Name: mainsail.local
+2024-01-03 20:44:02,542 [websockets.py:_handle_identify()] - Websocket 1708854216 Client Identified - Name: mainsail, Version: 2.9.1, Type: web
+2024-01-03 20:44:53,136 [app.py:prepare()] - Upload Request Received from 192.168.10.140
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryQ7w8PSjCKjPFElyz
+2024-01-03 20:44:53,146 [app.py:post()] - Processing Uploaded File: printer.cfg
+2024-01-03 20:44:53,164 [app.py:log_request()] - 201 POST /server/files/upload (192.168.10.140) [_TRUSTED_USER_] 31.49ms
+2024-01-03 20:44:53,499 [klippy_connection.py:_on_connection_closed()] - Klippy Connection Removed
+2024-01-03 20:44:54,764 [klippy_connection.py:_do_connect()] - Klippy Connection Established
+2024-01-03 20:44:56,499 [klippy_connection.py:_request_initial_subscriptions()] - Webhooks Subscribed
+2024-01-03 20:44:56,503 [klippy_connection.py:_request_initial_subscriptions()] - GCode Output Subscribed
+2024-01-03 20:44:56,750 [job_state.py:_handle_started()] - Job state initialized: standby
+2024-01-03 20:44:57,026 [klippy_connection.py:_check_ready()] - Klippy ready
+2024-01-03 20:44:57,502 [data_store.py:_init_sensors()] - Configuring available sensors: ['heater_bed', 'extruder']
+2024-01-03 20:49:47,400 [app.py:prepare()] - Upload Request Received from 192.168.10.140
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryddj4Lel5WXrV8ItP
+2024-01-03 20:49:47,409 [app.py:post()] - Processing Uploaded File: printer.cfg
+2024-01-03 20:49:47,429 [app.py:log_request()] - 201 POST /server/files/upload (192.168.10.140) [_TRUSTED_USER_] 31.99ms
+2024-01-03 20:49:49,436 [klippy_connection.py:_on_connection_closed()] - Klippy Connection Removed
+2024-01-03 20:49:50,700 [klippy_connection.py:_do_connect()] - Klippy Connection Established
+2024-01-03 20:49:52,369 [klippy_connection.py:_request_initial_subscriptions()] - Webhooks Subscribed
+2024-01-03 20:49:52,376 [klippy_connection.py:_request_initial_subscriptions()] - GCode Output Subscribed
+2024-01-03 20:49:52,620 [job_state.py:_handle_started()] - Job state initialized: standby
+2024-01-03 20:49:52,891 [klippy_connection.py:_check_ready()] - Klippy ready
+2024-01-03 20:49:53,372 [data_store.py:_init_sensors()] - Configuring available sensors: ['heater_bed', 'extruder']
+2024-01-03 20:52:48,706 [app.py:log_request()] - 101 GET /websocket (192.168.10.223) [_TRUSTED_USER_] 5.88ms
+2024-01-03 20:52:48,708 [websockets.py:open()] - Websocket Opened: ID: 1719556128, Proxied: True, User Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 17_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/120.0.6099.119 Mobile/15E148 Safari/604.1, Host Name: mainsail.local
+2024-01-03 20:52:48,960 [websockets.py:_handle_identify()] - Websocket 1719556128 Client Identified - Name: mainsail, Version: 2.9.1, Type: web
+2024-01-03 20:56:47,749 [klippy_connection.py:_process_status_update()] - Klippy has shutdown
+2024-01-03 20:56:47,760 [proc_stats.py:_handle_shutdown()] - 
+Moonraker System Usage Statistics:
+System Time: 1704336978.333695, Usage: 3.53%, Memory: 28696 kB
+System Time: 1704336979.334405, Usage: 3.68%, Memory: 28696 kB
+System Time: 1704336980.334553, Usage: 3.45%, Memory: 28696 kB
+System Time: 1704336981.337842, Usage: 5.31%, Memory: 28696 kB
+System Time: 1704336982.337086, Usage: 4.49%, Memory: 28696 kB
+System Time: 1704336983.338537, Usage: 3.18%, Memory: 28696 kB
+System Time: 1704336984.340085, Usage: 3.42%, Memory: 28696 kB
+System Time: 1704336985.343072, Usage: 3.15%, Memory: 28696 kB
+System Time: 1704336986.343503, Usage: 3.33%, Memory: 28696 kB
+System Time: 1704336987.344140, Usage: 3.28%, Memory: 28696 kB
+System Time: 1704336988.347032, Usage: 2.96%, Memory: 28696 kB
+System Time: 1704336989.347789, Usage: 3.25%, Memory: 28696 kB
+System Time: 1704336990.348728, Usage: 3.34%, Memory: 28696 kB
+System Time: 1704336991.352963, Usage: 5.23%, Memory: 28696 kB
+System Time: 1704336992.352172, Usage: 3.95%, Memory: 28696 kB
+System Time: 1704336993.352563, Usage: 3.19%, Memory: 28696 kB
+System Time: 1704336994.355453, Usage: 3.09%, Memory: 28696 kB
+System Time: 1704336995.355465, Usage: 3.32%, Memory: 28696 kB
+System Time: 1704336996.357153, Usage: 3.26%, Memory: 28696 kB
+System Time: 1704336997.359324, Usage: 3.11%, Memory: 28696 kB
+System Time: 1704336998.359661, Usage: 3.35%, Memory: 28696 kB
+System Time: 1704336999.360047, Usage: 4.26%, Memory: 28696 kB
+System Time: 1704337000.361422, Usage: 3.05%, Memory: 28696 kB
+System Time: 1704337001.364063, Usage: 4.81%, Memory: 28696 kB
+System Time: 1704337002.365168, Usage: 3.7%, Memory: 28696 kB
+System Time: 1704337003.364884, Usage: 3.2%, Memory: 28696 kB
+System Time: 1704337004.367320, Usage: 3.0%, Memory: 28696 kB
+System Time: 1704337005.366971, Usage: 3.3%, Memory: 28696 kB
+System Time: 1704337006.368052, Usage: 3.97%, Memory: 28696 kB
+System Time: 1704337007.370047, Usage: 3.14%, Memory: 28696 kB
+CPU Temperature: 44.546
+2024-01-03 20:56:47,763 [proc_stats.py:_handle_shutdown()] - Throttled Flags: 
+2024-01-03 20:57:35,516 [klippy_connection.py:_on_connection_closed()] - Klippy Connection Removed
+2024-01-03 20:57:36,781 [klippy_connection.py:_do_connect()] - Klippy Connection Established
+2024-01-03 20:57:38,440 [klippy_connection.py:_request_initial_subscriptions()] - Webhooks Subscribed
+2024-01-03 20:57:38,444 [klippy_connection.py:_request_initial_subscriptions()] - GCode Output Subscribed
+2024-01-03 20:57:38,691 [job_state.py:_handle_started()] - Job state initialized: standby
+2024-01-03 20:57:38,963 [klippy_connection.py:_check_ready()] - Klippy ready
+2024-01-03 20:57:39,444 [data_store.py:_init_sensors()] - Configuring available sensors: ['heater_bed', 'extruder']
+2024-01-03 21:01:44,726 [websockets.py:on_close()] - Websocket Closed: ID: 1708854216 Close Code: None, Close Reason: None, Pong Time Elapsed: 2.53
+2024-01-03 21:01:50,838 [app.py:log_request()] - 101 GET /websocket (192.168.10.140) [_TRUSTED_USER_] 5.50ms
+2024-01-03 21:01:50,839 [websockets.py:open()] - Websocket Opened: ID: 1717548512, Proxied: True, User Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36, Host Name: mainsail.local
+2024-01-03 21:01:50,891 [websockets.py:_handle_identify()] - Websocket 1717548512 Client Identified - Name: mainsail, Version: 2.9.1, Type: web
+2024-01-03 21:04:00,878 [websockets.py:write_to_socket()] - Websocket closed while writing: 1717548512
+2024-01-03 21:04:05,843 [websockets.py:on_close()] - Websocket Closed: ID: 1717548512 Close Code: None, Close Reason: None, Pong Time Elapsed: 44.94
+2024-01-03 21:07:03,428 [app.py:log_request()] - 101 GET /websocket (192.168.10.140) [_TRUSTED_USER_] 6.70ms
+2024-01-03 21:07:03,429 [websockets.py:open()] - Websocket Opened: ID: 1717550768, Proxied: True, User Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36, Host Name: mainsail.local
+2024-01-03 21:07:03,492 [websockets.py:_handle_identify()] - Websocket 1717550768 Client Identified - Name: mainsail, Version: 2.9.1, Type: web
+2024-01-03 21:07:18,790 [app.py:prepare()] - Upload Request Received from 192.168.10.140
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryldiHKU5PZ8B8jbwz
+2024-01-03 21:07:18,801 [app.py:post()] - Processing Uploaded File: printer.cfg
+2024-01-03 21:07:18,817 [app.py:log_request()] - 201 POST /server/files/upload (192.168.10.140) [_TRUSTED_USER_] 28.96ms
+2024-01-03 21:07:20,607 [klippy_connection.py:_on_connection_closed()] - Klippy Connection Removed
+2024-01-03 21:07:21,872 [klippy_connection.py:_do_connect()] - Klippy Connection Established
+2024-01-03 21:07:23,531 [klippy_connection.py:_request_initial_subscriptions()] - Webhooks Subscribed
+2024-01-03 21:07:23,535 [klippy_connection.py:_request_initial_subscriptions()] - GCode Output Subscribed
+2024-01-03 21:07:23,783 [job_state.py:_handle_started()] - Job state initialized: standby
+2024-01-03 21:07:24,056 [klippy_connection.py:_check_ready()] - Klippy ready
+2024-01-03 21:07:24,535 [data_store.py:_init_sensors()] - Configuring available sensors: ['heater_bed', 'extruder']
+2024-01-03 21:12:11,517 [klippy_connection.py:_on_connection_closed()] - Klippy Connection Removed
+2024-01-03 21:12:12,784 [klippy_connection.py:_do_connect()] - Klippy Connection Established
+2024-01-03 21:12:13,169 [klippy_connection.py:_request_initial_subscriptions()] - Webhooks Subscribed
+2024-01-03 21:12:13,172 [klippy_connection.py:_request_initial_subscriptions()] - GCode Output Subscribed
+2024-01-03 21:12:13,175 [klippy_connection.py:_check_ready()] - 
+position_endstop in section 'stepper_z' must be between position_min and position_max
+
+Once the underlying issue is corrected, use the "RESTART"
+command to reload the config and restart the host software.
+Printer is halted
+
+2024-01-03 21:13:10,108 [websockets.py:on_close()] - Websocket Closed: ID: 1717550768 Close Code: 1001, Close Reason: None, Pong Time Elapsed: 6.58
+2024-01-03 21:13:14,452 [klippy_connection.py:_on_connection_closed()] - Klippy Connection Removed
+2024-01-03 21:13:15,716 [klippy_connection.py:_do_connect()] - Klippy Connection Established
+2024-01-03 21:13:16,107 [klippy_connection.py:_request_initial_subscriptions()] - Webhooks Subscribed
+2024-01-03 21:13:16,109 [klippy_connection.py:_request_initial_subscriptions()] - GCode Output Subscribed
+2024-01-03 21:13:16,113 [klippy_connection.py:_check_ready()] - 
+position_endstop in section 'stepper_z' must be between position_min and position_max
+
+Once the underlying issue is corrected, use the "RESTART"
+command to reload the config and restart the host software.
+Printer is halted
+
+2024-01-03 21:14:12,587 [app.py:log_request()] - 101 GET /websocket (192.168.10.140) [_TRUSTED_USER_] 6.99ms
+2024-01-03 21:14:12,589 [websockets.py:open()] - Websocket Opened: ID: 1719352192, Proxied: True, User Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36, Host Name: mainsail.local
+2024-01-03 21:14:12,687 [websockets.py:_handle_identify()] - Websocket 1719352192 Client Identified - Name: mainsail, Version: 2.9.1, Type: web
+2024-01-03 21:15:33,122 [app.py:prepare()] - Upload Request Received from 192.168.10.140
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary9Q57XhkBe82D9TiR
+2024-01-03 21:15:33,132 [app.py:post()] - Processing Uploaded File: printer.cfg
+2024-01-03 21:15:33,149 [app.py:log_request()] - 201 POST /server/files/upload (192.168.10.140) [_TRUSTED_USER_] 30.61ms
+2024-01-03 21:15:33,481 [klippy_connection.py:close()] - Error closing Klippy Unix Socket
+Traceback (most recent call last):
+  File "/home/pi/moonraker/moonraker/klippy_connection.py", line 747, in close
+    await self.writer.wait_closed()
+  File "/usr/lib/python3.9/asyncio/streams.py", line 359, in wait_closed
+    await self._protocol._get_close_waiter(self)
+  File "/home/pi/moonraker/moonraker/klippy_connection.py", line 171, in _read_stream
+    data = await reader.readuntil(b'\x03')
+  File "/usr/lib/python3.9/asyncio/streams.py", line 632, in readuntil
+    await self._wait_for_data('readuntil')
+  File "/usr/lib/python3.9/asyncio/streams.py", line 517, in _wait_for_data
+    await self._waiter
+  File "/usr/lib/python3.9/asyncio/selector_events.py", line 856, in _read_ready__data_received
+    data = self._sock.recv(self.max_size)
+ConnectionResetError: [Errno 104] Connection reset by peer
+2024-01-03 21:15:33,481 [klippy_connection.py:_on_connection_closed()] - Klippy Connection Removed
+2024-01-03 21:15:33,490 [common.py:build_error()] - JSON-RPC Request Error - Requested Method: printer.info, Code: 503, Message: Klippy Disconnected
+2024-01-03 21:15:33,491 [common.py:build_error()] - JSON-RPC Request Error - Requested Method: printer.info, Code: 503, Message: Klippy Disconnected
+2024-01-03 21:15:34,752 [klippy_connection.py:_do_connect()] - Klippy Connection Established
+2024-01-03 21:15:36,415 [klippy_connection.py:_request_initial_subscriptions()] - Webhooks Subscribed
+2024-01-03 21:15:36,419 [klippy_connection.py:_request_initial_subscriptions()] - GCode Output Subscribed
+2024-01-03 21:15:36,667 [job_state.py:_handle_started()] - Job state initialized: standby
+2024-01-03 21:15:36,942 [klippy_connection.py:_check_ready()] - Klippy ready
+2024-01-03 21:15:37,418 [data_store.py:_init_sensors()] - Configuring available sensors: ['heater_bed', 'extruder']
+2024-01-03 21:27:58,856 [websockets.py:write_to_socket()] - Websocket closed while writing: 1719556128
+2024-01-03 21:28:03,712 [websockets.py:on_close()] - Websocket Closed: ID: 1719556128 Close Code: None, Close Reason: None, Pong Time Elapsed: 44.79
+2024-01-03 21:28:10,593 [app.py:prepare()] - Upload Request Received from 192.168.10.140
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryRSTmHQeIm3SipsQA
+2024-01-03 21:28:10,600 [app.py:post()] - Processing Uploaded File: printer.cfg
+2024-01-03 21:28:10,616 [app.py:log_request()] - 201 POST /server/files/upload (192.168.10.140) [_TRUSTED_USER_] 25.75ms
+2024-01-03 21:28:11,962 [klippy_connection.py:_on_connection_closed()] - Klippy Connection Removed
+2024-01-03 21:28:13,096 [app.py:log_request()] - 101 GET /websocket (192.168.10.223) [_TRUSTED_USER_] 3.61ms
+2024-01-03 21:28:13,097 [websockets.py:open()] - Websocket Opened: ID: 1748549224, Proxied: True, User Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 17_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/120.0.6099.119 Mobile/15E148 Safari/604.1, Host Name: mainsail.local
+2024-01-03 21:28:13,147 [websockets.py:_handle_identify()] - Websocket 1748549224 Client Identified - Name: mainsail, Version: 2.9.1, Type: web
+2024-01-03 21:28:13,226 [klippy_connection.py:_do_connect()] - Klippy Connection Established
+2024-01-03 21:28:14,938 [klippy_connection.py:_request_initial_subscriptions()] - Webhooks Subscribed
+2024-01-03 21:28:14,943 [klippy_connection.py:_request_initial_subscriptions()] - GCode Output Subscribed
+2024-01-03 21:28:15,189 [job_state.py:_handle_started()] - Job state initialized: standby
+2024-01-03 21:28:15,462 [klippy_connection.py:_check_ready()] - Klippy ready
+2024-01-03 21:28:15,942 [data_store.py:_init_sensors()] - Configuring available sensors: ['heater_bed', 'extruder']
+2024-01-03 21:28:43,296 [websockets.py:write_to_socket()] - Websocket closed while writing: 1748549224
+2024-01-03 21:28:48,101 [websockets.py:on_close()] - Websocket Closed: ID: 1748549224 Close Code: None, Close Reason: None, Pong Time Elapsed: 35.01
+2024-01-03 21:29:21,442 [app.py:prepare()] - Upload Request Received from 192.168.10.140
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary3gwuSsjt3KZD4WY4
+2024-01-03 21:29:21,450 [app.py:post()] - Processing Uploaded File: printer.cfg
+2024-01-03 21:29:21,468 [app.py:log_request()] - 201 POST /server/files/upload (192.168.10.140) [_TRUSTED_USER_] 28.84ms
+2024-01-03 21:29:22,824 [klippy_connection.py:_on_connection_closed()] - Klippy Connection Removed
+2024-01-03 21:29:24,102 [klippy_connection.py:_do_connect()] - Klippy Connection Established
+2024-01-03 21:29:25,760 [klippy_connection.py:_request_initial_subscriptions()] - Webhooks Subscribed
+2024-01-03 21:29:25,764 [klippy_connection.py:_request_initial_subscriptions()] - GCode Output Subscribed
+2024-01-03 21:29:26,011 [job_state.py:_handle_started()] - Job state initialized: standby
+2024-01-03 21:29:26,284 [klippy_connection.py:_check_ready()] - Klippy ready
+2024-01-03 21:29:26,764 [data_store.py:_init_sensors()] - Configuring available sensors: ['heater_bed', 'extruder']
+2024-01-03 21:29:28,227 [app.py:log_request()] - 101 GET /websocket (192.168.10.223) [_TRUSTED_USER_] 6.46ms
+2024-01-03 21:29:28,228 [websockets.py:open()] - Websocket Opened: ID: 1719373248, Proxied: True, User Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 17_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/120.0.6099.119 Mobile/15E148 Safari/604.1, Host Name: mainsail.local
+2024-01-03 21:29:28,255 [websockets.py:_handle_identify()] - Websocket 1719373248 Client Identified - Name: mainsail, Version: 2.9.1, Type: web
+2024-01-03 21:29:28,448 [websockets.py:on_close()] - Websocket Closed: ID: 1719373248 Close Code: 1001, Close Reason: None, Pong Time Elapsed: 0.23
+2024-01-03 21:29:28,764 [app.py:log_request()] - 101 GET /websocket (192.168.10.223) [_TRUSTED_USER_] 3.21ms
+2024-01-03 21:29:28,765 [websockets.py:open()] - Websocket Opened: ID: 1708894456, Proxied: True, User Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 17_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/120.0.6099.119 Mobile/15E148 Safari/604.1, Host Name: mainsail.local
+2024-01-03 21:29:28,786 [websockets.py:_handle_identify()] - Websocket 1708894456 Client Identified - Name: mainsail, Version: 2.9.1, Type: web
+2024-01-03 21:29:42,034 [websockets.py:on_close()] - Websocket Closed: ID: 1708894456 Close Code: 1001, Close Reason: None, Pong Time Elapsed: 1.99
+2024-01-03 21:29:42,274 [app.py:log_request()] - 101 GET /websocket (192.168.10.223) [_TRUSTED_USER_] 6.44ms
+2024-01-03 21:29:42,275 [websockets.py:open()] - Websocket Opened: ID: 1719373200, Proxied: True, User Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 17_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/120.0.6099.119 Mobile/15E148 Safari/604.1, Host Name: mainsail.local
+2024-01-03 21:29:42,591 [websockets.py:_handle_identify()] - Websocket 1719373200 Client Identified - Name: mainsail, Version: 2.9.1, Type: web
+2024-01-03 21:29:42,626 [websockets.py:write_to_socket()] - Websocket closed while writing: 1719352192
+2024-01-03 21:29:47,607 [websockets.py:on_close()] - Websocket Closed: ID: 1719352192 Close Code: None, Close Reason: None, Pong Time Elapsed: 43.85
+2024-01-03 21:30:16,185 [app.py:log_request()] - 101 GET /websocket (192.168.10.140) [_TRUSTED_USER_] 6.35ms
+2024-01-03 21:30:16,186 [websockets.py:open()] - Websocket Opened: ID: 1719436288, Proxied: True, User Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36, Host Name: mainsail.local
+2024-01-03 21:30:16,203 [websockets.py:_handle_identify()] - Websocket 1719436288 Client Identified - Name: mainsail, Version: 2.9.1, Type: web
+2024-01-03 21:35:37,420 [app.py:prepare()] - Upload Request Received from 192.168.10.140
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryuF1zzsMCyFW4oijF
+2024-01-03 21:35:37,426 [app.py:post()] - Processing Uploaded File: printer.cfg
+2024-01-03 21:35:37,443 [app.py:log_request()] - 201 POST /server/files/upload (192.168.10.140) [_TRUSTED_USER_] 26.17ms
+2024-01-03 21:35:38,787 [klippy_connection.py:_on_connection_closed()] - Klippy Connection Removed
+2024-01-03 21:35:40,051 [klippy_connection.py:_do_connect()] - Klippy Connection Established
+2024-01-03 21:35:41,717 [klippy_connection.py:_request_initial_subscriptions()] - Webhooks Subscribed
+2024-01-03 21:35:41,721 [klippy_connection.py:_request_initial_subscriptions()] - GCode Output Subscribed
+2024-01-03 21:35:41,968 [job_state.py:_handle_started()] - Job state initialized: standby
+2024-01-03 21:35:42,244 [klippy_connection.py:_check_ready()] - Klippy ready
+2024-01-03 21:35:42,727 [data_store.py:_init_sensors()] - Configuring available sensors: ['heater_bed', 'extruder']
+2024-01-03 21:48:56,176 [websockets.py:on_close()] - Websocket Closed: ID: 1719373200 Close Code: None, Close Reason: None, Pong Time Elapsed: 11.79
+2024-01-03 21:52:36,335 [websockets.py:write_to_socket()] - Websocket closed while writing: 1719436288
+2024-01-03 21:52:41,190 [websockets.py:on_close()] - Websocket Closed: ID: 1719436288 Close Code: None, Close Reason: None, Pong Time Elapsed: 44.99
+2024-01-03 21:55:27,110 [app.py:log_request()] - 101 GET /websocket (192.168.10.223) [_TRUSTED_USER_] 6.88ms
+2024-01-03 21:55:27,111 [websockets.py:open()] - Websocket Opened: ID: 1719438664, Proxied: True, User Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 17_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/120.0.6099.119 Mobile/15E148 Safari/604.1, Host Name: mainsail.local
+2024-01-03 21:55:27,134 [websockets.py:_handle_identify()] - Websocket 1719438664 Client Identified - Name: mainsail, Version: 2.9.1, Type: web
+2024-01-03 21:56:03,540 [app.py:log_request()] - 101 GET /websocket (192.168.10.140) [_TRUSTED_USER_] 5.52ms
+2024-01-03 21:56:03,541 [websockets.py:open()] - Websocket Opened: ID: 1719597880, Proxied: True, User Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36, Host Name: mainsail.local
+2024-01-03 21:56:03,652 [websockets.py:_handle_identify()] - Websocket 1719597880 Client Identified - Name: mainsail, Version: 2.9.1, Type: web
+2024-01-03 21:57:36,825 [klippy_connection.py:_process_status_update()] - Klippy has shutdown
+2024-01-03 21:57:36,838 [proc_stats.py:_handle_shutdown()] - 
+Moonraker System Usage Statistics:
+System Time: 1704340626.805793, Usage: 4.89%, Memory: 28748 kB
+System Time: 1704340627.804770, Usage: 3.4%, Memory: 28748 kB
+System Time: 1704340628.805324, Usage: 3.02%, Memory: 28748 kB
+System Time: 1704340629.807150, Usage: 3.03%, Memory: 28748 kB
+System Time: 1704340630.808010, Usage: 3.08%, Memory: 28748 kB
+System Time: 1704340631.808054, Usage: 3.2%, Memory: 28748 kB
+System Time: 1704340632.810806, Usage: 3.1%, Memory: 28748 kB
+System Time: 1704340633.810795, Usage: 3.79%, Memory: 28748 kB
+System Time: 1704340634.811916, Usage: 3.16%, Memory: 28748 kB
+System Time: 1704340635.814305, Usage: 2.97%, Memory: 28748 kB
+System Time: 1704340636.814770, Usage: 5.31%, Memory: 28748 kB
+System Time: 1704340637.815843, Usage: 3.63%, Memory: 28748 kB
+System Time: 1704340638.817288, Usage: 3.24%, Memory: 28748 kB
+System Time: 1704340639.817379, Usage: 3.27%, Memory: 28748 kB
+System Time: 1704340640.818358, Usage: 3.04%, Memory: 28748 kB
+System Time: 1704340641.819616, Usage: 3.09%, Memory: 28748 kB
+System Time: 1704340642.820426, Usage: 3.15%, Memory: 28748 kB
+System Time: 1704340643.820711, Usage: 3.5%, Memory: 28748 kB
+System Time: 1704340644.820183, Usage: 3.71%, Memory: 28748 kB
+System Time: 1704340645.822709, Usage: 3.58%, Memory: 28748 kB
+System Time: 1704340646.823553, Usage: 5.29%, Memory: 28748 kB
+System Time: 1704340647.824040, Usage: 3.66%, Memory: 28748 kB
+System Time: 1704340648.824142, Usage: 3.09%, Memory: 28748 kB
+System Time: 1704340649.827920, Usage: 3.37%, Memory: 28748 kB
+System Time: 1704340650.826714, Usage: 3.33%, Memory: 28748 kB
+System Time: 1704340651.826243, Usage: 3.23%, Memory: 28748 kB
+System Time: 1704340652.828292, Usage: 2.83%, Memory: 28748 kB
+System Time: 1704340653.829494, Usage: 4.81%, Memory: 28748 kB
+System Time: 1704340654.832026, Usage: 4.37%, Memory: 28748 kB
+System Time: 1704340655.833748, Usage: 3.07%, Memory: 28748 kB
+CPU Temperature: 42.394
+2024-01-03 21:57:36,850 [proc_stats.py:_handle_shutdown()] - Throttled Flags: 
+2024-01-03 21:58:04,089 [klippy_connection.py:_on_connection_closed()] - Klippy Connection Removed
+2024-01-03 21:58:05,353 [klippy_connection.py:_do_connect()] - Klippy Connection Established
+2024-01-03 21:58:07,019 [klippy_connection.py:_request_initial_subscriptions()] - Webhooks Subscribed
+2024-01-03 21:58:07,023 [klippy_connection.py:_request_initial_subscriptions()] - GCode Output Subscribed
+2024-01-03 21:58:07,271 [job_state.py:_handle_started()] - Job state initialized: standby
+2024-01-03 21:58:07,544 [klippy_connection.py:_check_ready()] - Klippy ready
+2024-01-03 21:58:08,022 [data_store.py:_init_sensors()] - Configuring available sensors: ['heater_bed', 'extruder']
+2024-01-03 21:58:20,560 [klippy_connection.py:_process_status_update()] - Klippy has shutdown
+2024-01-03 21:58:20,572 [proc_stats.py:_handle_shutdown()] - 
+Moonraker System Usage Statistics:
+System Time: 1704340670.862993, Usage: 3.07%, Memory: 28748 kB
+System Time: 1704340671.865702, Usage: 4.01%, Memory: 28748 kB
+System Time: 1704340672.867151, Usage: 3.13%, Memory: 28748 kB
+System Time: 1704340673.866032, Usage: 4.93%, Memory: 28748 kB
+System Time: 1704340674.868715, Usage: 2.78%, Memory: 28748 kB
+System Time: 1704340675.869806, Usage: 4.29%, Memory: 28748 kB
+System Time: 1704340676.870413, Usage: 5.21%, Memory: 28748 kB
+System Time: 1704340677.873317, Usage: 4.26%, Memory: 28748 kB
+System Time: 1704340678.874679, Usage: 3.09%, Memory: 28748 kB
+System Time: 1704340679.876498, Usage: 4.43%, Memory: 28748 kB
+System Time: 1704340680.880533, Usage: 2.96%, Memory: 28748 kB
+System Time: 1704340681.879945, Usage: 4.51%, Memory: 28748 kB
+System Time: 1704340682.881221, Usage: 3.37%, Memory: 28748 kB
+System Time: 1704340683.881601, Usage: 5.15%, Memory: 28748 kB
+System Time: 1704340684.882898, Usage: 3.01%, Memory: 28748 kB
+System Time: 1704340685.880395, Usage: 12.91%, Memory: 28748 kB
+System Time: 1704340686.885614, Usage: 3.68%, Memory: 28748 kB
+System Time: 1704340687.887217, Usage: 10.34%, Memory: 28748 kB
+System Time: 1704340688.889588, Usage: 7.13%, Memory: 28748 kB
+System Time: 1704340689.885661, Usage: 10.4%, Memory: 28748 kB
+System Time: 1704340690.889923, Usage: 2.48%, Memory: 28748 kB
+System Time: 1704340691.891299, Usage: 11.12%, Memory: 28748 kB
+System Time: 1704340692.892956, Usage: 2.98%, Memory: 28748 kB
+System Time: 1704340693.892818, Usage: 3.4%, Memory: 28748 kB
+System Time: 1704340694.895110, Usage: 3.05%, Memory: 28748 kB
+System Time: 1704340695.898094, Usage: 3.36%, Memory: 28748 kB
+System Time: 1704340696.895306, Usage: 4.96%, Memory: 28748 kB
+System Time: 1704340697.899136, Usage: 2.77%, Memory: 28748 kB
+System Time: 1704340698.899724, Usage: 2.95%, Memory: 28748 kB
+System Time: 1704340699.901474, Usage: 3.01%, Memory: 28748 kB
+CPU Temperature: 42.932
+2024-01-03 21:58:20,576 [proc_stats.py:_handle_shutdown()] - Throttled Flags: 
+2024-01-03 21:58:20,752 [common.py:build_error()] - JSON-RPC Request Error - Requested Method: printer.gcode.script, Code: 400, Message: Homing failed due to printer shutdown
+2024-01-03 21:58:29,021 [klippy_connection.py:close()] - Error closing Klippy Unix Socket
+Traceback (most recent call last):
+  File "/home/pi/moonraker/moonraker/klippy_connection.py", line 747, in close
+    await self.writer.wait_closed()
+  File "/usr/lib/python3.9/asyncio/streams.py", line 359, in wait_closed
+    await self._protocol._get_close_waiter(self)
+  File "/home/pi/moonraker/moonraker/klippy_connection.py", line 171, in _read_stream
+    data = await reader.readuntil(b'\x03')
+  File "/usr/lib/python3.9/asyncio/streams.py", line 632, in readuntil
+    await self._wait_for_data('readuntil')
+  File "/usr/lib/python3.9/asyncio/streams.py", line 517, in _wait_for_data
+    await self._waiter
+  File "/usr/lib/python3.9/asyncio/selector_events.py", line 856, in _read_ready__data_received
+    data = self._sock.recv(self.max_size)
+ConnectionResetError: [Errno 104] Connection reset by peer
+2024-01-03 21:58:29,022 [klippy_connection.py:_on_connection_closed()] - Klippy Connection Removed
+2024-01-03 21:58:29,029 [common.py:build_error()] - JSON-RPC Request Error - Requested Method: printer.info, Code: 503, Message: Klippy Disconnected
+2024-01-03 21:58:29,030 [common.py:build_error()] - JSON-RPC Request Error - Requested Method: printer.info, Code: 503, Message: Klippy Disconnected
+2024-01-03 21:58:30,291 [klippy_connection.py:_do_connect()] - Klippy Connection Established
+2024-01-03 21:58:31,950 [klippy_connection.py:_request_initial_subscriptions()] - Webhooks Subscribed
+2024-01-03 21:58:31,954 [klippy_connection.py:_request_initial_subscriptions()] - GCode Output Subscribed
+2024-01-03 21:58:32,202 [job_state.py:_handle_started()] - Job state initialized: standby
+2024-01-03 21:58:32,475 [klippy_connection.py:_check_ready()] - Klippy ready
+2024-01-03 21:58:32,952 [data_store.py:_init_sensors()] - Configuring available sensors: ['heater_bed', 'extruder']
+2024-01-03 22:03:53,681 [app.py:prepare()] - Upload Request Received from 192.168.10.140
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryjR9hvuXxz6xesVqA
+2024-01-03 22:03:53,691 [app.py:post()] - Processing Uploaded File: printer.cfg
+2024-01-03 22:03:53,711 [app.py:log_request()] - 201 POST /server/files/upload (192.168.10.140) [_TRUSTED_USER_] 33.56ms
+2024-01-03 22:03:55,061 [klippy_connection.py:_on_connection_closed()] - Klippy Connection Removed
+2024-01-03 22:03:56,325 [klippy_connection.py:_do_connect()] - Klippy Connection Established
+2024-01-03 22:03:58,000 [klippy_connection.py:_request_initial_subscriptions()] - Webhooks Subscribed
+2024-01-03 22:03:58,003 [klippy_connection.py:_request_initial_subscriptions()] - GCode Output Subscribed
+2024-01-03 22:03:58,251 [job_state.py:_handle_started()] - Job state initialized: standby
+2024-01-03 22:03:58,527 [klippy_connection.py:_check_ready()] - Klippy ready
+2024-01-03 22:03:59,004 [data_store.py:_init_sensors()] - Configuring available sensors: ['heater_bed', 'extruder']
+2024-01-03 22:04:44,910 [klippy_connection.py:_process_status_update()] - Klippy has shutdown
+2024-01-03 22:04:44,922 [proc_stats.py:_handle_shutdown()] - 
+Moonraker System Usage Statistics:
+System Time: 1704341055.384515, Usage: 3.24%, Memory: 28876 kB
+System Time: 1704341056.386054, Usage: 3.0%, Memory: 28876 kB
+System Time: 1704341057.387950, Usage: 5.59%, Memory: 28876 kB
+System Time: 1704341058.389769, Usage: 3.34%, Memory: 28876 kB
+System Time: 1704341059.385219, Usage: 2.8%, Memory: 28876 kB
+System Time: 1704341060.388647, Usage: 2.53%, Memory: 28876 kB
+System Time: 1704341061.390015, Usage: 3.25%, Memory: 28876 kB
+System Time: 1704341062.391024, Usage: 3.18%, Memory: 28876 kB
+System Time: 1704341063.392870, Usage: 2.88%, Memory: 28876 kB
+System Time: 1704341064.393526, Usage: 3.2%, Memory: 28876 kB
+System Time: 1704341065.393541, Usage: 3.37%, Memory: 28876 kB
+System Time: 1704341066.395536, Usage: 2.89%, Memory: 28876 kB
+System Time: 1704341067.396648, Usage: 4.91%, Memory: 28876 kB
+System Time: 1704341068.397191, Usage: 3.03%, Memory: 28876 kB
+System Time: 1704341069.398366, Usage: 3.14%, Memory: 28876 kB
+System Time: 1704341070.401098, Usage: 2.88%, Memory: 28876 kB
+System Time: 1704341071.401484, Usage: 3.34%, Memory: 28876 kB
+System Time: 1704341072.401872, Usage: 3.14%, Memory: 28876 kB
+System Time: 1704341073.403735, Usage: 3.15%, Memory: 28876 kB
+System Time: 1704341074.404554, Usage: 3.47%, Memory: 28876 kB
+System Time: 1704341075.405234, Usage: 2.98%, Memory: 28876 kB
+System Time: 1704341076.407192, Usage: 3.07%, Memory: 28876 kB
+System Time: 1704341077.407986, Usage: 5.78%, Memory: 28876 kB
+System Time: 1704341078.409228, Usage: 3.26%, Memory: 28876 kB
+System Time: 1704341079.410513, Usage: 3.2%, Memory: 28876 kB
+System Time: 1704341080.411492, Usage: 3.53%, Memory: 28876 kB
+System Time: 1704341081.412195, Usage: 3.25%, Memory: 28876 kB
+System Time: 1704341082.413071, Usage: 3.18%, Memory: 28876 kB
+System Time: 1704341083.415462, Usage: 3.21%, Memory: 28876 kB
+System Time: 1704341084.416591, Usage: 3.52%, Memory: 28876 kB
+CPU Temperature: 43.47
+2024-01-03 22:04:44,925 [proc_stats.py:_handle_shutdown()] - Throttled Flags: 
+2024-01-03 22:04:45,020 [common.py:build_error()] - JSON-RPC Request Error - Requested Method: printer.gcode.script, Code: 400, Message: Homing failed due to printer shutdown
+2024-01-03 22:05:43,560 [klippy_connection.py:_on_connection_closed()] - Klippy Connection Removed
+2024-01-03 22:05:43,735 [common.py:build_error()] - JSON-RPC Request Error - Requested Method: printer.info, Code: 503, Message: Klippy Host not connected
+2024-01-03 22:05:44,823 [klippy_connection.py:_do_connect()] - Klippy Connection Established
+2024-01-03 22:05:46,486 [klippy_connection.py:_request_initial_subscriptions()] - Webhooks Subscribed
+2024-01-03 22:05:46,492 [klippy_connection.py:_request_initial_subscriptions()] - GCode Output Subscribed
+2024-01-03 22:05:46,738 [job_state.py:_handle_started()] - Job state initialized: standby
+2024-01-03 22:05:47,010 [klippy_connection.py:_check_ready()] - Klippy ready
+2024-01-03 22:05:47,489 [data_store.py:_init_sensors()] - Configuring available sensors: ['heater_bed', 'extruder']
+2024-01-03 22:11:17,356 [websockets.py:write_to_socket()] - Websocket closed while writing: 1719438664
+2024-01-03 22:11:18,358 [klippy_connection.py:_process_status_update()] - Klippy has shutdown
+2024-01-03 22:11:18,368 [proc_stats.py:_handle_shutdown()] - 
+Moonraker System Usage Statistics:
+System Time: 1704341448.906138, Usage: 3.04%, Memory: 29080 kB
+System Time: 1704341449.907294, Usage: 3.07%, Memory: 29080 kB
+System Time: 1704341450.908650, Usage: 3.04%, Memory: 29080 kB
+System Time: 1704341451.910458, Usage: 3.06%, Memory: 29080 kB
+System Time: 1704341452.909539, Usage: 3.02%, Memory: 29080 kB
+System Time: 1704341453.912772, Usage: 3.02%, Memory: 29080 kB
+System Time: 1704341454.913776, Usage: 3.16%, Memory: 29080 kB
+System Time: 1704341455.914669, Usage: 3.2%, Memory: 29080 kB
+System Time: 1704341456.916202, Usage: 2.89%, Memory: 29080 kB
+System Time: 1704341457.917656, Usage: 5.91%, Memory: 29080 kB
+System Time: 1704341458.917160, Usage: 3.3%, Memory: 29080 kB
+System Time: 1704341459.918384, Usage: 3.27%, Memory: 29080 kB
+System Time: 1704341460.921400, Usage: 3.09%, Memory: 29080 kB
+System Time: 1704341461.921620, Usage: 3.25%, Memory: 29080 kB
+System Time: 1704341462.923229, Usage: 3.11%, Memory: 29080 kB
+System Time: 1704341463.924726, Usage: 3.3%, Memory: 29080 kB
+System Time: 1704341464.926713, Usage: 3.29%, Memory: 29080 kB
+System Time: 1704341465.927676, Usage: 3.01%, Memory: 29080 kB
+System Time: 1704341466.928991, Usage: 2.95%, Memory: 29080 kB
+System Time: 1704341467.930475, Usage: 5.21%, Memory: 29080 kB
+System Time: 1704341468.931781, Usage: 2.96%, Memory: 29080 kB
+System Time: 1704341469.932745, Usage: 3.38%, Memory: 29080 kB
+System Time: 1704341470.933326, Usage: 3.17%, Memory: 29080 kB
+System Time: 1704341471.935936, Usage: 4.24%, Memory: 29080 kB
+System Time: 1704341472.939731, Usage: 3.0%, Memory: 29080 kB
+System Time: 1704341473.938772, Usage: 3.81%, Memory: 29080 kB
+System Time: 1704341474.939505, Usage: 3.38%, Memory: 29080 kB
+System Time: 1704341475.943321, Usage: 3.53%, Memory: 29080 kB
+System Time: 1704341476.943228, Usage: 3.33%, Memory: 29080 kB
+System Time: 1704341477.944957, Usage: 5.64%, Memory: 29080 kB
+CPU Temperature: 41.318
+2024-01-03 22:11:18,371 [proc_stats.py:_handle_shutdown()] - Throttled Flags: 
+2024-01-03 22:11:22,115 [websockets.py:on_close()] - Websocket Closed: ID: 1719438664 Close Code: None, Close Reason: None, Pong Time Elapsed: 44.90
+2024-01-03 22:21:15,295 [websockets.py:on_close()] - Websocket Closed: ID: 1719597880 Close Code: None, Close Reason: None, Pong Time Elapsed: 1.32
+2024-01-03 22:21:17,751 [app.py:log_request()] - 101 GET /websocket (192.168.10.140) [_TRUSTED_USER_] 6.85ms
+2024-01-03 22:21:17,752 [websockets.py:open()] - Websocket Opened: ID: 1719352528, Proxied: True, User Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36, Host Name: mainsail.local
+2024-01-03 22:21:17,874 [websockets.py:_handle_identify()] - Websocket 1719352528 Client Identified - Name: mainsail, Version: 2.9.1, Type: web
+2024-01-03 22:22:07,790 [websockets.py:write_to_socket()] - Websocket closed while writing: 1719352528
+2024-01-03 22:22:12,756 [websockets.py:on_close()] - Websocket Closed: ID: 1719352528 Close Code: None, Close Reason: None, Pong Time Elapsed: 2.97
+2024-01-03 22:22:16,432 [app.py:log_request()] - 101 GET /websocket (192.168.10.140) [_TRUSTED_USER_] 6.28ms
+2024-01-03 22:22:16,433 [websockets.py:open()] - Websocket Opened: ID: 1708899392, Proxied: True, User Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36, Host Name: mainsail.local
+2024-01-03 22:22:17,516 [websockets.py:_handle_identify()] - Websocket 1708899392 Client Identified - Name: mainsail, Version: 2.9.1, Type: web
+2024-01-03 22:23:06,868 [websockets.py:write_to_socket()] - Websocket closed while writing: 1708899392
+2024-01-03 22:23:11,438 [websockets.py:on_close()] - Websocket Closed: ID: 1708899392 Close Code: None, Close Reason: None, Pong Time Elapsed: 44.90
+2024-01-03 22:53:16,735 [app.py:log_request()] - 101 GET /websocket (192.168.10.140) [_TRUSTED_USER_] 6.31ms
+2024-01-03 22:53:16,737 [websockets.py:open()] - Websocket Opened: ID: 1719352528, Proxied: True, User Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36, Host Name: mainsail.local
+2024-01-03 22:53:16,763 [websockets.py:_handle_identify()] - Websocket 1719352528 Client Identified - Name: mainsail, Version: 2.9.1, Type: web
+2024-01-03 22:54:17,315 [websockets.py:write_to_socket()] - Websocket closed while writing: 1719352528
+2024-01-03 22:54:21,740 [websockets.py:on_close()] - Websocket Closed: ID: 1719352528 Close Code: None, Close Reason: None, Pong Time Elapsed: 43.26
+2024-01-03 22:57:44,987 [authorization.py:_prune_conn_handler()] - Trusted Connection Expired, IP: 192.168.10.223
+2024-01-03 23:11:21,963 [app.py:log_request()] - 101 GET /websocket (192.168.10.140) [_TRUSTED_USER_] 8.54ms
+2024-01-03 23:11:21,964 [websockets.py:open()] - Websocket Opened: ID: 1719596512, Proxied: True, User Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36, Host Name: mainsail.local
+2024-01-03 23:11:22,282 [websockets.py:_handle_identify()] - Websocket 1719596512 Client Identified - Name: mainsail, Version: 2.9.1, Type: web
+2024-01-03 23:12:22,710 [websockets.py:write_to_socket()] - Websocket closed while writing: 1719596512
+2024-01-03 23:12:26,968 [websockets.py:on_close()] - Websocket Closed: ID: 1719596512 Close Code: None, Close Reason: None, Pong Time Elapsed: 43.92
+2024-01-03 23:15:20,928 [authorization.py:_check_trusted_connection()] - Trusted Connection Detected, IP: 192.168.10.223
+2024-01-03 23:15:20,932 [app.py:log_request()] - 101 GET /websocket (192.168.10.223) [_TRUSTED_USER_] 7.64ms
+2024-01-03 23:15:20,933 [websockets.py:open()] - Websocket Opened: ID: 1719351880, Proxied: True, User Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 17_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/120.0.6099.119 Mobile/15E148 Safari/604.1, Host Name: mainsail.local
+2024-01-03 23:15:20,973 [websockets.py:_handle_identify()] - Websocket 1719351880 Client Identified - Name: mainsail, Version: 2.9.1, Type: web
+2024-01-03 23:15:21,433 [websockets.py:on_close()] - Websocket Closed: ID: 1719351880 Close Code: 1001, Close Reason: None, Pong Time Elapsed: 0.51
+2024-01-03 23:15:21,784 [app.py:log_request()] - 101 GET /websocket (192.168.10.223) [_TRUSTED_USER_] 5.85ms
+2024-01-03 23:15:21,785 [websockets.py:open()] - Websocket Opened: ID: 1719436816, Proxied: True, User Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 17_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/120.0.6099.119 Mobile/15E148 Safari/604.1, Host Name: mainsail.local
+2024-01-03 23:15:21,897 [websockets.py:_handle_identify()] - Websocket 1719436816 Client Identified - Name: mainsail, Version: 2.9.1, Type: web
+2024-01-03 23:17:51,814 [websockets.py:write_to_socket()] - Websocket closed while writing: 1719436816
+2024-01-03 23:17:56,789 [websockets.py:on_close()] - Websocket Closed: ID: 1719436816 Close Code: None, Close Reason: None, Pong Time Elapsed: 44.91
+2024-01-03 23:17:59,671 [app.py:log_request()] - 101 GET /websocket (192.168.10.223) [_TRUSTED_USER_] 6.75ms
+2024-01-03 23:17:59,672 [websockets.py:open()] - Websocket Opened: ID: 1719596248, Proxied: True, User Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 17_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/120.0.6099.119 Mobile/15E148 Safari/604.1, Host Name: mainsail.local
+2024-01-03 23:18:00,692 [websockets.py:_handle_identify()] - Websocket 1719596248 Client Identified - Name: mainsail, Version: 2.9.1, Type: web
+2024-01-03 23:19:39,942 [websockets.py:write_to_socket()] - Websocket closed while writing: 1719596248
+2024-01-03 23:19:40,237 [websockets.py:on_close()] - Websocket Closed: ID: 1719596248 Close Code: None, Close Reason: None, Pong Time Elapsed: 0.13
+2024-01-03 23:23:11,927 [announcements.py:_fetch_moonlight()] - Failed to update subscription 'moonraker': Timeout while connecting
+2024-01-03 23:53:11,928 [announcements.py:_fetch_moonlight()] - Failed to update subscription 'moonraker': Timeout while connecting
